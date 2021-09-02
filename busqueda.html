@@ -28,8 +28,15 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css"
     rel="stylesheet"
     />
+
+    <!--OWL CARROUSEL-->
+    <link rel="stylesheet" href="./Plugins/OwlCarousel2-2.3.4/dist/assets/owl.carousel.css">
+    <link rel="stylesheet" href="./Plugins/OwlCarousel2-2.3.4/dist/assets/owlcarousel/owl.theme.default.min.css">
     <!--Footer-->
 
+
+    
+    
 
     <style>
       .bg{
@@ -82,47 +89,66 @@
         <!--Header-->
 
         <!--Cuerpo-->
-          <div class="container bg-dark w-75 mt-5 rounded shadow">
-            <div class="row align-items-stretch">
-                <div class="col bg d-none d-lg-block"> </div>
-                <div class="col">
-                    <div class="text-end"></div>
-                        <p></p>
-                        <img src="./Imagenes/Logo.png"width="48px" alt="Error de carga">
-                        <h2 class="fw-bold text-center py-5 text-white">Bienvenido</h2>
-    
-                        <form action="#" class="was-validated">
-                            <div class="mb-4 text-start text-white">
-                                <div class="form-group">
-                                    <label for="email" class="form-label text-white ">Correo electronico:</label>
-                                    <input type="email" class="form-control " name="email" placeholder="Coloca tu correo electronico" required>
-                                    <div class="valid-feedback"> El campo se lleno correctamente</div>
-                                    <div class="invalid-feedback">El campo no se lleno correctamente</div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="mb-4 text-start text-white ">
-                                <div class="form-group">
-                                    <label for="password" class="form-label text-white">Contraseña:</label>
-                                    <input type="password" class="form-control" name="password"  placeholder="Contraseña" required>
-                                    <div class="valid-feedback"> El campo se lleno correctamente</div>
-                                    <div class="invalid-feedback">El campo no se lleno correctamente</div>
-                                </div>
-                                
-                            </div>
-                            <div class="mb-4"></div>
-                            <br>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary"> Iniciar Sesión </button>
-                            </div>
-    
-                            <div class="my-3 text-white">
-                                <span>¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></span>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-          </div>
+        <br>
+        <hr>
+        <div class="row p-4">
+          <h4>Cursos encontrados:</h4>
+            <div class="col-12">
+                  <div class="owl-carousel owl-theme">
+                          
+                          <div class="item"><div class="card shadow-lg" style="width: 18rem;">
+                              <img src="Imagenes/c.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                              <h5 class="card-title">Curso de C++</h5>
+                              <p class="card-text">Este es un curso de c++.</p>
+                              <a href="#" class="btn btn-primary">Ir a comprar</a>
+                              </div>
+                          </div></div>
+                          
+                          <div class="item"><div class="card shadow-lg" style="width: 18rem;">
+                              <img src="Imagenes/cm.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                              <h5 class="card-title">Curso de C#</h5>
+                              <p class="card-text">Este es un curso de c#</p>
+                              <a href="#" class="btn btn-primary">Ir a comprar</a>
+                              </div>
+                          </div></div>
+                          <div class="item"><div class="card shadow-lg" style="width: 18rem;">
+                              <img src="Imagenes/c.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                              <h5 class="card-title">Curso de C++</h5>
+                              <p class="card-text">Este es un curso de c++</p>
+                              <a href="#" class="btn btn-primary">Ir a comprar</a>
+                              </div>
+                          </div></div>
+                          <div class="item"><div class="card shadow-lg" style="width: 18rem;">
+                              <img src="Imagenes/cm.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                              <h5 class="card-title">Curso de C#</h5>
+                              <p class="card-text">Este es un curso de c#</p>
+                              <a href="#" class="btn btn-primary">Ir a comprar</a>
+                              </div>
+                          </div></div>
+                          <div class="item"><div class="card shadow-lg" style="width: 18rem;">
+                              <img src="Imagenes/c.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                              <h5 class="card-title">Curso de C++</h5>
+                              <p class="card-text">Este es un curso de c++</p>
+                              <a href="#" class="btn btn-primary">Ir a comprar</a>
+                              </div>
+                          </div></div>
+                          <div class="item"><div class="card shadow-lg" style="width: 18rem;">
+                              <img src="Imagenes/cm.png" class="card-img-top" alt="...">
+                              <div class="card-body">
+                              <h5 class="card-title">Curso de C#</h5>
+                              <p class="card-text">Este es un curso de c#</p>
+                              <a href="#" class="btn btn-primary">Ir a comprar</a>
+                              </div>
+                          </div></div>
+                  </div>
+            </div>
+        </div>
+        <hr>
         <!--Cuerpo-->
         <br>
         <br>
@@ -194,16 +220,35 @@
 
 
 
-
-
-
-
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
     <!-- MDB -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"></script>
+
+    <!--OWL CARROUSEL-->
+    <script src="Plugins/OwlCarousel2-2.3.4/dist/owl.carousel.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.owl-carousel').owlCarousel({
+                loop:false,
+                margin:10,
+                nav:true,
+                nav:false,
+                responsive:{
+                    0:{
+                        items:1
+                    },
+                    600:{
+                        items:3
+                    },
+                    1000:{
+                        items:5
+                    }
+                }
+            })
+        });
+    </script>
 </body>
 </html>
