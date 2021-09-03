@@ -141,20 +141,24 @@
                         <h2 style="text-align: center;">Niveles</h2>
 
                         <h3>Nivel 1</h3>
-                        <div class="mb-3">
-                            <label for="descNivel" class="form-label">Descripcion del Nivel (opcional)</label>
-                            <textarea class="form-control" id="descNivel" rows="3"></textarea>
-                        </div>
 
+                        <label for="formCosto" class="form-label">Costo del curso (opcional)</label>
+                        <div class="input-group mb-3">
+
+                            <span class="input-group-text">$</span>
+                            <input type="text" class="form-control" aria-label="Costo">
+                            <span class="input-group-text">.00</span>
+                          </div>
+                        
                         <div class="mb-3">
                             <div class="summernote"></div>
                         </div>
                         <div class="mb-3">
                             <label for="formVideo" class="form-label">Seleccione un video para el nivel</label>
                             <input class="form-control" type="file" id="formVideo">
-                          </div>
+                        </div>
 
-
+                        
 
 
                         <div class="d-grid gap-2 col-6 mx-auto">
