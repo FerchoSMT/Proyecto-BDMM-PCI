@@ -69,6 +69,9 @@ $(function(){
             },
             flexRadioDefault:{
                 required:true,
+            },
+            fotoPerfil:{
+                extension:"jpg,jpeg,png"
             }
 
         },

@@ -60,6 +60,7 @@ $(document).ready(function(){
                 },
                 imagenCurso:{
                     required:true,
+                    extension: "jpeg,jpg,png"
                 },
                 costo:{
 
@@ -68,7 +69,9 @@ $(document).ready(function(){
     
                 },
                 videoNivel:{
+
                     required:true,
+                    extension: "mp4"
                 }
     
             },
