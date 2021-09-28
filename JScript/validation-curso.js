@@ -49,7 +49,6 @@ $(document).ready(function(){
                 },
                 categoria:{
                     required:true,
-                    letras:true
                     
                 },
                 nuevaCat:{

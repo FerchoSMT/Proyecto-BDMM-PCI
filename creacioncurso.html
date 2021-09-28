@@ -87,11 +87,20 @@
         <!--Cuerpo-->
        <div class="container">
            <div class="row">
-            <div class="col-2">
+            
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="padding-left: 40%;">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="v-pills-datos-tab" data-bs-toggle="pill" data-bs-target="#v-pills-datos" type="button" role="tab" aria-controls="v-pills-datos" aria-selected="true">Datos Generales</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="v-pills-niveles-tab" data-bs-toggle="pill" data-bs-target="#v-pills-niveles" type="button" role="tab" aria-controls="v-pills-niveles" aria-selected="false">Niveles</button>
+                
+                </li>
+            </ul>
+            <div class="col-1">
+
                 <div class="d-flex align-items-start">
                     <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <button class="nav-link active" id="v-pills-datos-tab" data-bs-toggle="pill" data-bs-target="#v-pills-datos" type="button" role="tab" aria-controls="v-pills-datos" aria-selected="true">Datos Generales</button>
-                    <button class="nav-link" id="v-pills-niveles-tab" data-bs-toggle="pill" data-bs-target="#v-pills-niveles" type="button" role="tab" aria-controls="v-pills-niveles" aria-selected="false">Niveles</button>
                     </div>
 
                 </div>
@@ -142,7 +151,7 @@
 
                         <h3>Nivel 1</h3>
 
-                        <label for="formCosto" class="form-label">Costo del curso (opcional)</label>
+                        <label for="formCosto" class="form-label">Costo del nivel (opcional)</label>
                         <div class="input-group mb-3">
 
                             <span class="input-group-text">$</span>
@@ -150,9 +159,17 @@
                             <span class="input-group-text">.00</span>
                           </div>
                         
-                        <div class="mb-3">
-                            <div class="summernote" name="contenido"></div>
+                          <div class="mb-3">
+                            <label for="descripcion" class="form-label">Informacion del nivel</label>
+                            <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
                         </div>
+
+                          <div class="mb-3">
+                            <label for="formVideo" class="form-label">Seleccione una imagen para el nivel</label>
+                            <input class="form-control" name="videoNivel" type="file" id="formVideo">
+                        </div>
+
+
                         <div class="mb-3">
                             <label for="formVideo" class="form-label">Seleccione un video para el nivel</label>
                             <input class="form-control" name="videoNivel" type="file" id="formVideo">
