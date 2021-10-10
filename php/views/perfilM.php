@@ -96,7 +96,9 @@
                 <div class="col-md-4">
                   <div class="profile-sidebar text-sm-center">
                     <div class="profile-userpic">
-                      <img src="./Imagenes/pfp.jpg" alt="" class="img-responsive img-circle" style="width: 50%;  border-radius: 10px;">
+                      <?php 
+                        echo '<img src="data:image/jpeg;base64,'.base64_encode($usuario['Foto']).'" alt="" class="img-responsive img-circle" style="width: 50%;  border-radius: 10px;">'
+                      ?>
                     </div>
                     <br>
                     <div class="profile-user-title">

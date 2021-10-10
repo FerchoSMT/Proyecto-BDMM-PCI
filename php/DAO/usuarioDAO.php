@@ -49,6 +49,14 @@ class UsuarioDAO{
 
         return $user;
     }
+
+    public function getCursosUser(){
+
+    }
+
+    public function getCursosEscuela(){
+        
+    }
 }
 
 
