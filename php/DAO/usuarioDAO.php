@@ -94,6 +94,14 @@ class UsuarioDAO{
 
         return $listaUsuarios;
     }
+
+    public function getCursosUser(){
+
+    }
+
+    public function getCursosEscuela(){
+        
+    }
 }
 
 
