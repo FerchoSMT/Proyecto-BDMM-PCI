@@ -59,6 +59,14 @@ $(document).ready(function(){
                 birthday:{
                     required:true,
                     FormatDate:true
+                },
+                contra:{
+                    required:true,
+                    strongPassword:true
+                },
+                email:{
+                    required:true,
+                    email:true
                 }
     
     
@@ -78,6 +86,13 @@ $(document).ready(function(){
                 },
                 birthday:{
                     required:"<i class='fas fa-exclamation-circle'></i> Debes ingresar una fecha",
+                }
+                ,
+                contra:{
+                    required:"<i class='fas fa-exclamation-circle'></i> Requiere una contraseña segura"
+                },
+                email:{
+                    required:"<i class='fas fa-exclamation-circle'></i> Requiere un correo valido"
                 }
             }
         });

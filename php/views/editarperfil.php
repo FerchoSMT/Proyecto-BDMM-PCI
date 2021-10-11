@@ -90,8 +90,9 @@
                 <h3>Editar Perfil</h3>
                 <div class="row">
                     <div class="col-6">
-                        <form id="editarFoto" action="/Proyecto-BDMM-PCI/php/controllers/cEditarPerfil.php" method="POST" enctype="multipart/form-data">
-                            <div class=" ">
+                      
+                    <form id="editar-perfil" action="/Proyecto-BDMM-PCI/php/controllers/cEditarPerfil.php">
+                    <div class=" ">
                                 <div class="mb-4 text-start text-white"style="width: 50%; position: center;">
                                     <label for="image" class="form-label text-white">Foto de perfil:</label>
                                     <div class="container">
@@ -149,10 +150,6 @@
                                   }
                                 });
                             </script>
-                        </form>
-                    </div>
-                    <div class="col-6">
-                        <form id="editar-perfil" action="./editarperfil.php">
                             <div class="mb-4 text-start ">
                                 <div class="form-group">
                                     <label for="text" class="form-label  ">Nombre:</label>
@@ -176,6 +173,23 @@
           
                                 </div>
                               </div>
+
+                              <div class="mb-4 text-start ">
+                                <div class="form-group">
+                                    <label for="email" class="form-label  ">Correo electronico:</label>
+                                    <input type="email" class="form-control " name="email" placeholder="Coloca tu correo electronico" value="" required>
+                                </div>
+                              </div>
+
+
+
+                              <div class="mb-4 text-start ">
+                                <div class="form-group">
+                                    <label for="password" class="form-label  ">Contraseña:</label>
+                                    <input type="password" class="form-control " name="contra" placeholder="Coloca tu nueva contraseña" value="" required>
+                                </div>
+
+                              </div>
         
                               <div class="mb-4 text-start ">
                                 <div class="form-group">
@@ -196,7 +210,7 @@
                                 </div>
                               </div>
                               <div class="d-grid gap-2 col-6 mx-auto">
-                                <button type="submit" class="btn btn-primary btn-sm">Editar</button>
+                                <button type="submit" id="edit" class="btn btn-primary btn-sm">Editar</button>
                             </div>
                         </form>
                     </div>
@@ -279,7 +293,26 @@
 
 
 
+        <script>
+          $(document).ready(function(){
 
+            $('#edit').click(function () {
+                var image_name = $('#default-btn').val();
+                if(image_name==""){
+                  alert("Seleccione una Imagen");
+                  return false;
+                }
+                else{
+                  var extension = $('#default-btn').val().split('.').pop().toLowerCase();
+                  if(jQuery.inArray(extension,['png','jpg','jpeg']) == -1){
+                    alert('Tipo de archivo invalido para la foto')
+                    $('#default-btn').val('');
+                    return false;
+                  }
+                }
+              });
+          });
+        </script>
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

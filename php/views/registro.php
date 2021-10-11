@@ -322,7 +322,26 @@
 
 
 
+        <script>
+          $(document).ready(function(){
 
+            $('#insert').click(function () {
+                var image_name = $('#default-btn').val();
+                if(image_name==""){
+                  alert("Seleccione una Imagen");
+                  return false;
+                }
+                else{
+                  var extension = $('#default-btn').val().split('.').pop().toLowerCase();
+                  if(jQuery.inArray(extension,['png','jpg','jpeg']) == -1){
+                    alert('Tipo de archivo invalido para la foto')
+                    $('#default-btn').val('');
+                    return false;
+                  }
+                }
+              });
+          });
+        </script>
 
 
 

@@ -16,6 +16,7 @@ $user->Fecha_Nac = $POST_['birthday'];
 $user->Foto = $POST_['fotoPerfil'];
 $user->Email = $POST_['email'];
 $user->Contrasena = $POST_['password'];
+$user->Foto = addslasher(file_get_contents($_FILES["default-btn"]["tmp_name"]));
 
 $userAux = $usuarioDAO->iudUser("EDITA", $user);
 

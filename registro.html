@@ -196,7 +196,7 @@
                                 Nombre Archivo</div>
                               </div>
                             <button onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Escoge un archivo</button>
-                          <input id="default-btn" name="fotoPerfil" type="file" hidden>
+                          <input id="default-btn" name="fotoPerfil" class="" type="file" hidden>
                       </div>
                     </div>
                     <script>
@@ -236,7 +236,7 @@
                     <br>
                     
                     <div class="d-grid">
-                      <button type="submit" class="btn btn-primary"> Registrarte </button>
+                      <button type="submit" id="insert" class="btn btn-primary"> Registrarte </button>
                     </div>
       
       
@@ -319,7 +319,26 @@
         </footer>
         <!--Footer-->
 
+        <script>
+          $(document).ready(function(){
 
+            $('#insert').click(function () {
+                var image_name = $('#default-btn').val();
+                if(image_name==""){
+                  alert("Seleccione una Imagen");
+                  return false;
+                }
+                else{
+                  var extension = $('#default-btn').val().split('.').pop().toLowerCase();
+                  if(jQuery.inArray(extension,['png','jpg','jpeg']) == -1){
+                    alert('Tipo de archivo invalido para la foto')
+                    $('#default-btn').val('');
+                    return false;
+                  }
+                }
+              });
+          });
+        </script>
 
 
 
