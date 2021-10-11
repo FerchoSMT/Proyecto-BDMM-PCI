@@ -93,7 +93,7 @@
                   <img src="./Imagenes/Logo.png" width="70px" alt="Error de carga">
                   <h2 class="fw-bold text-center text-white">Bienvenido</h2>
                   <h4 class="fw-bold text-center py-5 text-white">Registra tu cuenta aquí</h4>
-                  <form action="#" class="was-validated" id="register-form">
+                  <form action="/Proyecto-BDMM-PCI/php/controllers/cRegistro.php" method="POST" class="was-validated" id="register-form" enctype="multipart/form-data">
                     <div class="mb-4 text-start text-white">
                       <div class="form-group">
                           <label for="text" class="form-label text-white ">Nombre:</label>
@@ -122,9 +122,9 @@
                         <div class="form-group">
                             <label for="password" class="form-label text-white">Genero:</label>
                             <select name="genero" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                              <option value="1">Hombre</option>
-                              <option value="2">Mujer</option>
-                              <option value="3">Otro</option>
+                              <option value="Hombre">Hombre</option>
+                              <option value="Mujer">Mujer</option>
+                              <option value="Otro">Otro</option>
                             </select>
                         </div>
                         
@@ -158,13 +158,13 @@
                       <div class="form-group form-check-inline">
                           <label for="password" class="form-label text-white">Rol:</label>
                           <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value="A">
                             <label class="form-check-label" for="flexRadioDefault1">
                               Alumno
                             </label>
                           </div>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value="E" checked>
                             <label class="form-check-label" for="flexRadioDefault2">
                               Escuela
                             </label>
@@ -236,7 +236,7 @@
                     <br>
                     
                     <div class="d-grid">
-                      <button type="submit" class="btn btn-primary"> Registrarte </button>
+                      <button type="submit" id="insert" class="btn btn-primary"> Registrarte </button>
                     </div>
       
       

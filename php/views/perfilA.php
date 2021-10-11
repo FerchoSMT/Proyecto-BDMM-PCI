@@ -1,9 +1,13 @@
 <?php
-  require_once $_SERVER ["DOCUMENT_ROOT"].'/Proyecto-BDMM-PCI/php/DAO/usuarioDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/usuarioDAO.php';
 
+  session_start();
+  
   $usuarioDAO = new UsuarioDAO();
-  $usuario = $usuarioDAO->getUser("1000");
-
+  $us = new UsuarioModel();
+  $us->addUserID($_SESSION["Id_Usuario"]);
+  $usuario = $usuarioDAO->getUser("VERPF", $us)[0];
+  
 
 
 
@@ -103,25 +107,22 @@
                 <div class="col-md-4">
                   <div class="profile-sidebar text-sm-center">
                     <div class="profile-userpic">
-                      <?php 
-
-                      ?>
-
-                      <img src="./Imagenes/pfp.jpg" alt="" class="img-responsive img-circle" style="width: 50%;  border-radius: 10px;">
+                      <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($usuario->Foto).'" alt="" class="img-responsive img-circle" style="width: 50%;  border-radius: 10px;">' ?>
+                      <!--img src="./Imagenes/pfp.jpg" alt="" class="img-responsive img-circle" style="width: 50%;  border-radius: 10px;"-->
                     </div>
                     <br>
                     <div class="profile-user-title">
                       <h6>Nombre:</h6>
                       <div class="profile-user-fname">
-                        <?php echo $usuario['Nombre']?>
+                        <?php echo $usuario->Nombre . " " . $usuario->Apellido_P . " " . $usuario->Apellido_M?>
                       </div>
                       <h6>Correo electronico:</h6>
                       <div class="profile-user-email">
-                      <?php echo $usuario['Email']?>
+                        <?php echo $usuario->Email?>
                       </div>
                       <h6>Edad:</h6>
                       <div class="profile-user-age"> 
-                        25 años
+                        <?php echo $usuario->Edad?>
                       </div>
                       <h6>Rol:</h6>
                       <div class="profile-user-age"> 
@@ -130,9 +131,11 @@
                     </div>
                     <div class="user-buttons"></div>
                     <form action="./editarperfil.php">
-                    <button class="btn btn-success btn-sm">Editar  <i class="fas fa-user-edit"></i></button>
+                      <button class="btn btn-success btn-sm">Editar  <i class="fas fa-user-edit"></i></button>
                     </form>
-                    <!--button class="btn btn-danger btn-sm">Cerrar Sesion  <i class="fas fa-door-closed"></i></button-->
+                    <form action="/Proyecto-BDMM-PCI/php/controllers/cLogin.php">
+                      <button class="btn btn-danger btn-sm">Cerrar Sesion  <i class="fas fa-door-closed"></i></button>
+                    </form> 
                     </div>
 
                     <br>

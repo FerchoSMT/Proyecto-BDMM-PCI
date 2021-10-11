@@ -93,7 +93,7 @@
                         <img src="./Imagenes/Logo.png"width="48px" alt="Error de carga">
                         <h2 class="fw-bold text-center py-5 text-white">Bienvenido</h2>
     
-                        <form action="#" class="was-validated">
+                        <form action="/Proyecto-BDMM-PCI/php/controllers/cLogin.php" method="POST" class="was-validated">
                             <div class="mb-4 text-start text-white">
                                 <div class="form-group">
                                     <label for="email" class="form-label text-white ">Correo electronico:</label>

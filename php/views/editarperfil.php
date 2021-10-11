@@ -90,7 +90,7 @@
                 <h3>Editar Perfil</h3>
                 <div class="row">
                     <div class="col-6">
-                        <form id="editarFoto" action="./editarperfil.php">
+                        <form id="editarFoto" action="/Proyecto-BDMM-PCI/php/controllers/cEditarPerfil.php" method="POST" enctype="multipart/form-data">
                             <div class=" ">
                                 <div class="mb-4 text-start text-white"style="width: 50%; position: center;">
                                     <label for="image" class="form-label text-white">Foto de perfil:</label>
@@ -113,7 +113,7 @@
                                             Nombre Archivo</div>
                                             </div>
                                         <button onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Editar</button>
-                                        <input id="default-btn" type="file" hidden>
+                                        <input id="default-btn" name="fotoPerfil" type="file" hidden>
                                     </div>
                                 </div>
                             </div>
