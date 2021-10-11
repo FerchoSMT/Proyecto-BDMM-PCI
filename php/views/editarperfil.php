@@ -1,3 +1,19 @@
+<?php
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/usuarioDAO.php';
+
+  session_start();
+
+  $usuarioDAO = new UsuarioDAO();
+  $us = new UsuarioModel();
+  $us->addUserID($_SESSION["Id_Usuario"]);
+  $usuario = $usuarioDAO->getUser("VERPF", $us)[0];
+
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,7 +107,7 @@
                 <div class="row">
                     <div class="col-6">
                       
-                    <form id="editar-perfil" action="/Proyecto-BDMM-PCI/php/controllers/cEditarPerfil.php">
+                    <form id="editar-perfil" action="/Proyecto-BDMM-PCI/php/controllers/cEditarPerfil.php" method="POST" enctype="multipart/form-data">
                     <div class=" ">
                                 <div class="mb-4 text-start text-white"style="width: 50%; position: center;">
                                     <label for="image" class="form-label text-white">Foto de perfil:</label>
@@ -100,7 +116,8 @@
                                         <div class="wrapper">
                                         
                                         <div id="imagen" class="image">
-                                            <img class="image-responsive" style="width: auto;" src="./Imagenes/pfp.jpg" alt="">
+                                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($usuario->Foto).'" alt="" class="image-responsive" style="width: auto;">' ?>
+                                            <!--img class="image-responsive" style="width: auto;" src="./Imagenes/pfp.jpg" alt=""-->
                                         </div>
                                             <div class="content">
                                                         <div class="icon">
@@ -153,7 +170,7 @@
                             <div class="mb-4 text-start ">
                                 <div class="form-group">
                                     <label for="text" class="form-label  ">Nombre:</label>
-                                    <input type="text" class="form-control " name="name" placeholder="Coloca tu nombre" value="" required>
+                                    <input type="text" class="form-control " name="name" placeholder="Coloca tu nombre" value=<?php echo $usuario->Nombre?> required>
           
                                 </div>
                               </div>
@@ -161,7 +178,7 @@
                               <div class="mb-4 text-start ">
                                 <div class="form-group">
                                     <label for="text" class="form-label  ">Apellido Paterno:</label>
-                                    <input type="text" class="form-control " name="fname" placeholder="Coloca tu apellido paterno" value="" required>
+                                    <input type="text" class="form-control " name="fname" placeholder="Coloca tu apellido paterno" value=<?php echo $usuario->Apellido_P?> required>
           
                                 </div>
                               </div>
@@ -169,7 +186,7 @@
                               <div class="mb-4 text-start ">
                                 <div class="form-group">
                                     <label for="text" class="form-label  ">Apellido Materno:</label>
-                                    <input type="text" class="form-control " name="lname" placeholder="Coloca tu apellido materno" value="" required>
+                                    <input type="text" class="form-control " name="lname" placeholder="Coloca tu apellido materno" value=<?php echo $usuario->Apellido_M?> required>
           
                                 </div>
                               </div>
@@ -177,7 +194,7 @@
                               <div class="mb-4 text-start ">
                                 <div class="form-group">
                                     <label for="email" class="form-label  ">Correo electronico:</label>
-                                    <input type="email" class="form-control " name="email" placeholder="Coloca tu correo electronico" value="" required>
+                                    <input type="email" class="form-control " name="email" placeholder="Coloca tu correo electronico" value=<?php echo $usuario->Email?> required>
                                 </div>
                               </div>
 
@@ -186,7 +203,7 @@
                               <div class="mb-4 text-start ">
                                 <div class="form-group">
                                     <label for="password" class="form-label  ">Contraseña:</label>
-                                    <input type="password" class="form-control " name="contra" placeholder="Coloca tu nueva contraseña" value="" required>
+                                    <input type="password" class="form-control " name="contra" placeholder="Coloca tu nueva contraseña" value=<?php echo $usuario->Contrasena?> required>
                                 </div>
 
                               </div>
@@ -195,9 +212,10 @@
                                 <div class="form-group">
                                     <label for="genero" class="form-label ">Genero:</label>
                                     <select name="genero" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                      <option value="1">Hombre</option>
-                                      <option value="2">Mujer</option>
-                                      <option value="3">Otro</option>
+                                      <option value="" selected disabled><?php echo $usuario->Genero?></option>
+                                      <option value="Hombre">Hombre</option>
+                                      <option value="Mujer">Mujer</option>
+                                      <option value="Otro">Otro</option>
                                     </select>
                                 </div>
                               </div>
@@ -205,7 +223,7 @@
                               <div class="mb-4 text-start ">
                                 <div class="form-group">
                                     <label for="date" class="form-label ">Fecha de nacimiento:</label>
-                                    <input id="date" type="date" class="form-control " name="birthday" value="" required>
+                                    <input id="date" type="date" class="form-control " name="birthday" value=<?php echo $usuario->Fecha_Nac?> required>
           
                                 </div>
                               </div>
