@@ -105,68 +105,68 @@
                 <hr>
                 <h3>Editar Perfil</h3>
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-12">
                       
                     <form id="editar-perfil" action="/Proyecto-BDMM-PCI/php/controllers/cEditarPerfil.php" method="POST" enctype="multipart/form-data">
                     <div class=" ">
-                                <div class="mb-4 text-start text-white"style="width: 50%; position: center;">
-                                    <label for="image" class="form-label text-white">Foto de perfil:</label>
-                                    <div class="container">
-                                    
-                                        <div class="wrapper">
-                                        
-                                        <div id="imagen" class="image">
-                                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($usuario->Foto).'" alt="" class="image-responsive" style="width: auto;">' ?>
-                                            <!--img class="image-responsive" style="width: auto;" src="./Imagenes/pfp.jpg" alt=""-->
-                                        </div>
-                                            <div class="content">
-                                                        <div class="icon">
-                                            <i class="fas fa-cloud-upload-alt"></i></div>
-                                            <div class="text">
-                                            Ningun archivo seleccionado todavia</div>
-                                            </div>
-                                            <div id="cancel-btn">
-                                                <i class="fas fa-times"></i></div>
-                                            <div class="file-name">
-                                            Nombre Archivo</div>
-                                            </div>
-                                        <button onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Editar</button>
-                                        <input id="default-btn" name="fotoPerfil" type="file" hidden>
+                                
+                    <div class="mb-4 text-start text-white"style="width: 50%; position: center;">
+                            <label for="image" class="form-label text-white">Foto de perfil:</label>
+                            <div class="container">
+                              
+                                <div class="wrapper active">
+                                  
+                                  <div id="imagen" class="image">
+                                    <img src="" alt="">
+                                  </div>
+                                      <div class="content">
+                                                <div class="icon">
+                                      <i class="fas fa-cloud-upload-alt"></i></div>
+                                      <div class="text">
+                                      Ningun archivo seleccionado todavia</div>
+                                      </div>
+                                      <div id="cancel-btn">
+                                        <i class="fas fa-times"></i></div>
+                                      <div class="file-name">
+                                      Nombre Archivo</div>
                                     </div>
-                                </div>
+                                  <button onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Escoge un archivo</button>
+                                <input id="default-btn" name="fotoPerfil" class="" type="file" hidden>
                             </div>
-                            <script>
-                                const wrapper = document.querySelector(".wrapper");
-                                const fileName = document.querySelector(".file-name");
-                                const defaultBtn = document.querySelector("#default-btn");
-                                const customBtn = document.querySelector("#custom-btn");
-                                const cancelBtn = document.querySelector("#cancel-btn i");
-                                const img = document.querySelector("#imagen img");
-                                let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
-                                function defaultBtnActive(){
-                                  defaultBtn.click();
+                          </div>
+                          <script>
+                            const wrapper = document.querySelector(".wrapper");
+                            const fileName = document.querySelector(".file-name");
+                            const defaultBtn = document.querySelector("#default-btn");
+                            const customBtn = document.querySelector("#custom-btn");
+                            const cancelBtn = document.querySelector("#cancel-btn i");
+                            const img = document.querySelector("#imagen img");
+                            let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+                            function defaultBtnActive(){
+                              defaultBtn.click();
+                            }
+                            defaultBtn.addEventListener("change", function(){
+                              const file = this.files[0];
+                              if(file){
+                                const reader = new FileReader();
+                                reader.onload = function(){
+                                  const result = reader.result;
+                                  img.src = result;
+                                  wrapper.classList.add("active");
                                 }
-                                defaultBtn.addEventListener("change", function(){
-                                  const file = this.files[0];
-                                  if(file){
-                                    const reader = new FileReader();
-                                    reader.onload = function(){
-                                      const result = reader.result;
-                                      img.src = result;
-                                      wrapper.classList.add("active");
-                                    }
-                                    cancelBtn.addEventListener("click", function(){
-                                      img.src = "";
-                                      wrapper.classList.remove("active");
-                                    })
-                                    reader.readAsDataURL(file);
-                                  }
-                                  if(this.value){
-                                    let valueStore = this.value.match(regExp);
-                                    fileName.textContent = valueStore;
-                                  }
-                                });
-                            </script>
+                                cancelBtn.addEventListener("click", function(){
+                                  img.src = "";
+                                  wrapper.classList.remove("active");
+                                })
+                                reader.readAsDataURL(file);
+                              }
+                              if(this.value){
+                                let valueStore = this.value.match(regExp);
+                                fileName.textContent = valueStore;
+                              }
+                            });
+                          </script>
+
                             <div class="mb-4 text-start ">
                                 <div class="form-group">
                                     <label for="text" class="form-label  ">Nombre:</label>
