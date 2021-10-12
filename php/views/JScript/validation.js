@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     
     $.validator.addMethod("strong_password", function (value, element) {
-        var pass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(value);
+        var pass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&-*])(?=.{8,})/.test(value);
         return  this.optional(element)  || pass;
      }, "<i class='fas fa-exclamation-circle'></i> La contraseña debe contener al menos 8 caracteres aaaaa, una mayuscula, un digito y un caracter especial");
     
