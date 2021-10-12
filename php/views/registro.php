@@ -195,7 +195,7 @@
                                 <div class="file-name">
                                 Nombre Archivo</div>
                               </div>
-                            <button onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Escoge un archivo</button>
+                            <button type="button" onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Escoge un archivo</button>
                           <input id="default-btn" name="fotoPerfil" type="file" hidden>
                       </div>
                     </div>

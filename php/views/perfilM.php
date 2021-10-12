@@ -8,7 +8,7 @@
   $us->addUserID($_SESSION["Id_Usuario"]);
   $usuario = $usuarioDAO->getUser("VERPF", $us)[0];
 
-
+  $cursos = $usuarioDAO->getCursosUser("CURPE", $_SESSION["Id_Usuario"], "E");
 
 
 ?>
@@ -151,41 +151,28 @@
                   </ul>
 
                   <br>
+
+                  <?php foreach($cursos as $cur){ ?>
                   <div class="card">
                     <div class="row g-0">
                       <div class="col-md-8">
                         <div class="card-header">
-                          Curso de C++
+                          <?php echo $cur->Titulo ?>
                         </div>
                         <div class="card-body">
-                          <h5 class="card-title">5 niveles</h5>
-                          <p class="card-text">Curso creado: 01/09/2021</p>
+                          <h5 class="card-title"><?php echo $cur->Cant_Niveles ?> niveles</h5>
+                          <p class="card-text"><?php echo $cur->Descripcion ?></p>
                           <a href="./curso.php" class="btn btn-primary">Ir al curso</a>
                         </div>
                       </div>
                         <div class="col-md-4">
-                            <img src="./Imagenes/c.png" style="width: 90%;"  alt="">
+                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($cur->Imagen).'" style="width: 90%;" alt="">' ?>
+                            <!--img src="./Imagenes/c.png" style="width: 90%;"  alt=""-->
                         </div>
                     </div>
                   </div>
-                  <br>
-                  <div class="card">
-                    <div class="row g-0">
-                      <div class="col-md-8">
-                        <div class="card-header">
-                          Curso de C#
-                        </div>
-                        <div class="card-body">
-                          <h5 class="card-title">5 niveles</h5>
-                          <p class="card-text">Curso creado: 22/08/2021 </p>
-                          <a href="./curso.php" class="btn btn-primary">Ir al curso</a>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <img src="./Imagenes/cm.png" style="width: 90%;"  class="img-fluid rounded-start" alt="">
-                      </div>
-                    </div>
-                  </div>
+                  <?php } ?>
+
                   <br>
 
                   <nav aria-label="Page navigation example">

@@ -8,7 +8,7 @@
   $us->addUserID($_SESSION["Id_Usuario"]);
   $usuario = $usuarioDAO->getUser("VERPF", $us)[0];
   
-
+  $cursos = $usuarioDAO->getCursosUser("CURPA", $_SESSION["Id_Usuario"], "A");
 
 
 ?>
@@ -158,43 +158,32 @@
                   <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                       <br>
+
+                      <?php foreach($cursos as $cur){ ?>
                       <div class="card">
                         <div class="row g-0">
                           <div class="col-md-8">
                             <div class="card-header">
-                              Curso de C++
+                            <?php echo $cur->Titulo ?>
                             </div>
                             <div class="card-body">
-                              <h5 class="card-title">Nivel 1 de 5</h5>
-                              <p class="card-text">Curso iniciado: 02/09/2021</p>
+                              <h5 class="card-title">Nivel <?php echo $cur->Nivel_Actual ?> de <?php echo $cur->Cant_Niveles ?></h5>
+                              <p class="card-text">Curso iniciado: <?php echo $cur->Fecha_Inicio ?></p>
+                              <p class="card-text">Ingreso a nivel más reciente: <?php echo $cur->Fecha_Reciente ?></p>
+                              <p class="card-text">Curso terminado: <?php echo $cur->Fecha_Fin ?></p>
                               <a href="./curso.php" class="btn btn-primary">Ir al curso</a>
                             </div>
                           </div>
                           <div class="col-md-4">
-                            <img src="./Imagenes/c.png" style="width: 90%;"  alt="">
+                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($cur->Imagen).'" style="width: 90%;" alt="">' ?>
+                            <!--img src="./Imagenes/c.png" style="width: 90%;"  alt=""-->
                           </div>
                         </div>
                       </div>
+                      <?php } ?>
 
                       <br>
-                      <div class="card">
-                        <div class="row g-0">
-                          <div class="col-md-8">
-                            <div class="card-header">
-                              Curso de C#
-                            </div>
-                            <div class="card-body">
-                              <h5 class="card-title">Nivel 5 de 5</h5>
-                              <p class="card-text">Curso iniciado: 25/08/2021 Curso terminado: 27/08/2021</p>
-                              <a href="./curso.php" class="btn btn-primary">Ir al curso</a>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <img src="./Imagenes/cm.png" style="width: 90%;"  alt="">
-                          </div>
-                        </div>
-                      </div>
-                      <br>
+
                     </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                       <br>

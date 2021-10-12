@@ -9,16 +9,15 @@ $usuarioDAO = new UsuarioDAO();
 
 $user = new UsuarioModel();
 
-$user->Tipo = $POST_['flexRadioDefault'];
-$user->Nombre = $POST_['name'];
-$user->Apellido_P = $POST_['fname'];
-$user->Apellido_M = $POST_['lname'];
-$user->Genero = $POST_['genero'];
-$user->Fecha_Nac = $POST_['birthday'];
-$user->Foto = $POST_['fotoPerfil'];
-$user->Email = $POST_['email'];
-$user->Contrasena = $POST_['password'];
-$user->Foto = addslasher(file_get_contents($_FILES["default-btn"]["tmp_name"]));
+$user->Tipo = $_POST['flexRadioDefault'];
+$user->Nombre = $_POST['name'];
+$user->Apellido_P = $_POST['fname'];
+$user->Apellido_M = $_POST['lname'];
+$user->Genero = $_POST['genero'];
+$user->Fecha_Nac = $_POST['birthday'];
+$user->Foto = file_get_contents(addslashes($_FILES["fotoPerfil"]["tmp_name"]));
+$user->Email = $_POST['email'];
+$user->Contrasena = $_POST['password'];
 
 $userAux = $usuarioDAO->iudUser("RGSTR", $user);
 

@@ -1,6 +1,7 @@
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/model/usuarioModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/model/cursoModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/model/dbConnection.php';
 
 class UsuarioDAO{
@@ -13,11 +14,11 @@ class UsuarioDAO{
     }
 
     public function iudUser($opc, $us){
-
-        $idUsuarioNuevo = 0;
-
+        
+        $idUsuarioNuevo = -1;
+        
         try{
-            $sql = 'CALL SP_Usuarios(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+            $sql = 'CALL SP_Usuarios(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(1,$opc);
@@ -38,8 +39,8 @@ class UsuarioDAO{
             }
             
         }
-        catch(Exception $e){
-            echo "Error";
+        catch(PDOException $e){
+            error_log($e->getMessage());
         }
 
         return $idUsuarioNuevo;
@@ -88,20 +89,67 @@ class UsuarioDAO{
 
             }
         }
-        catch(Exception $e){
-            echo "Error";
+        catch(PDOException $e){
+            error_log($e->getMessage());
         }
 
         return $listaUsuarios;
     }
 
-    public function getCursosUser(){
-
-    }
-
-    public function getCursosEscuela(){
+    public function getCursosUser($opc, $id, $tipo){
         
+        $listaCursos = [];
+        
+        try{
+            $sql = 'CALL SP_Cursos(?, ?, ?, ?, ?, ?, ?, ?);';
+
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(1,$opc);
+            $statement->bindValue(2,NULL);
+            $statement->bindValue(3,NULL);
+            $statement->bindValue(4,NULL);
+            $statement->bindValue(5,NULL);
+            $statement->bindValue(6,NULL);
+            $statement->bindValue(7,NULL);
+            $statement->bindParam(8,$id);
+            $statement->execute();
+
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                
+                if ($tipo == "E"){
+                    $Titulo = $row['Titulo'];
+                    $Cant_Niveles = $row['Cant_Niveles'];
+                    $Descripcion = $row['Descripcion'];
+                    $Imagen = $row['Imagen'];
+    
+                    $curso = new CursoModel();
+                    $curso->addCursoE($Titulo, $Cant_Niveles, $Descripcion, $Imagen);
+                    $listaCursos[] = $curso;
+                }
+
+                if ($tipo == "A"){
+                    $Titulo = $row['Titulo'];
+                    $Nivel_Actual = $row['Nivel_Actual'];
+                    $Cant_Niveles = $row['Cant_Niveles'];
+                    $Fecha_Inicio = $row['Fecha_Inicio'];
+                    $Fecha_Reciente = $row['Fecha_Reciente'];
+                    $Fecha_Fin = $row['Fecha_Fin'];
+                    $Imagen = $row['Imagen'];
+    
+                    $curso = new CursoModel();
+                    $curso->addCursoA($Titulo, $Nivel_Actual, $Cant_Niveles, $Fecha_Inicio, $Fecha_Reciente, $Fecha_Fin, $Imagen);
+                    $listaCursos[] = $curso;
+                }
+
+            }
+        }
+        catch(PDOException $e){
+            error_log($e->getMessage());
+        }
+
+        return $listaCursos;
     }
+
 }
 
 

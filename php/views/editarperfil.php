@@ -117,7 +117,8 @@
                                 <div class="wrapper active">
                                   
                                   <div id="imagen" class="image">
-                                    <img src="" alt="">
+                                  <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($usuario->Foto).'" alt="">' ?>
+                                    <!--img src="" alt=""-->
                                   </div>
                                       <div class="content">
                                                 <div class="icon">
@@ -130,7 +131,7 @@
                                       <div class="file-name">
                                       Nombre Archivo</div>
                                     </div>
-                                  <button onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Escoge un archivo</button>
+                                  <button type="button" onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Escoge un archivo</button>
                                 <input id="default-btn" name="fotoPerfil" class="" type="file" hidden>
                             </div>
                           </div>

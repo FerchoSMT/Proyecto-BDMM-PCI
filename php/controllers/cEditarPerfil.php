@@ -8,17 +8,17 @@ $usuarioDAO = new UsuarioDAO();
 
 $user = new UsuarioModel();
 
-$user->Nombre = $POST_['name'];
-$user->Apellido_P = $POST_['fname'];
-$user->Apellido_M = $POST_['lname'];
-$user->Genero = $POST_['genero'];
-$user->Fecha_Nac = $POST_['birthday'];
-$user->Foto = $POST_['fotoPerfil'];
-$user->Email = $POST_['email'];
-$user->Contrasena = $POST_['contra'];
-$user->Foto = addslasher(file_get_contents($_FILES["default-btn"]["tmp_name"]));
+$user->Id_Usuario = $_SESSION["Id_Usuario"];
+$user->Nombre = $_POST['name'];
+$user->Apellido_P = $_POST['fname'];
+$user->Apellido_M = $_POST['lname'];
+$user->Genero = $_POST['genero'];
+$user->Fecha_Nac = $_POST['birthday'];
+$user->Foto = file_get_contents(addslashes($_FILES["fotoPerfil"]["tmp_name"]));
+$user->Email = $_POST['email'];
+$user->Contrasena = $_POST['contra'];
 
-$userAux = $usuarioDAO->iudUser("EDITA", $user);
+$usuarioDAO->iudUser("EDITA", $user);
 
 if ($_SESSION["Tipo"] == "E"){
     header("Location: /Proyecto-BDMM-PCI/php/views/perfilM.php");
