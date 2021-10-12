@@ -1,10 +1,10 @@
 $(document).ready(function(){
 
     
-$.validator.addMethod('strongPassword',function(value,element){
-    return this.optional(element) || value.length>=8
-    && /^.(?=.{8,})(?=.[a-z])(?=.[A-Z])(?=.[\d])(?=.*[\W]).*$/.test(value);
-}, "<i class='fas fa-exclamation-circle'></i> La contraseña debe contener al menos 8 caracteres, una mayuscula, un digito y un caracter especial");
+    $.validator.addMethod("strong_password", function (value, element) {
+        var pass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(value);
+        return  this.optional(element)  || pass;
+     }, "<i class='fas fa-exclamation-circle'></i> La contraseña debe contener al menos 8 caracteres aaaaa, una mayuscula, un digito y un caracter especial");
     
 $.validator.addMethod("roles", function(value, elem, param) {
     return $(".roles:checkbox:checked").length > 0;
@@ -65,7 +65,7 @@ $(function(){
             },
             password:{
                 required:true,
-                strongPassword:true
+                strong_password:true
             },
             flexRadioDefault:{
                 required:true,
