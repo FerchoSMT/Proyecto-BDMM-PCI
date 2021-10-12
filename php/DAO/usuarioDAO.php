@@ -13,6 +13,10 @@ class UsuarioDAO{
         $this->connection = $database->connect();
     }
 
+    public function __destruct(){
+        $this->connection = null;
+    }
+
     public function iudUser($opc, $us){
         
         $idUsuarioNuevo = -1;
@@ -40,7 +44,10 @@ class UsuarioDAO{
             
         }
         catch(PDOException $e){
-            error_log($e->getMessage());
+            echo($e->getMessage());
+        }
+        finally{
+            $statement->closeCursor();
         }
 
         return $idUsuarioNuevo;
@@ -91,6 +98,9 @@ class UsuarioDAO{
         }
         catch(PDOException $e){
             error_log($e->getMessage());
+        }
+        finally{
+            $statement->closeCursor();
         }
 
         return $listaUsuarios;
@@ -145,6 +155,9 @@ class UsuarioDAO{
         }
         catch(PDOException $e){
             error_log($e->getMessage());
+        }
+        finally{
+            $statement->closeCursor();
         }
 
         return $listaCursos;
