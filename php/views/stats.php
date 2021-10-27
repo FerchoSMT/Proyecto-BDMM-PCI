@@ -61,6 +61,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="./login.php">Perfil</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./busquedaavanzada.php">Busqueda Avanzada</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -85,11 +88,16 @@
     </nav>
     <!--Header-->
     <br>
-    <br>
-    <!--Cuerpo-->
 
+    <!--Cuerpo-->
+    <form action="./creacioncurso.php">
+            <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-lg btn-primary" >Agregar nivel</button>
+            </div>
+          </form>
     <hr>
     <!--Imagen de la publicacion-->
+
     <div class="container">
         <div class="row ">
 

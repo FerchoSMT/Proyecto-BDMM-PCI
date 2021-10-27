@@ -62,6 +62,9 @@
               <li class="nav-item">
                 <a class="nav-link active" href="./login.php">Perfil</a>
               </li>
+              <li class="nav-item">
+                        <a class="nav-link active" href="./busquedaavanzada.php">Busqueda Avanzada</a>
+                    </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Categorias
@@ -88,28 +91,10 @@
        <div class="container">
            <div class="row">
             
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style="padding-left: 40%;">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="v-pills-datos-tab" data-bs-toggle="pill" data-bs-target="#v-pills-datos" type="button" role="tab" aria-controls="v-pills-datos" aria-selected="true">Datos Generales</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="v-pills-niveles-tab" data-bs-toggle="pill" data-bs-target="#v-pills-niveles" type="button" role="tab" aria-controls="v-pills-niveles" aria-selected="false">Niveles</button>
-                
-                </li>
-            </ul>
-            <div class="col-1">
 
-                <div class="d-flex align-items-start">
-                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    </div>
-
-                </div>
-            </div>
-            <div class="col-10">
+            <div class="col-12">
                 <form action="./curso.php" id="creacion-curso" class="was-validated" method="POST">
-                <div class="tab-content" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-datos" role="tabpanel" aria-labelledby="v-pills-datos-tab">
-                        
+
                         <h2 style="text-align: center;">Datos Generales</h2>
 
                             <legend>Llena los campos para crear tu curso</legend>
@@ -143,47 +128,6 @@
                                 <label for="formFile" class="form-label">Seleccione una imagen para su curso</label>
                                 <input class="form-control" name="imagenCurso" type="file" id="formFile">
                             </div>
-
-                  
-                    </div>
-                    <div class="tab-pane fade" id="v-pills-niveles" role="tabpanel" aria-labelledby="v-pills-niveles-tab">
-                        <h2 style="text-align: center;">Niveles</h2>
-
-                        <h3>Nivel 1</h3>
-
-                        <label for="formCosto" class="form-label">Costo del nivel (opcional)</label>
-                        <div class="input-group mb-3">
-
-                            <span class="input-group-text">$</span>
-                            <input type="number" name="costo" class="form-control" aria-label="Costo">
-                            <span class="input-group-text">.00</span>
-                          </div>
-                        
-                          <div class="mb-3">
-                            <label for="descripcion" class="form-label">Informacion del nivel</label>
-                            <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
-                        </div>
-
-                          <div class="mb-3">
-                            <label for="formVideo" class="form-label">Seleccione una imagen para el nivel</label>
-                            <input class="form-control" name="videoNivel" type="file" id="formVideo">
-                        </div>
-
-
-                        <div class="mb-3">
-                            <label for="formVideo" class="form-label">Seleccione un video para el nivel</label>
-                            <input class="form-control" name="videoNivel" type="file" id="formVideo">
-                        </div>
-
-                        
-
-
-                        <div class="d-grid gap-2 col-6 mx-auto">
-                            <button class="btn btn-success btn-sm" style="text-align: center;">Agregar Nivel<i class="fas fa-plus"></i></button>
-                        </div>
-                        <br>
-                    </div>
-                </div>
 
                 <div class="d-grid gap-2 col-6 mx-auto">
                     <button type="submit" class="btn btn-primary btn-sm">Publicar</button>

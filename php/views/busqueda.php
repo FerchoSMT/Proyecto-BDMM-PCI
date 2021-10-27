@@ -28,8 +28,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css" rel="stylesheet" />
 
     <!--OWL CARROUSEL-->
-    <link rel="stylesheet" href="./Plugins/OwlCarousel2-2.3.4/dist/assets/owl.carousel.css">
-    <link rel="stylesheet" href="./Plugins/OwlCarousel2-2.3.4/dist/assets/owlcarousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="Plugins/OwlCarousel2-2.3.4/dist/assets/owl.carousel.css">
+    <link rel="stylesheet" href="Plugins/OwlCarousel2-2.3.4/dist/assets/owlcarousel/owl.theme.default.min.css">
     <!--Footer-->
 
 
@@ -68,6 +68,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="./login.php">Perfil</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="./busquedaavanzada.php">Busqueda Avanzada</a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -98,36 +101,7 @@
 
 
     <div class="row p-4">
-        <form action="">
-            <div class="mb-3">
-                <label for="titulo" class="form-label">Maestro:</label>
-                <input id="titulo" name="titulo" class="form-control" type="text" aria-label="default input example">
-                
-            </div>
-            <div class="mb-3">
-                <label for="categoria" class="form-label">Categoria: </label>
-                <select class="form-select" name="categoria" aria-label="Default select example">
-                    <option selected>Escoge una categoria</option>
-                    <option value="1">Categoria 1</option>
-                    <option value="2">Categoria 2</option>
-                    <option value="3">Categoria 3</option>
-                </select>
-            </div>
-            <label for="fecha" class="form-label">Rango de fecha:</label>
-            <div class="mb-3 input-group">
-                
-                <br>
-                <input id="fechai" name="fechai" class="form-control" type="date" aria-label="default input example">
-                
-                <input id="fechaf" name="fechaf" class="form-control" type="date" aria-label="default input example">
-                
-            </div>
 
-            <div class="justify-content-end">
-                <button class="btn btn-primary btn-sm" style="justify-content: end;"><i class="fas fa-search"></i></button>
-            </div>
-            <br>
-        </form>
         <br>
         <h4>Cursos encontrados:</h4>
         <div class="col-12">
