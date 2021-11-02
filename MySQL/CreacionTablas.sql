@@ -104,3 +104,5 @@ ALTER TABLE Mensaje ADD CONSTRAINT FK_MEN_US_ESC
 	FOREIGN KEY (Id_Usuario_E) REFERENCES Usuario(Id_Usuario);
 ALTER TABLE Mensaje ADD CONSTRAINT FK_MEN_US_ALUM
 	FOREIGN KEY (Id_Usuario_A) REFERENCES Usuario(Id_Usuario);
+    
+    select * from usuario

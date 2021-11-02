@@ -1,3 +1,19 @@
+<?php
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/mensajesDAO.php';
+
+  session_start();
+  
+  $mensajeDAO = new mensajesDAO();
+  $us = new UsuarioModel();
+  $us->addUserID($_SESSION["Id_Usuario"]);
+  $usuario = $usuarioDAO->getUser("VERPF", $us)[0];
+  
+  $chats = $mensajeDAO->getChatsUser("OPCI", $_SESSION["Id_Usuario"]);
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
