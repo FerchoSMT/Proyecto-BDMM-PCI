@@ -18,7 +18,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
     <link rel="shortcut icon" type="image/x-icon" href="./Imagenes/Logo.png"><!--Aqui va la imagen del icono de la pagina-->
-    <link rel="stylesheet" type="text/css" href="./CSS/style.css">
+    <link rel="stylesheet" type="text/css" href="./CSS/registro.css">
 
     <!--Footer-->
     <!-- Font Awesome -->
@@ -135,16 +135,72 @@
                             <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
                         </div>
 
-                          <div class="mb-3">
-                            <label for="formVideo" class="form-label">Seleccione una imagen para el nivel</label>
-                            <input class="form-control" name="videoNivel" type="file" id="formVideo">
-                        </div>
+
 
 
                         <div class="mb-3">
                             <label for="formVideo" class="form-label">Seleccione un video para el nivel</label>
                             <input class="form-control" name="videoNivel" type="file" id="formVideo">
                         </div>
+                        <label for="image" class="form-label ">Foto del nivel:</label>
+                        <div class="mb-4 text-start text-white"style="width: 50%; position: center;">
+                               
+                                <div class="container">
+                                    
+                                    <div class="wrapper">
+                                        
+                                        <div id="imagen" class="image">
+                                            <img src="" alt="">
+                                        </div>
+                                        <div class="content">
+                                            <div class="icon">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                            </div>
+                                            <div class="text">
+                                                Ningun archivo seleccionado todavia
+                                            </div>
+                                        </div>
+                                        <div id="cancel-btn">
+                                            <i class="fas fa-times"></i></div>
+                                        <div class="file-name">
+                                        Nombre Archivo</div>
+                                    </div>
+                                    <button type="button" onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Escoge un archivo</button>
+                                    <input id="default-btn" name="fotoPerfil" type="file" hidden>
+                                </div>
+                            </div>
+                            <script>
+                                const wrapper = document.querySelector(".wrapper");
+                                const fileName = document.querySelector(".file-name");
+                                const defaultBtn = document.querySelector("#default-btn");
+                                const customBtn = document.querySelector("#custom-btn");
+                                const cancelBtn = document.querySelector("#cancel-btn i");
+                                const img = document.querySelector("#imagen img");
+                                let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+                                function defaultBtnActive(){
+                                    defaultBtn.click();
+                                }
+                                defaultBtn.addEventListener("change", function(){
+                                    const file = this.files[0];
+                                    if(file){
+                                    const reader = new FileReader();
+                                    reader.onload = function(){
+                                        const result = reader.result;
+                                        img.src = result;
+                                        wrapper.classList.add("active");
+                                    }
+                                    cancelBtn.addEventListener("click", function(){
+                                        img.src = "";
+                                        wrapper.classList.remove("active");
+                                    })
+                                    reader.readAsDataURL(file);
+                                    }
+                                    if(this.value){
+                                    let valueStore = this.value.match(regExp);
+                                    fileName.textContent = valueStore;
+                                    }
+                                });
+                            </script>   
 
                         
 

@@ -22,7 +22,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
     <link rel="shortcut icon" type="image/x-icon" href="./Imagenes/Logo.png"><!--Aqui va la imagen del icono de la pagina-->
-    <link rel="stylesheet" type="text/css" href="./CSS/style.css">
+ <link rel="stylesheet" type="text/css" href="./CSS/registro.css">
+
 
     <!--Footer-->
     <!-- Font Awesome -->
@@ -142,7 +143,7 @@
             
                             <div class="mb-3">
                                 <label for="categoria" class="form-label">Categoria: </label>
-                                <select class="form-select" name="categoria[]" aria-label="Default select example" multiple>
+                                <select class="form-select"  name="categoria[]" aria-label="Default select example" multiple required>
                                     <?php foreach($categorias as $cat){ ?>
                                         <option value="<?php echo $cat->Id_Categoria ?>"><?php echo $cat->Descripcion ?></option>
                                     <?php } ?>
@@ -152,10 +153,66 @@
                                 <label for="categorianew" class="form-label">Añadir nueva categoria (opcional)</label>
                                 <input id="categorianew" class="form-control" name="nuevaCat" type="text" aria-label="default input example">
                             </div>
-                            <div class="mb-3">
-                                <label for="formFile" class="form-label">Seleccione una imagen para su curso</label>
-                                <input class="form-control" name="imagenCurso" type="file" id="formFile">
+
+                            <div class="mb-4 text-start text-white"style="width: 50%; position: center;">
+                                <label for="image" class="form-label text-white">Foto de perfil:</label>
+                                <div class="container">
+                                    
+                                    <div class="wrapper">
+                                        
+                                        <div id="imagen" class="image">
+                                            <img src="" alt="">
+                                        </div>
+                                        <div class="content">
+                                            <div class="icon">
+                                                <i class="fas fa-cloud-upload-alt"></i>
+                                            </div>
+                                            <div class="text">
+                                                Ningun archivo seleccionado todavia
+                                            </div>
+                                        </div>
+                                        <div id="cancel-btn">
+                                            <i class="fas fa-times"></i></div>
+                                        <div class="file-name">
+                                        Nombre Archivo</div>
+                                    </div>
+                                    <button type="button" onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Escoge un archivo</button>
+                                    <input id="default-btn" name="fotoPerfil" type="file" hidden>
+                                </div>
                             </div>
+                            <script>
+                                const wrapper = document.querySelector(".wrapper");
+                                const fileName = document.querySelector(".file-name");
+                                const defaultBtn = document.querySelector("#default-btn");
+                                const customBtn = document.querySelector("#custom-btn");
+                                const cancelBtn = document.querySelector("#cancel-btn i");
+                                const img = document.querySelector("#imagen img");
+                                let regExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\]\,\$\=\!\-\#\(\)\.\%\+\~\_ ]+$/;
+                                function defaultBtnActive(){
+                                    defaultBtn.click();
+                                }
+                                defaultBtn.addEventListener("change", function(){
+                                    const file = this.files[0];
+                                    if(file){
+                                    const reader = new FileReader();
+                                    reader.onload = function(){
+                                        const result = reader.result;
+                                        img.src = result;
+                                        wrapper.classList.add("active");
+                                    }
+                                    cancelBtn.addEventListener("click", function(){
+                                        img.src = "";
+                                        wrapper.classList.remove("active");
+                                    })
+                                    reader.readAsDataURL(file);
+                                    }
+                                    if(this.value){
+                                    let valueStore = this.value.match(regExp);
+                                    fileName.textContent = valueStore;
+                                    }
+                                });
+                            </script>       
+
 
                 <div class="d-grid gap-2 col-6 mx-auto">
                     <button type="submit" class="btn btn-primary btn-sm">Publicar</button>
