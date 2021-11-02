@@ -8,7 +8,7 @@ $usuarioDAO = new UsuarioDAO();
 
 $user = new UsuarioModel();
 
-$user->Id_Usuario = $_SESSION["Id_Usuario"];
+$user->Id_Usuario = $_POST["Id_Usuario"];
 $user->Nombre = $_POST['name'];
 $user->Apellido_P = $_POST['fname'];
 $user->Apellido_M = $_POST['lname'];
@@ -21,9 +21,9 @@ $user->Contrasena = $_POST['contra'];
 $usuarioDAO->iudUser("EDITA", $user);
 
 if ($_SESSION["Tipo"] == "E"){
-    header("Location: /Proyecto-BDMM-PCI/php/views/perfilM.php");
+    header("Location: /Proyecto-BDMM-PCI/php/views/perfilM.php?Id_Usuario=".$_SESSION["Id_Usuario"]);
 }
 else{
-    header("Location: /Proyecto-BDMM-PCI/php/views/perfilA.php");
+    header("Location: /Proyecto-BDMM-PCI/php/views/perfilA.php?Id_Usuario=".$_SESSION["Id_Usuario"]);
 }
 exit;

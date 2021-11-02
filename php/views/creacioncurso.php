@@ -1,3 +1,16 @@
+<?php
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
+
+  session_start();
+  if (isset($_SESSION["Id_Usuario"])){
+    $usuarioActivo = $_SESSION["Id_Usuario"];
+  }
+
+  $categoriaDAO = new CategoriaDAO();
+  $categorias = $categoriaDAO->getCategoria("CATEG");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,9 +72,21 @@
                 <a class="nav-link active" aria-current="page" href="./main.php">Inicio</a>
 
               </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="./login.php">Perfil</a>
-              </li>
+              <?php if (isset($_SESSION["Id_Usuario"])): ?>
+                        <?php if ($_SESSION["Tipo"] == "E"): ?>
+                            <li class="nav-item">
+                                <?php echo '<a class="nav-link active" href="./perfilM.php?Id_Usuario='.$_SESSION["Id_Usuario"].'">Perfil</a>' ?>
+                            </li>
+                        <?php else: ?>
+                            <li class="nav-item">
+                                <?php echo '<a class="nav-link active" href="./perfilA.php?Id_Usuario='.$_SESSION["Id_Usuario"].'">Perfil</a>' ?>
+                            </li>
+                        <?php endif ?>
+              <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="./login.php">Perfil</a>
+                        </li>
+              <?php endif ?>
               <li class="nav-item">
                         <a class="nav-link active" href="./busquedaavanzada.php">Busqueda Avanzada</a>
                     </li>
@@ -93,7 +118,7 @@
             
 
             <div class="col-12">
-                <form action="./curso.php" id="creacion-curso" class="was-validated" method="POST">
+                <form action="/Proyecto-BDMM-PCI/php/controllers/cCreacionCurso.php" id="creacion-curso" class="was-validated" method="POST">
 
                         <h2 style="text-align: center;">Datos Generales</h2>
 
@@ -107,22 +132,25 @@
                                 <label for="descripcion" class="form-label">Descripcion del curso</label>
                                 <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
                             </div>
+
+                            <label for="costo" class="form-label">Costo del curso (opcional)</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">$</span>
+                                <input type="number" name="costo" class="form-control" aria-label="Costo">
+                                <span class="input-group-text">.00</span>
+                            </div>
             
                             <div class="mb-3">
                                 <label for="categoria" class="form-label">Categoria: </label>
-                                <select class="form-select" name="categoria" aria-label="Default select example">
-                                    <option value="1">Categoria 1</option>
-                                    <option value="2">Categoria 2</option>
-                                    <option value="3">Categoria 3</option>
+                                <select class="form-select" name="categoria[]" aria-label="Default select example" multiple>
+                                    <?php foreach($categorias as $cat){ ?>
+                                        <option value="<?php echo $cat->Id_Categoria ?>"><?php echo $cat->Descripcion ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="categorianew" class="form-label">Añadir nueva categoria (opcional)</label>
                                 <input id="categorianew" class="form-control" name="nuevaCat" type="text" aria-label="default input example">
-                            </div>
-                            <div class="mb-3">
-                                <label for="desCnew" class="form-label">Descripcion de la nueva categoria (opcional)</label>
-                                <textarea class="form-control" name="nueva-des" id="desCnew" rows="3"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">Seleccione una imagen para su curso</label>

@@ -2,13 +2,16 @@
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/usuarioDAO.php';
 
   session_start();
+  if (isset($_SESSION["Id_Usuario"])){
+    $usuarioActivo = $_SESSION["Id_Usuario"];
+  }
   
   $usuarioDAO = new UsuarioDAO();
   $us = new UsuarioModel();
-  $us->addUserID($_SESSION["Id_Usuario"]);
+  $us->addUserID($_GET["Id_Usuario"]);
   $usuario = $usuarioDAO->getUser("VERPF", $us)[0];
   
-  $cursos = $usuarioDAO->getCursosUser("CURPA", $_SESSION["Id_Usuario"], "A");
+  $cursos = $usuarioDAO->getCursosUser("CURPA", $_GET["Id_Usuario"], "A");
 
 
 ?>
@@ -72,9 +75,21 @@
                   <a class="nav-link active" aria-current="page" href="./main.php">Inicio</a>
   
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link active" href="./login.php">Perfil</a>
-                </li>
+                <?php if (isset($_SESSION["Id_Usuario"])): ?>
+                        <?php if ($_SESSION["Tipo"] == "E"): ?>
+                            <li class="nav-item">
+                                <?php echo '<a class="nav-link active" href="./perfilM.php?Id_Usuario='.$_SESSION["Id_Usuario"].'">Perfil</a>' ?>
+                            </li>
+                        <?php else: ?>
+                            <li class="nav-item">
+                                <?php echo '<a class="nav-link active" href="./perfilA.php?Id_Usuario='.$_SESSION["Id_Usuario"].'">Perfil</a>' ?>
+                            </li>
+                        <?php endif ?>
+                <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="./login.php">Perfil</a>
+                        </li>
+                <?php endif ?>
                 <li class="nav-item">
                         <a class="nav-link active" href="./busquedaavanzada.php">Busqueda Avanzada</a>
                     </li>
@@ -133,14 +148,18 @@
                       </div>
                     </div>
                     <div class="user-buttons"></div>
-                    <form action="./editarperfil.php">
-                      <button class="btn btn-success btn-sm">Editar  <i class="fas fa-user-edit"></i></button>
-                    </form>
-                    <form action="/Proyecto-BDMM-PCI/php/controllers/cLogin.php">
-                      <button class="btn btn-danger btn-sm">Cerrar Sesion  <i class="fas fa-door-closed"></i></button>
-                    </form> 
+                      <?php if (isset($_SESSION["Id_Usuario"])): ?>
+                      <?php if ($_SESSION["Id_Usuario"] == $usuario->Id_Usuario): ?>
+                        <form action="./editarperfil.php">
+                          <button class="btn btn-success btn-sm">Editar  <i class="fas fa-user-edit"></i></button>
+                        </form>
+                        <form action="/Proyecto-BDMM-PCI/php/controllers/cLogin.php">
+                          <button class="btn btn-danger btn-sm">Cerrar Sesion  <i class="fas fa-door-closed"></i></button>
+                        </form>
+                      <?php endif ?>
+                      <?php endif ?>
                     </div>
-
+                    
                     <br>
                    
                 </div>
