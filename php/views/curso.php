@@ -1,3 +1,18 @@
+<?php
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
+
+  session_start();
+  if (isset($_SESSION["Id_Usuario"])){
+    $usuarioActivo = $_SESSION["Id_Usuario"];
+  }
+
+  $cursoDAO = new CursoDAO();
+  $cur = new CursoModel();
+  $cur->addCursoID($_GET["Id_Curso"]);
+  $curso = $cursoDAO->getCurso("CURSO", $cur)[0];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,9 +71,21 @@
                   <a class="nav-link active" aria-current="page" href="./main.php">Inicio</a>
   
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link active" href="./login.php">Perfil</a>
-                </li>
+                <?php if (isset($_SESSION["Id_Usuario"])): ?>
+                        <?php if ($_SESSION["Tipo"] == "E"): ?>
+                            <li class="nav-item">
+                                <?php echo '<a class="nav-link active" href="./perfilM.php?Id_Usuario='.$_SESSION["Id_Usuario"].'">Perfil</a>' ?>
+                            </li>
+                        <?php else: ?>
+                            <li class="nav-item">
+                                <?php echo '<a class="nav-link active" href="./perfilA.php?Id_Usuario='.$_SESSION["Id_Usuario"].'">Perfil</a>' ?>
+                            </li>
+                        <?php endif ?>
+                <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="./login.php">Perfil</a>
+                        </li>
+                <?php endif ?>
                 <li class="nav-item">
                         <a class="nav-link active" href="./busquedaavanzada.php">Busqueda Avanzada</a>
                     </li>
@@ -89,7 +116,7 @@
             <div class="row">
               <!--Titulo-->
               <div class="row">
-                <h1 class="mt-4" >Curso de C++
+                <h1 class="mt-4" ><?php echo $curso->Titulo ?>
                 </h1>
       
               </div>
@@ -103,13 +130,13 @@
               </li>
       
               <!--Autor + Foto de perfil-->
-              <p class="lead"> por <img src="./Imagenes/pfp.jpg" alt="" style="width:50px; border-radius:25px;padding-left:5px;padding-right:5px;"><a href="./perfilM.php">John Doe</a> 
-              
+              <p class="lead"> por <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($curso->Foto_Usuario).'" alt="" style="width:50px; border-radius:25px;padding-left:5px;padding-right:5px;">' ?>
+                <?php echo '<a href="./perfilM.php?Id_Usuario='.$curso->Id_Usuario.'" class="btn btn-primary">'.$curso->Nombre_Usuario.'</a>' ?>
               </p>
               
               <hr>
               <!--Fecha de la publicacion-->
-              <p class="fecha_publicacion" style="font-size: 80%;"> Publicado el 03/09/2021</p>
+              <p class="fecha_publicacion" style="font-size: 80%;"> Publicado el <?php echo $curso->Fecha_Creacion ?></p>
               <hr>
               <!--Imagen de la publicacion-->
               <div class="row">
@@ -125,7 +152,7 @@
                 </div>
                 <div class="col-5">
                     <!--Contenido del post-->   
-                    <h3 style="text-align: center;">Precio del curso: 2500$</h3>
+                    <h3 style="text-align: center;">Precio del curso: $<?php echo $curso->Costo ?></h3>
                     <div class="d-grid gap-2">
                       <form action="./pago.php">
                         <div class="m">
@@ -133,7 +160,7 @@
                   </div>
                   </form>
                     </div>
-                    <p class="contenido_post"><br> Este es un curso de como programar en C++</p>
+                    <p class="contenido_post"><br><?php echo $curso->Descripcion ?></p>
                 </div>
 
               </div>

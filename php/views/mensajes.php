@@ -2,6 +2,10 @@
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/mensajesDAO.php';
 
   session_start();
+  if (isset($_SESSION["Id_Usuario"])){
+    $usuarioActivo = $_SESSION["Id_Usuario"];
+  }
+
   
   $mensajeDAO = new mensajesDAO();
   $us = new UsuarioModel();
@@ -72,9 +76,21 @@
                   <a class="nav-link active" aria-current="page" href="./main.php">Inicio</a>
   
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link active" href="./login.php">Perfil</a>
-                </li>
+                <?php if (isset($_SESSION["Id_Usuario"])): ?>
+                        <?php if ($_SESSION["Tipo"] == "E"): ?>
+                            <li class="nav-item">
+                                <?php echo '<a class="nav-link active" href="./perfilM.php?Id_Usuario='.$_SESSION["Id_Usuario"].'">Perfil</a>' ?>
+                            </li>
+                        <?php else: ?>
+                            <li class="nav-item">
+                                <?php echo '<a class="nav-link active" href="./perfilA.php?Id_Usuario='.$_SESSION["Id_Usuario"].'">Perfil</a>' ?>
+                            </li>
+                        <?php endif ?>
+                <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="./login.php">Perfil</a>
+                        </li>
+                <?php endif ?>
                 <li class="nav-item">
                         <a class="nav-link active" href="./busquedaavanzada.php">Busqueda Avanzada</a>
                     </li>
