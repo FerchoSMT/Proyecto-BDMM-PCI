@@ -123,9 +123,10 @@
 
             <div class="col-12">
                 <form action="/Proyecto-BDMM-PCI/php/controllers/cCreacionCurso.php" id="creacion-curso" class="was-validated" method="POST" enctype="multipart/form-data" autocomplete="off">
-
+                       
                         <h2 style="text-align: center;">Datos Generales</h2>
-
+                            <div class="row">
+                            <div class="col-6">
                             <legend>Llena los campos para crear tu curso</legend>
                             <div class="mb-3">
                                 <label for="titulo" class="form-label">Titulo</label>
@@ -157,7 +158,9 @@
                                 <input id="categorianew" class="form-control" name="nuevaCat" type="text" aria-label="default input example">
                             </div>
 
-                            <div class="mb-4 text-start text-white"style="width: 50%; position: center;">
+                            </div>
+                            <div class="col-6">
+                            <div class="mb-4 text-start text-white"style="width: 100%; position: center;">
                                 <label for="image" class="form-label text-white">Imagen del curso:</label>
                                 <div class="container">
                                     
@@ -215,6 +218,10 @@
                                     }
                                 });
                             </script>       
+                            </div>
+                            </div>
+
+
 
 
                 <div class="d-grid gap-2 col-6 mx-auto">

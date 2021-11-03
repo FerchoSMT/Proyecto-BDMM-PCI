@@ -121,31 +121,43 @@
 
                     <div class="" >
                         <h2 style="text-align: center;">Niveles</h2>
-
                         <h3>Nivel</h3>
+                        <div class="row">
+                        <div class="col-6">
 
-                        <label for="formCosto" class="form-label">Costo del nivel (opcional)</label>
-                        <div class="input-group mb-3">
+                            <label for="formCosto" class="form-label">Costo del nivel (opcional)</label>
+                            <div class="input-group mb-3">
 
-                            <span class="input-group-text">$</span>
-                            <input type="number" name="costo" class="form-control" aria-label="Costo">
-                            <span class="input-group-text">.00</span>
-                          </div>
-                        
-                          <div class="mb-3">
-                            <label for="descripcion" class="form-label">Informacion del nivel</label>
-                            <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
+                                <span class="input-group-text">$</span>
+                                <input type="number" name="costo" class="form-control" aria-label="Costo">
+                                <span class="input-group-text">.00</span>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Informacion del nivel</label>
+                                <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="links" class="form-label">Links del nivel</label>
+                                <textarea class="form-control" name="links" id="links" rows="3"></textarea>
+                            </div>
+
+                            <div class="mb-3">
+                            <label for="archivoNivel" class="form-label">Seleccione un archivo para el nivel</label>
+                            <input class="form-control" name="archivoNivel" type="file" id="archivoNivel">
                         </div>
 
-
-
-
+                            
                         <div class="mb-3">
                             <label for="formVideo" class="form-label">Seleccione un video para el nivel</label>
                             <input class="form-control" name="videoNivel" type="file" id="formVideo">
                         </div>
+                        </div>
+                        <div class="col-6">
+
                         <label for="image" class="form-label ">Imagen del nivel:</label>
-                        <div class="mb-4 text-start text-white"style="width: 50%; position: center;">
+                        <div class="mb-4 text-start text-white"style="width: 100%; position: center;">
                                
                                 <div class="container">
                                     
@@ -203,6 +215,15 @@
                                     }
                                 });
                             </script>   
+                        </div>
+                        </div>
+                        
+
+
+
+
+
+                        
 
                         
 
