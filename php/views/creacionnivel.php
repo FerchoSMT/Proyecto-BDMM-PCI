@@ -1,6 +1,8 @@
 <?php
 
   session_start();
+  
+  $usuarioActivo = 0;
   if (isset($_SESSION["Id_Usuario"])){
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
@@ -114,7 +116,7 @@
             
             
             <div class="col-12">
-                <form action="./curso.php" id="creacion-curso" class="was-validated" method="POST">
+                <form action="./curso.php" id="creacion-curso" class="was-validated" method="POST" autocomplete="off">
                 
 
                     <div class="" >
@@ -142,7 +144,7 @@
                             <label for="formVideo" class="form-label">Seleccione un video para el nivel</label>
                             <input class="form-control" name="videoNivel" type="file" id="formVideo">
                         </div>
-                        <label for="image" class="form-label ">Foto del nivel:</label>
+                        <label for="image" class="form-label ">Imagen del nivel:</label>
                         <div class="mb-4 text-start text-white"style="width: 50%; position: center;">
                                
                                 <div class="container">
@@ -166,7 +168,7 @@
                                         Nombre Archivo</div>
                                     </div>
                                     <button type="button" onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Escoge un archivo</button>
-                                    <input id="default-btn" name="fotoPerfil" type="file" hidden>
+                                    <input id="default-btn" name="imagenNivel" type="file" hidden>
                                 </div>
                             </div>
                             <script>

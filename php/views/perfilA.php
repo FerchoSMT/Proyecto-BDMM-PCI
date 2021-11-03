@@ -2,6 +2,8 @@
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/usuarioDAO.php';
 
   session_start();
+  
+  $usuarioActivo = 0;
   if (isset($_SESSION["Id_Usuario"])){
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
@@ -126,7 +128,6 @@
                   <div class="profile-sidebar text-sm-center">
                     <div class="profile-userpic">
                       <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($usuario->Foto).'" alt="" class="img-responsive img-circle" style="width: 50%;  border-radius: 10px;">' ?>
-                      <!--img src="./Imagenes/pfp.jpg" alt="" class="img-responsive img-circle" style="width: 50%;  border-radius: 10px;"-->
                     </div>
                     <br>
                     <div class="profile-user-title">
@@ -172,9 +173,19 @@
                     <li class="nav-item">
                       <button class="nav-link bg-primary text-white" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Diplomas</button>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="./mensajes.php?id=<?php echo $_SESSION["Id"]?>">Mensaje</a>
-                    </li>
+                    <?php if ($usuarioActivo == $us->Id_Usuario): ?>
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="./mensajes.php?id=<?php echo $usuarioActivo?>">Mensajes</a>
+                      </li>
+                    <?php elseif ($usuarioActivo == 0): ?>
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="">Mensajes</a>
+                      </li>
+                    <?php else: ?>
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/Proyecto-BDMM-PCI/php/controllers/cConversacion.php?id=<?php echo $us->Id_Usuario?>">Mensajes</a>
+                      </li>
+                    <?php endif ?>
                   </ul>
 
                   <div class="tab-content" id="v-pills-tabContent">

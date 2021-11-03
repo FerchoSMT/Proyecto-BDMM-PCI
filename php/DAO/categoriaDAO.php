@@ -21,13 +21,14 @@ class CategoriaDAO{
         $idCategoriaNueva = -1;
         
         try{
-            $sql = 'CALL SP_Categorias(?, ?, ?, ?);';
+            $sql = 'CALL SP_Categorias(?, ?, ?, ?, ?);';
 
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(1,$opc);
             $statement->bindParam(2,$cat->Id_Categoria);
             $statement->bindParam(3,$cat->Descripcion);
             $statement->bindParam(4,$cat->Id_Usuario);
+            $statement->bindValue(5,NULL);
             $statement->execute();
 
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
@@ -50,13 +51,14 @@ class CategoriaDAO{
         $listaCategoria = [];
         
         try{
-            $sql = 'CALL SP_Categorias(?, ?, ?, ?);';
+            $sql = 'CALL SP_Categorias(?, ?, ?, ?, ?);';
 
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(1,$opc);
             $statement->bindValue(2,NULL);
             $statement->bindValue(3,NULL);
             $statement->bindValue(4,NULL);
+            $statement->bindValue(5,NULL);
             $statement->execute();
 
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
@@ -78,8 +80,30 @@ class CategoriaDAO{
         finally{
             $statement->closeCursor();
         }
-
+        
         return $listaCategoria;
+    }
+
+    public function categoriaCurso($opc, $Id_Categoria, $Id_Curso){
+
+        try{
+            $sql = 'CALL SP_Categorias(?, ?, ?, ?, ?);';
+
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(1,$opc);
+            $statement->bindParam(2,$Id_Categoria);
+            $statement->bindValue(3,NULL);
+            $statement->bindValue(4,NULL);
+            $statement->bindParam(5,$Id_Curso);
+            $statement->execute();
+        }
+        catch(PDOException $e){
+            echo($e->getMessage());
+        }
+        finally{
+            $statement->closeCursor();
+        }
+
     }
   
 

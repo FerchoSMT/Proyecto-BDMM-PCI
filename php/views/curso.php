@@ -2,6 +2,8 @@
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
 
   session_start();
+  
+  $usuarioActivo = 0;
   if (isset($_SESSION["Id_Usuario"])){
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
@@ -141,7 +143,8 @@
               <!--Imagen de la publicacion-->
               <div class="row">
                 <div class="col-7">
-                    <img class="img-fluid rounded" src="http://placehold.it/700x400" alt="">
+                    <?php echo '<img class="img-fluid rounded" src="data:image/jpeg;base64,'.base64_encode($curso->Imagen).'" alt="">' ?>
+                    <!-- <img class="img-fluid rounded" src="http://placehold.it/700x400" alt=""> -->
                     <!--Iconos de valoracion-->
                     <form action="" class="was-validated" method="GET">
                     <input  type="hidden" id="idp" name="idp" value="">

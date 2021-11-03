@@ -2,12 +2,15 @@
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
 
   session_start();
+  
+  $usuarioActivo = 0;
   if (isset($_SESSION["Id_Usuario"])){
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
 
   $categoriaDAO = new CategoriaDAO();
   $categorias = $categoriaDAO->getCategoria("CATEG");
+  
 
 ?>
 
@@ -22,7 +25,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 
     <link rel="shortcut icon" type="image/x-icon" href="./Imagenes/Logo.png"><!--Aqui va la imagen del icono de la pagina-->
- <link rel="stylesheet" type="text/css" href="./CSS/registro.css">
+    <link rel="stylesheet" type="text/css" href="./CSS/registro.css">
 
 
     <!--Footer-->
@@ -119,7 +122,7 @@
             
 
             <div class="col-12">
-                <form action="/Proyecto-BDMM-PCI/php/controllers/cCreacionCurso.php" id="creacion-curso" class="was-validated" method="POST">
+                <form action="/Proyecto-BDMM-PCI/php/controllers/cCreacionCurso.php" id="creacion-curso" class="was-validated" method="POST" enctype="multipart/form-data" autocomplete="off">
 
                         <h2 style="text-align: center;">Datos Generales</h2>
 
@@ -143,7 +146,7 @@
             
                             <div class="mb-3">
                                 <label for="categoria" class="form-label">Categoria: </label>
-                                <select class="form-select"  name="categoria[]" aria-label="Default select example" multiple required>
+                                <select class="form-select" name="categoria[]" aria-label="Default select example" multiple>
                                     <?php foreach($categorias as $cat){ ?>
                                         <option value="<?php echo $cat->Id_Categoria ?>"><?php echo $cat->Descripcion ?></option>
                                     <?php } ?>
@@ -155,7 +158,7 @@
                             </div>
 
                             <div class="mb-4 text-start text-white"style="width: 50%; position: center;">
-                                <label for="image" class="form-label text-white">Foto de perfil:</label>
+                                <label for="image" class="form-label text-white">Imagen del curso:</label>
                                 <div class="container">
                                     
                                     <div class="wrapper">
@@ -177,7 +180,7 @@
                                         Nombre Archivo</div>
                                     </div>
                                     <button type="button" onclick="defaultBtnActive()" id="custom-btn" style="max-height: 40px;">Escoge un archivo</button>
-                                    <input id="default-btn" name="fotoPerfil" type="file" hidden>
+                                    <input id="default-btn" name="imagenCurso" type="file" hidden>
                                 </div>
                             </div>
                             <script>

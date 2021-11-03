@@ -5,6 +5,8 @@ class CategoriaModel{
     public $Descripcion;
     public $Fecha_Creacion;
     public $Id_Usuario;
+    
+    public $Id_Curso;
 
     public function addCategoria($Id_Categoria, $Descripcion, $Fecha_Creacion, $Id_Usuario){
         $this->Id_Categoria = $Id_Categoria;

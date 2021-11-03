@@ -19,9 +19,12 @@ $curso->Id_Usuario = $_SESSION['Id_Usuario'];
 
 $cursoAux = $cursoDAO->iudCurso("NUEVO", $curso);
 
-foreach ($_POST['categoria'] as $nCat){
-    echo $nCat;
+if (!empty($_POST['categoria'])){
+    foreach ($_POST['categoria'] as $nCat){
+        $categoriaDAO->categoriaCurso("CATCU", $nCat, $cursoAux);
+    }
 }
+
 $cat->Descripcion = $_POST['titulo'];
 $cat->Id_Usuario = $_SESSION['Id_Usuario'];
 
