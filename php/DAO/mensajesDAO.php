@@ -2,6 +2,7 @@
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/model/usuarioModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/model/mensajeModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/model/chatModel.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/model/dbConnection.php';
 
 class MensajeDAO{
@@ -20,7 +21,7 @@ class MensajeDAO{
 
         $idMensajeNuevo = -1;
         try{
-            $sql = 'Insert into mensajes(Fecha_Hora,Contenido,Id_Usuario_E,Id_Usuario_A) Values(curdate(),?,?,?)';
+            $sql = 'Insert into mensajes(Fecha_Hora,Contenido,Id_Usuario_Envia,Id_Usuario_Recibe) Values(curdate(),?,?,?)';
 
             $statement = $this->connection->prepare($sql);
             //$statement->bindParam(1,$opc);
@@ -46,57 +47,33 @@ class MensajeDAO{
     }
 
     
-    public function getChatsUser($opc, $us){
+    public function getChatsUser($opc, $us,$tipo){
 
         $listaChats = [];
 
         try{
-            if(_SESSION["Tipo" == "E"]){
-                
-            }
-            $sql = 'Select * from mensaje where Id_Usuario_E = ? or Id_Usuario_A = ?';
+
+            $sql = "Select DISTINCT CONCAT(u.Nombre, ' ', u.Apellido_P, ' ', u.Apellido_M) AS 'Nombre_Contacto', u.Id_Usuario,u.Foto" +
+            "FROM Mensaje m" +
+            "INNER JOIN Usuario u ON u.Id_Usuario = m.Id_Usuario_Recibe OR u.Id_Usuario = m.Id_Usuario_Envia" +
+            "WHERE Id_Usuario_Envia = ? OR Id_Usuario_Recibe = ?;";
+
+
 
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(1,$us);
             $statement->bindParam(2,$us);
-            /*$statement->bindParam(1,$opc);
-            $statement->bindValue(2,NULL);
-            $statement->bindValue(3,NULL);
-            $statement->bindValue(4,NULL);
-            $statement->bindValue(5,NULL);
-            $statement->bindParam(6,$id);*/
             $statement->execute();
 
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
-                $Id_Mensaje = $row['Id_Mensaje'];
-                $Fecha_Hora = $row['Fecha_Hora'];
-                $Contenido = $row['']
-                if ($tipo == "E"){
-                    
-                    $Titulo = $row['Titulo'];
-                    $Cant_Niveles = $row['Cant_Niveles'];
-                    $Descripcion = $row['Descripcion'];
-                    $Imagen = $row['Imagen'];
-    
-                    $curso = new CursoModel();
-                    $curso->addCursoE($Titulo, $Cant_Niveles, $Descripcion, $Imagen);
-                    $listaCursos[] = $curso;
-                }
 
-                if ($tipo == "A"){
-                    $Titulo = $row['Titulo'];
-                    $Nivel_Actual = $row['Nivel_Actual'];
-                    $Cant_Niveles = $row['Cant_Niveles'];
-                    $Fecha_Inicio = $row['Fecha_Inicio'];
-                    $Fecha_Reciente = $row['Fecha_Reciente'];
-                    $Fecha_Fin = $row['Fecha_Fin'];
-                    $Imagen = $row['Imagen'];
-    
-                    $curso = new CursoModel();
-                    $curso->addCursoA($Titulo, $Nivel_Actual, $Cant_Niveles, $Fecha_Inicio, $Fecha_Reciente, $Fecha_Fin, $Imagen);
-                    $listaCursos[] = $curso;
-                }
+                $Id_Usuario = $row["Nombre_Contacto"];
+                $Nombre = $row["u.Id_Usuario"];
+                $Foto = $row["u.Id_Usuario"];
 
+                $chat = new chatModel();
+                $chat->addChat($Id_Usuario, $Nombre,$Foto);
+                $listaChat[] = $chat;
             }
         }
         catch(PDOException $e){
@@ -106,57 +83,34 @@ class MensajeDAO{
             $statement->closeCursor();
         }
 
-    }
-
-    public function sendMessage($opc,$id,$us){
+        return $listaChats;
 
     }
 
-    public function getMensajesUser($opc, $id, $tipo){
-        
-        $listaCursos = [];
-        
+    public function getMessagesUser($opc, $us,$ous,$tipo){
+        $listaMessages = [];
         try{
-            $sql = 'CALL SP_Cursos(?, ?, ?, ?, ?, ?, ?, ?);';
+
+            $sql = "Select * From Mensaje Where Id_Usuario_Recibe = ? and Id_Usuario_Envia = ? or Id_Usuario_Envia = ? and Id_Usuario_Recibe = ?";
+
 
             $statement = $this->connection->prepare($sql);
-            $statement->bindParam(1,$opc);
-            $statement->bindValue(2,NULL);
-            $statement->bindValue(3,NULL);
-            $statement->bindValue(4,NULL);
-            $statement->bindValue(5,NULL);
-            $statement->bindValue(6,NULL);
-            $statement->bindValue(7,NULL);
-            $statement->bindParam(8,$id);
+            $statement->bindParam(1,$us);
+            $statement->bindParam(2,$ous);
+            $statement->bindParam(3,$ous);
+            $statement->bindParam(4,$us);
             $statement->execute();
 
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
-                
-                if ($tipo == "E"){
-                    $Titulo = $row['Titulo'];
-                    $Cant_Niveles = $row['Cant_Niveles'];
-                    $Descripcion = $row['Descripcion'];
-                    $Imagen = $row['Imagen'];
-    
-                    $curso = new CursoModel();
-                    $curso->addCursoE($Titulo, $Cant_Niveles, $Descripcion, $Imagen);
-                    $listaCursos[] = $curso;
-                }
+                    $Id_Usuario_A = $row["Id_Usuario_Recibe"];
+                    $Id_Usuario_E = $row["Id_Usuario_Envia"];
+                    $Contenido = $row["Contenido"];
+                    $Fecha_Hora = $row["Fecha_Hora"];
+                    $Id_Mensaje = $row["Id_Mensaje"];
 
-                if ($tipo == "A"){
-                    $Titulo = $row['Titulo'];
-                    $Nivel_Actual = $row['Nivel_Actual'];
-                    $Cant_Niveles = $row['Cant_Niveles'];
-                    $Fecha_Inicio = $row['Fecha_Inicio'];
-                    $Fecha_Reciente = $row['Fecha_Reciente'];
-                    $Fecha_Fin = $row['Fecha_Fin'];
-                    $Imagen = $row['Imagen'];
-    
-                    $curso = new CursoModel();
-                    $curso->addCursoA($Titulo, $Nivel_Actual, $Cant_Niveles, $Fecha_Inicio, $Fecha_Reciente, $Fecha_Fin, $Imagen);
-                    $listaCursos[] = $curso;
-                }
-
+                    $msg = new mensajeModel();
+                    $msg->addaddMessageChat($Id_Mensaje,$Fecha_Hora,$Contenido, $Id_Usuario_E,$Id_Usuario_A);
+                    $listaMessages[] = $msg;
             }
         }
         catch(PDOException $e){
@@ -166,6 +120,7 @@ class MensajeDAO{
             $statement->closeCursor();
         }
 
-        return $listaCursos;
+        return $listaMessages;
     }
+
 }

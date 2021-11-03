@@ -4,6 +4,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/usuarioDAO.
 
 session_start();
 
+
 $usuarioDAO = new UsuarioDAO();
 
 $user = new UsuarioModel();

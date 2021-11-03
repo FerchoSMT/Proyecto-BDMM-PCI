@@ -167,7 +167,7 @@
                       <a class="nav-link active" aria-current="page" href="#">Cursos</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="./mensajes.php">Mensaje</a>
+                      <a class="nav-link active" aria-current="page" href="./mensajes.php?id=<?php echo $_SESSION["Id"]?>">Mensaje</a>
                     </li>
 
                   </ul>

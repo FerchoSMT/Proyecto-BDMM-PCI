@@ -6,13 +6,11 @@
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
 
+  $otheru = $_GET["id"];
+  $mensajeDAO = new MensajeDAO();
   
-  $mensajeDAO = new mensajesDAO();
-  $us = new UsuarioModel();
-  $us->addUserID($_SESSION["Id_Usuario"]);
-  $usuario = $usuarioDAO->getUser("VERPF", $us)[0];
-  
-  $chats = $mensajeDAO->getChatsUser("OPCI", $_SESSION["Id_Usuario"]);
+  $chats = $mensajeDAO->getChatsUser("OPCI", $_SESSION["Id_Usuario"],$_SESSION["Tipo"]);
+  $msgs = $mensajeDAO->getMessagesUser("",$_SESSION["Id_Usuario"],$otheru,$_SESSION["Tipo"]);
 
 
 ?>
@@ -123,7 +121,12 @@
             <hr>
 
             <div class="col-2" style="min-height: 500px; max-height: 500px; overflow-y: scroll;">
-
+            <?php foreach($chats as $chat){ ?>
+              <p style="font-size: 110%;"> <img src="data:image/jpeg;base64,<?php echo base64_encode($chat->Foto) ?>" alt="" style="width: 30%;  border-radius:50px; "><a href="./mensajes.php?id=<?php echo $chat->Id_Usuario;?>" style="padding-left: 5px;"><?php echo $chat->Nombre_Usuario?></a>
+              <?php echo ''
+               ?>
+              <hr>
+            <?php } ?>
               <p style="font-size: 110%;"> <img src="./Imagenes/pfp.jpg" alt="" style="width: 30%;  border-radius:50px; "><a href="./mensajes.php" style="padding-left: 5px;">John Doe</a> 
               <hr>
               <p style="font-size: 110%;"> <img src="./Imagenes/pfp.jpg" alt="" style="width: 30%;  border-radius:50px; "><a href="./mensajes.php" style="padding-left: 5px;">Jane Doe</a> 
@@ -132,37 +135,55 @@
             </div>
 
             <div class="col-10">
-              <div class="row  " style="min-height: 440px; max-height: 440px; overflow-y: scroll;">
-                <div class="card text-end">
-                  <div class="card-header">Tu</div>
-                  <div class="card-body">
-                    <p style="font-size: 80%;">Enviado a las 4:22pm 03/09/2021</p>
 
-                  </div>
-                  <div class="card-text" style="padding-right: 2%;">
-                    Cual era la tarea?
-                  </div>
-                </div>
-                <hr>
-                <div class="card">
-                  <div class="card-header">John Doe Doe</div>
-                  <div class="card-body">
-                    <p style="font-size: 80%;">Enviado a las 7:22am 07/09/2021</p>
+              <div class="row  " style="min-height: 440px; max-height: 440px; overflow-y: scroll;">
+                <?php foreach($msgs as $msg){ 
+                  if($msg->Id_Usuario_Envia == $_SESSION["Id"]){
+                    ?>
+                    <div class="card text-end">
+                      <div class="card-header">Tu</div>
+                      <div class="card-body">
+                        <p style="font-size: 80%;">Enviado a las <?php echo $msg->Fecha_Hora ?></p>
+
+                      </div>
+                      <div class="card-text" style="padding-right: 2%;">
+                        <?php echo $msg->Contenido ?>
+                      </div>
+                    </div>
+                    <hr>
+                   
+                <?php }
+                  else{
+                    ?>
+                     <div class="card">
+                      <div class="card-header">El</div>
+                      <div class="card-body">
+                        <p style="font-size: 80%;"> <?php echo $msg->Fecha_Hora ?></p>
+                        
+                      </div>
+                      <div class="card-text" style="padding-left: 2%;">
+                        <?php echo $msg->Contenido ?>
+                      </div>
+                      </div>
+                      <hr>
                     
-                  </div>
-                  <div class="card-text" style="padding-left: 2%;">
-                    Si
-                  </div>
-                </div>
+                    <?php
+                  }
+                 }
+                ?>
+                 
+                
 
                 <div class="container" style="height: 500px;"></div>
 
               </div>
               <br>
 
-              <form action="#">
+              <form action="/Proyecto-BDMM-PCI/php/controllers/cMensajes.php">
                 <div class="mb-3 d-md-flex">
-                  <input id="titulo" style="width: 80%;" class="form-control" type="text" aria-label="default input example">
+                  <input id="id" name="id" value="<?php echo $otheru ?>" style="width: 80%;" class="form-control" type="text" aria-label="default input example" hidden>
+                  
+                  <input id="contenido" name="contenido" style="width: 80%;" class="form-control" type="text" aria-label="default input example">
                   <button type="submit" style=" text-align: center; width:20%;" class=" btn btn-success btn-sm">Enviar</button>
                 </div>
               </form>

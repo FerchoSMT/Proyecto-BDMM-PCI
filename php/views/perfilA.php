@@ -173,7 +173,7 @@
                       <button class="nav-link bg-primary text-white" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Diplomas</button>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="./mensajes.php">Mensaje</a>
+                      <a class="nav-link active" aria-current="page" href="./mensajes.php?id=<?php echo $_SESSION["Id"]?>">Mensaje</a>
                     </li>
                   </ul>
 
