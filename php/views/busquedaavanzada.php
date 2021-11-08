@@ -1,10 +1,22 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
 
 session_start();
   
 $usuarioActivo = 0;
 if (isset($_SESSION["Id_Usuario"])){
     $usuarioActivo = $_SESSION["Id_Usuario"];
+}
+
+$categoriaDAO = new CategoriaDAO();
+$categorias = $categoriaDAO->getCategoria("CATEG");
+
+$cursoDAO = new CursoDAO();
+$cursosBA = [];
+$method = $_SERVER["REQUEST_METHOD"];
+if ($method == "POST"){
+    $cursosBA = $cursoDAO->getCursosBusqueda("BAVAN", $_POST["categoria"], 0, $_POST["titulo"], $_POST["fechai"], $_POST["fechaf"]);
 }
 
 ?>
@@ -100,57 +112,48 @@ if (isset($_SESSION["Id_Usuario"])){
                             Categorias
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="./busqueda.php">Categoria 1</a></li>
-                            <li><a class="dropdown-item" href="./busqueda.php">Categoria 2</a></li>
-                            <li><a class="dropdown-item" href="./busqueda.php">Categoria 3</a></li>
-                            <li><a class="dropdown-item" href="./busqueda.php">Categoria 4</a></li>
-                            <li><a class="dropdown-item" href="./busqueda.php">Categoria 5</a></li>
+                            <?php foreach($categorias as $cat){ ?>
+                                <li><a class="dropdown-item" href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>"><?php echo $cat->Descripcion?></a></li>
+                            <?php } ?>
                         </ul>
                     </li>
                 </ul>
-                <form action="./busqueda.php" class="d-flex">
+                <form action="./busqueda.php" class="d-flex" method="POST" autocomplete="off">
                     <input class="form-control me-2" type="search" placeholder="Escribe para buscar"
-                        aria-label="Search">
+                        name="aBuscar" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
             </div>
         </div>
     </nav>
     <!--Header-->
-
+    
     <!--Cuerpo-->
-    <br>
-    <hr>
 
 
     <div class="row p-4">
-        <form action="">
+        <form name="buscAv" action="./busquedaavanzada.php" method="POST" onsubmit="submitForm();" autocomplete="off">
             <div class="mb-3">
                 <label for="titulo" class="form-label">Maestro:</label>
                 <input id="titulo" name="titulo" class="form-control" type="text" aria-label="default input example">
-                
             </div>
             <div class="mb-3">
                 <label for="categoria" class="form-label">Categoria: </label>
                 <select class="form-select" name="categoria" aria-label="Default select example">
-                    <option selected>Escoge una categoria</option>
-                    <option value="1">Categoria 1</option>
-                    <option value="2">Categoria 2</option>
-                    <option value="3">Categoria 3</option>
+                    <option value="0">Escoja una opción:</option>
+                    <?php foreach($categorias as $cat){ ?>
+                        <option value="<?php echo $cat->Id_Categoria?>"><?php echo $cat->Descripcion?></option>
+                    <?php } ?>
                 </select>
             </div>
             <label for="fecha" class="form-label">Rango de fecha:</label>
             <div class="mb-3 input-group">
-                
                 <br>
                 <input id="fechai" name="fechai" class="form-control" type="date" aria-label="default input example">
-                
                 <input id="fechaf" name="fechaf" class="form-control" type="date" aria-label="default input example">
-                
             </div>
-
             <div class="justify-content-end">
-                <button class="btn btn-primary btn-sm" style="justify-content: end;"><i class="fas fa-search"></i></button>
+                <button type="submit" class="btn btn-primary btn-sm" style="justify-content: end;"><i class="fas fa-search"></i></button>
             </div>
             <br>
         </form>
@@ -158,68 +161,18 @@ if (isset($_SESSION["Id_Usuario"])){
         <h4>Cursos encontrados:</h4>
         <div class="col-12">
             <div class="owl-carousel owl-theme">
-
-                <div class="item">
-                    <div class="card shadow-lg" style="width: 15rem;">
-                        <img src="Imagenes/c.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Curso de C++</h5>
-                            <p class="card-text">Este es un curso de c++.</p>
-                            <a href="./curso.php" class="btn btn-primary">Ir a comprar</a>
+                <?php foreach($cursosBA as $curBA){ ?>
+                    <div class="item">
+                        <div class="card shadow-lg" style="width: 15rem;">
+                        <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($curBA->Imagen).'" class="card-img-top" alt="...">' ?>
+                            <div class="card-body">
+                                <h5 class="card-title"><?php echo $curBA->Titulo ?></h5>
+                                <p class="card-text"><?php echo $curBA->Descripcion ?></p>
+                                <?php echo '<a href="./curso.php?Id_Curso='.$curBA->Id_Curso.'" class="btn btn-primary">Ir al curso</a>' ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="item">
-                    <div class="card shadow-lg" style="width: 15rem;">
-                        <img src="Imagenes/cm.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Curso de C#</h5>
-                            <p class="card-text">Este es un curso de c#</p>
-                            <a href="./curso.php" class="btn btn-primary">Ir a comprar</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="card shadow-lg" style="width: 15rem;">
-                        <img src="Imagenes/c.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Curso de C++</h5>
-                            <p class="card-text">Este es un curso de c++</p>
-                            <a href="./curso.php" class="btn btn-primary">Ir a comprar</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="card shadow-lg" style="width: 15rem;">
-                        <img src="Imagenes/cm.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Curso de C#</h5>
-                            <p class="card-text">Este es un curso de c#</p>
-                            <a href="./curso.php" class="btn btn-primary">Ir a comprar</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="card shadow-lg" style="width: 15rem;">
-                        <img src="Imagenes/c.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Curso de C++</h5>
-                            <p class="card-text">Este es un curso de c++</p>
-                            <a href="./curso.php" class="btn btn-primary">Ir a comprar</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="card shadow-lg" style="width: 15rem;">
-                        <img src="Imagenes/cm.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Curso de C#</h5>
-                            <p class="card-text">Este es un curso de c#</p>
-                            <a href="./curso.php" class="btn btn-primary">Ir a comprar</a>
-                        </div>
-                    </div>
-                </div>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -257,11 +210,11 @@ if (isset($_SESSION["Id_Usuario"])){
                     <h6 class="text-uppercase font-weight-bold">Categorias:</h6>
                     <hr class="bg-success mb-4 mt-0 d-inline-block mx-auto" style="width: 85px; height: 2px;">
                     <ul class="list-unstyled ">
-                        <li class="my-2"><a href="#" class="text-white">Categoria 1</a></li>
-                        <li class="my-2"><a href="#" class="text-white">Categoria 2</a></li>
-                        <li class="my-2"><a href="#" class="text-white">Categoria 3</a></li>
-                        <li class="my-2"><a href="#" class="text-white">Categoria 4</a></li>
-                        <li class="my-2"><a href="#" class="text-white">Categoria 5</a></li>
+                        <?php $i = 0;
+                        foreach($categorias as $cat){ ?>
+                            <li class="mt-1" ><a href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>" class="text-white"><?php echo $cat->Descripcion?></a></li>
+                        <?php if (++$i == 4) break;
+                        } ?>
                     </ul>
                 </div>
 
@@ -327,6 +280,20 @@ if (isset($_SESSION["Id_Usuario"])){
                 }
             })
         });
+    </script>
+
+    <!--VALIDACION FORM-->
+    <script>
+        function submitForm(){
+            var fi = document.forms["buscAv"]["fechai"].value;
+            if (fi == "") {
+                document.forms["buscAv"]["fechai"].value = "9999-12-31";
+            }
+            var ff = document.forms["buscAv"]["fechaf"].value;
+            if (ff == "") {
+                document.forms["buscAv"]["fechaf"].value = "9999-12-31";
+            }
+        }
     </script>
 </body>
 

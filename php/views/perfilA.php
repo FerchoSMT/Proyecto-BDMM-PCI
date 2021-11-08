@@ -1,5 +1,6 @@
 <?php
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/usuarioDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
 
   session_start();
   
@@ -14,6 +15,9 @@
   $usuario = $usuarioDAO->getUser("VERPF", $us)[0];
   
   $cursos = $usuarioDAO->getCursosUser("CURPA", $_GET["Id_Usuario"], "A");
+
+  $categoriaDAO = new CategoriaDAO();
+  $categorias = $categoriaDAO->getCategoria("CATEG");
 
 
 ?>
@@ -100,17 +104,16 @@
                     Categorias
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 1</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 2</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 3</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 4</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 5</a></li>
+                    <?php foreach($categorias as $cat){ ?>
+                        <li><a class="dropdown-item" href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>"><?php echo $cat->Descripcion?></a></li>
+                    <?php } ?>
                   </ul>
                 </li>
               </ul>
-              <form action="./busqueda.php"  class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Escribe para buscar" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Buscar</button>
+              <form action="./busqueda.php" class="d-flex" method="POST" autocomplete="off">
+                    <input class="form-control me-2" type="search" placeholder="Escribe para buscar"
+                        name="aBuscar" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
               </form>
             </div>
           </div>
@@ -204,7 +207,7 @@
                               <p class="card-text">Curso iniciado: <?php echo $cur->Fecha_Inicio ?></p>
                               <p class="card-text">Ingreso a nivel más reciente: <?php echo $cur->Fecha_Reciente ?></p>
                               <p class="card-text">Curso terminado: <?php echo $cur->Fecha_Fin ?></p>
-                              <a href="./curso.php" class="btn btn-primary">Ir al curso</a>
+                              <a href="./curso.php?Id_Curso=<?php echo $cur->Id_Curso?>" class="btn btn-primary">Ir al curso</a>
                             </div>
                           </div>
                           <div class="col-md-4">
@@ -272,11 +275,11 @@
                         <h6 class="text-uppercase font-weight-bold">Categorias:</h6>
                         <hr class="bg-success mb-4 mt-0 d-inline-block mx-auto" style="width: 85px; height: 2px;">
                         <ul class="list-unstyled ">
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 1</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 2</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 3</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 4</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 5</a></li>
+                            <?php $i = 0;
+                            foreach($categorias as $cat){ ?>
+                                <li class="mt-1" ><a href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>" class="text-white"><?php echo $cat->Descripcion?></a></li>
+                            <?php if (++$i == 4) break;
+                            } ?>
                         </ul>
                     </div>
     

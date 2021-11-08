@@ -99,17 +99,16 @@
                   Categorias
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="./busqueda.php">Categoria 1</a></li>
-                  <li><a class="dropdown-item" href="./busqueda.php">Categoria 2</a></li>
-                  <li><a class="dropdown-item" href="./busqueda.php">Categoria 3</a></li>
-                  <li><a class="dropdown-item" href="./busqueda.php">Categoria 4</a></li>
-                  <li><a class="dropdown-item" href="./busqueda.php">Categoria 5</a></li>
+                    <?php foreach($categorias as $cat){ ?>
+                        <li><a class="dropdown-item" href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>"><?php echo $cat->Descripcion?></a></li>
+                    <?php } ?>
                 </ul>
               </li>
             </ul>
-            <form action="./busqueda.php"  class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Escribe para buscar" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Buscar</button>
+            <form action="./busqueda.php" class="d-flex" method="POST" autocomplete="off">
+                <input class="form-control me-2" type="search" placeholder="Escribe para buscar"
+                    name="aBuscar" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
           </div>
         </div>
@@ -123,11 +122,11 @@
 
             <div class="col-12">
                 <form action="/Proyecto-BDMM-PCI/php/controllers/cCreacionCurso.php" id="creacion-curso" class="was-validated" method="POST" enctype="multipart/form-data" autocomplete="off">
-                       
+                       <div class="">
                         <h2 style="text-align: center;">Datos Generales</h2>
                             <div class="row">
                             <div class="col-6">
-                            <legend>Llena los campos para crear tu curso</legend>
+                            <h3>Crea tu curso</h3>
                             <div class="mb-3">
                                 <label for="titulo" class="form-label">Titulo</label>
                                 <input id="titulo" name="titulo" class="form-control" type="text" aria-label="default input example">
@@ -160,8 +159,10 @@
 
                             </div>
                             <div class="col-6">
+
+                            <label for="image" class="form-label" style="margin-top: 41px">Imagen del curso:</label>
                             <div class="mb-4 text-start text-white"style="width: 100%; position: center;">
-                                <label for="image" class="form-label text-white">Imagen del curso:</label>
+                                
                                 <div class="container">
                                     
                                     <div class="wrapper">
@@ -223,12 +224,12 @@
 
 
 
-
-                <div class="d-grid gap-2 col-6 mx-auto">
-                    <button type="submit" class="btn btn-primary btn-sm">Publicar</button>
-                </div>
-                </form>
-
+                        <br>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="submit" class="btn btn-primary btn-sm">Publicar</button>
+                        </div>
+                        </form>
+                    </div>
             </div>
         </div>
 
@@ -267,11 +268,11 @@
                         <h6 class="text-uppercase font-weight-bold">Categorias:</h6>
                         <hr class="bg-success mb-4 mt-0 d-inline-block mx-auto" style="width: 85px; height: 2px;">
                         <ul class="list-unstyled ">
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 1</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 2</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 3</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 4</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 5</a></li>
+                            <?php $i = 0;
+                            foreach($categorias as $cat){ ?>
+                                <li class="mt-1" ><a href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>" class="text-white"><?php echo $cat->Descripcion?></a></li>
+                            <?php if (++$i == 4) break;
+                            } ?>
                         </ul>
                     </div>
     

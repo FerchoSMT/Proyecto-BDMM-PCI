@@ -1,4 +1,6 @@
 <?php
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/nivelDAO.php';
 
   session_start();
   
@@ -6,6 +8,14 @@
   if (isset($_SESSION["Id_Usuario"])){
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
+
+  $categoriaDAO = new CategoriaDAO();
+  $categorias = $categoriaDAO->getCategoria("CATEG");
+
+  $nivelDAO = new NivelDAO();
+  $niv = new NivelModel();
+  $niv->addNivelID($_GET["Id_Nivel"]);
+  $nivel = $nivelDAO->getNivel("NIVEL", $niv)[0];
 
 ?>
 
@@ -90,17 +100,16 @@
                     Categorias
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 1</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 2</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 3</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 4</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 5</a></li>
+                    <?php foreach($categorias as $cat){ ?>
+                        <li><a class="dropdown-item" href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>"><?php echo $cat->Descripcion?></a></li>
+                    <?php } ?>
                   </ul>
                 </li>
               </ul>
-              <form action="./busqueda.php"  class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Escribe para buscar" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Buscar</button>
+              <form action="./busqueda.php" class="d-flex" method="POST" autocomplete="off">
+                    <input class="form-control me-2" type="search" placeholder="Escribe para buscar"
+                        name="aBuscar" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
               </form>
             </div>
           </div>
@@ -112,20 +121,24 @@
 
         <div class="container">
             <div class="row">
-                <iframe width="760" height="515" src="./Archivos/c++.mp4" style="padding-left: 2%;" frameborder="0" allowfullscreen></iframe>
+                <iframe width="760" height="515" src="/<?php echo $nivel->Video ?>" style="padding-left: 2%;" frameborder="0" allowfullscreen></iframe>
             </div>
             <br>
-            <form action="./nivel.php">
-              <div class= "d-grid gap-2 col-4 mx-auto">
-                  <button class="btn btn-lg btn-primary" style="justify-content: center;">Ir al siguiente nivel</button>
-              </div>
-            </form>
-            <br>
             <hr>
-            <h4>Contenido del nivel</h4>
-            <p>En este nivel veremos una introduccion a el curso de c++, el proceso de instalacion del IDE para empezar a programar y un poco mas</p>
-            <br>
-            <img src="./Imagenes/c.png" style="width: 250px;" alt="">
+            <div class="row">
+                <div class="col-3">
+                    <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($nivel->Imagen).'" style="width: 250px;" alt="">' ?>
+                </div>
+                <div class="col-9">
+                    <h4>Contenido del nivel</h4>
+                    <p><?php echo $nivel->Contenido ?></p>
+                    <a href="<?php echo $nivel->Links ?>"><?php echo $nivel->Links ?></a>
+                    <br><br>
+                    <?php if ($nivel->Archivos != ""): ?>
+                        <a href="/<?php echo $nivel->Archivos ?>"><button class="btn btn-primary">Archivo</button></a>
+                    <?php endif ?>
+                </div>
+            </div>
         </div>
 
 
@@ -162,11 +175,11 @@
                         <h6 class="text-uppercase font-weight-bold">Categorias:</h6>
                         <hr class="bg-success mb-4 mt-0 d-inline-block mx-auto" style="width: 85px; height: 2px;">
                         <ul class="list-unstyled ">
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 1</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 2</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 3</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 4</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 5</a></li>
+                            <?php $i = 0;
+                            foreach($categorias as $cat){ ?>
+                                <li class="mt-1" ><a href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>" class="text-white"><?php echo $cat->Descripcion?></a></li>
+                            <?php if (++$i == 4) break;
+                            } ?>
                         </ul>
                     </div>
     

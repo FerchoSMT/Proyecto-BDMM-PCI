@@ -21,7 +21,7 @@ class CursoDAO{
         $idCursoNuevo = -1;
         
         try{
-            $sql = 'CALL SP_Cursos(?, ?, ?, ?, ?, ?, ?, ?);';
+            $sql = 'CALL SP_Cursos(?, ?, ?, ?, ?, ?, ?, ?, null, null, null, null, null);';
 
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(1,$opc);
@@ -54,7 +54,7 @@ class CursoDAO{
         $listaCurso = [];
         
         try{
-            $sql = 'CALL SP_Cursos(?, ?, ?, ?, ?, ?, ?, ?);';
+            $sql = 'CALL SP_Cursos(?, ?, ?, ?, ?, ?, ?, ?, null, null, null, null, null);';
 
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(1,$opc);
@@ -104,7 +104,7 @@ class CursoDAO{
         $listaCursos = [];
         
         try{
-            $sql = 'CALL SP_Cursos(?, ?, ?, ?, ?, ?, ?, ?);';
+            $sql = 'CALL SP_Cursos(?, ?, ?, ?, ?, ?, ?, ?, null, null, null, null, null);';
 
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(1,$opc);
@@ -140,7 +140,45 @@ class CursoDAO{
         return $listaCursos;
     }
 
-    
+    public function getCursosBusqueda($opc, $idcat, $busca, $maestro, $fini, $ffin){
+
+        $listaCursos = [];
+        
+        try{
+            $sql = 'CALL SP_Cursos(?, null, null, null, null, null, null, null, ?, ?, ?, ?, ?);';
+
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(1,$opc);
+            $statement->bindParam(2,$idcat);
+            $statement->bindParam(3,$busca);
+            $statement->bindParam(4,$maestro);
+            $statement->bindParam(5,$fini);
+            $statement->bindParam(6,$ffin);
+            $statement->execute();
+            
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                
+                $Id_Curso = $row['Id_Curso'];
+                $Titulo = $row['Titulo'];
+                $Descripcion = $row['Descripcion'];
+                $Imagen = $row['Imagen'];
+
+                $curso = new CursoModel();
+                $curso->addCursosMain($Id_Curso, $Titulo, $Descripcion, $Imagen);
+                $listaCursos[] = $curso;
+
+            }
+        }
+        catch(PDOException $e){
+            error_log($e->getMessage());
+            echo $e;
+        }
+        finally{
+            $statement->closeCursor();
+        }
+
+        return $listaCursos;
+    }
 
 }
 

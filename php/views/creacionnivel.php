@@ -1,4 +1,5 @@
 <?php
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
 
   session_start();
   
@@ -7,6 +8,11 @@
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
 
+  $categoriaDAO = new CategoriaDAO();
+  $categorias = $categoriaDAO->getCategoria("CATEG");
+
+  $idcurso = $_GET['Id_Curso'];
+  
 ?>
 
 <!DOCTYPE html>
@@ -93,17 +99,16 @@
                   Categorias
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="./busqueda.php">Categoria 1</a></li>
-                  <li><a class="dropdown-item" href="./busqueda.php">Categoria 2</a></li>
-                  <li><a class="dropdown-item" href="./busqueda.php">Categoria 3</a></li>
-                  <li><a class="dropdown-item" href="./busqueda.php">Categoria 4</a></li>
-                  <li><a class="dropdown-item" href="./busqueda.php">Categoria 5</a></li>
+                    <?php foreach($categorias as $cat){ ?>
+                        <li><a class="dropdown-item" href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>"><?php echo $cat->Descripcion?></a></li>
+                    <?php } ?>
                 </ul>
               </li>
             </ul>
-            <form action="./busqueda.php"  class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Escribe para buscar" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Buscar</button>
+            <form action="./busqueda.php" class="d-flex" method="POST" autocomplete="off">
+                <input class="form-control me-2" type="search" placeholder="Escribe para buscar"
+                    name="aBuscar" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
             </form>
           </div>
         </div>
@@ -116,9 +121,8 @@
             
             
             <div class="col-12">
-                <form action="./curso.php" id="creacion-curso" class="was-validated" method="POST" autocomplete="off">
-                
-
+                <form name="creaNiv" action="/Proyecto-BDMM-PCI/php/controllers/cCreacionNivel.php" onsubmit="submitForm();" id="creacion-curso" class="was-validated" method="POST" enctype="multipart/form-data" autocomplete="off">
+                    <input name="idcurso" value="<?php echo $idcurso ?>" type="text" hidden>
                     <div class="" >
                         <h2 style="text-align: center;">Niveles</h2>
                         <h3>Nivel</h3>
@@ -134,17 +138,17 @@
                             </div>
                             
                             <div class="mb-3">
-                                <label for="descripcion" class="form-label">Informacion del nivel</label>
+                                <label for="descripcion" class="form-label">Información del nivel</label>
                                 <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
                             </div>
 
                             <div class="mb-3">
-                                <label for="links" class="form-label">Links del nivel</label>
-                                <textarea class="form-control" name="links" id="links" rows="3"></textarea>
+                                <label for="links" class="form-label">Link del nivel (opcional)</label>
+                                <input type="url" name="links" class="form-control" aria-label="Links">
                             </div>
 
                             <div class="mb-3">
-                            <label for="archivoNivel" class="form-label">Seleccione un archivo para el nivel</label>
+                            <label for="archivoNivel" class="form-label">Seleccione un archivo para el nivel (opcional)</label>
                             <input class="form-control" name="archivoNivel" type="file" id="archivoNivel">
                         </div>
 
@@ -156,7 +160,7 @@
                         </div>
                         <div class="col-6">
 
-                        <label for="image" class="form-label ">Imagen del nivel:</label>
+                        <label for="image" class="form-label">Imagen del nivel:</label>
                         <div class="mb-4 text-start text-white"style="width: 100%; position: center;">
                                
                                 <div class="container">
@@ -217,21 +221,16 @@
                             </script>   
                         </div>
                         </div>
-                        
-
-
-
-
-
-                        
-
-                        
-
-
+                    
+                        <br>
                         <div class="d-grid gap-2 col-6 mx-auto">
                             <button type="submit" class="btn btn-success btn-sm" style="text-align: center;">Agregar Nivel<i class="fas fa-plus"></i></button>
                         </div>
                         <br>
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button type="button" class="btn btn-primary btn-sm" style="text-align: center;"><a class="text-white" href="./curso.php?Id_Curso=<?php echo $idcurso ?>">Finalizar Curso</a></button>
+                        </div>
+                        
                     </div>
                 </form>
 
@@ -273,11 +272,11 @@
                         <h6 class="text-uppercase font-weight-bold">Categorias:</h6>
                         <hr class="bg-success mb-4 mt-0 d-inline-block mx-auto" style="width: 85px; height: 2px;">
                         <ul class="list-unstyled ">
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 1</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 2</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 3</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 4</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 5</a></li>
+                            <?php $i = 0;
+                            foreach($categorias as $cat){ ?>
+                                <li class="mt-1" ><a href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>" class="text-white"><?php echo $cat->Descripcion?></a></li>
+                            <?php if (++$i == 4) break;
+                            } ?>
                         </ul>
                     </div>
     
@@ -329,6 +328,16 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
     <script src="./JScript/aditionalMethods.min.js"></script>
     <script src="./JScript/validation-curso.js"></script>
+
+    <!--VALIDACION FORM-->
+    <script>
+        function submitForm(){
+            var c = document.forms["creaNiv"]["costo"].value;
+            if (c == "") {
+                document.forms["creaNiv"]["costo"].value = "0";
+            }
+        }
+    </script>
 
 </body>
 </html>

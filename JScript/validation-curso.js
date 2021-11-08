@@ -52,10 +52,10 @@ $(document).ready(function(){
                     
                 },
                 nuevaCat:{
-                    letras:true
+                    
                 },
                 desCnew:{
-                    letras:true
+                    
                 },
                 imagenCurso:{
                     required:true,
