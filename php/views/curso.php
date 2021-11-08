@@ -1,5 +1,8 @@
 <?php
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/nivelDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoinscritoDAO.php';
 
   session_start();
   
@@ -13,6 +16,19 @@
   $cur->addCursoID($_GET["Id_Curso"]);
   $curso = $cursoDAO->getCurso("CURSO", $cur)[0];
 
+  $nivelDAO = new NivelDAO();
+  $niv = new NivelModel();
+  $niv->Id_Curso = $_GET["Id_Curso"];
+  $niveles = $nivelDAO->getNivel("NIVCU", $niv);
+  
+  $categoriaDAO = new CategoriaDAO();
+  $categorias = $categoriaDAO->getCategoria("CATEG");
+
+  $cursoinscritoDAO = new CursoInscritoDAO();
+  $comentarios = $cursoinscritoDAO->getComentario("GCMNT", $_GET["Id_Curso"]);
+  $status = $cursoinscritoDAO->getStatus("ESTAT", $usuarioActivo, $_GET["Id_Curso"]);
+
+  echo var_dump($status);
 ?>
 
 <!DOCTYPE html>
@@ -96,17 +112,16 @@
                     Categorias
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 1</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 2</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 3</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 4</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 5</a></li>
+                    <?php foreach($categorias as $cat){ ?>
+                        <li><a class="dropdown-item" href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>"><?php echo $cat->Descripcion?></a></li>
+                    <?php } ?>
                   </ul>
                 </li>
               </ul>
-              <form action="./busqueda.php"  class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Escribe para buscar" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Buscar</button>
+              <form action="./busqueda.php" class="d-flex" method="POST" autocomplete="off">
+                  <input class="form-control me-2" type="search" placeholder="Escribe para buscar"
+                      name="aBuscar" aria-label="Search">
+                  <button class="btn btn-outline-success" type="submit">Buscar</button>
               </form>
             </div>
           </div>
@@ -120,17 +135,21 @@
               <div class="row">
                 <h1 class="mt-4" ><?php echo $curso->Titulo ?>
                 </h1>
-      
               </div>
+
+              <?php if($usuarioActivo == $curso->Id_Usuario): ?>
               <li class="nav-item dropdown ">
                 <a class="nav-link " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="float:right;" >
                   <i class="fas fa-ellipsis-h "></i>
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="./stats.php">Estadísticas</a></li>
+                  <li><a class="dropdown-item" href="#">Editar</a></li>
                   <li><a class="dropdown-item" href="#">Borrar</a></li>
                 </ul>
               </li>
-      
+              <?php endif ?>
+
               <!--Autor + Foto de perfil-->
               <p class="lead"> por <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($curso->Foto_Usuario).'" alt="" style="width:50px; border-radius:25px;padding-left:5px;padding-right:5px;">' ?>
                 <?php echo '<a href="./perfilM.php?Id_Usuario='.$curso->Id_Usuario.'" class="btn btn-primary">'.$curso->Nombre_Usuario.'</a>' ?>
@@ -144,18 +163,16 @@
               <div class="row">
                 <div class="col-7">
                     <?php echo '<img class="img-fluid rounded" src="data:image/jpeg;base64,'.base64_encode($curso->Imagen).'" alt="">' ?>
-                    <!-- <img class="img-fluid rounded" src="http://placehold.it/700x400" alt=""> -->
                     <!--Iconos de valoracion-->
-                    <form action="" class="was-validated" method="GET">
-                    <input  type="hidden" id="idp" name="idp" value="">
-                    <br>
-                    <button class="btn btn-primary btn-sm" type="submit" name="UtilP" >Marcar curso como Util  <i class="fas fa-thumbs-up"></i></button>
+                    <br><br>
 
-                    </form>
+                    <button class="btn btn-primary btn-sm" type="button" name="UtilP" >Marcar curso como Util  <i class="fas fa-thumbs-up"></i></button>
+                    <button class="btn btn-danger btn-sm" type="button" name="NoUtilP" >Marcar curso como No Util  <i class="fas fa-thumbs-down"></i></button>
+                    
                 </div>
                 <div class="col-5">
                     <!--Contenido del post-->   
-                    <h3 style="text-align: center;">Precio del curso: $<?php echo $curso->Costo ?></h3>
+                    <h3>Precio del curso: $<?php echo $curso->Costo ?></h3>
                     <div class="d-grid gap-2">
                       <form action="./pago.php">
                         <div class="m">
@@ -170,63 +187,23 @@
               <hr>
               <h3>Niveles</h3>
               <br>
-              <div class="col-12" style="min-height: 500px; max-height: 500px; overflow-y: scroll;">
+              <div class="col-12" style="min-height: 350px; max-height: 500px; overflow-y: scroll;">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="card shadow-lg" >
-                            <div class="card-body ">
-                              <h5 class="card-title">Nivel 1</h5>
-                              <p class="card-text">Variables</p>
-                              <a href="./pago.php" class="btn btn-primary justify-content-end">Comprar</a>
-                            </div>
-                        </div>
-                        <br>
-                    </div>
-    
-                    <div class="col-12">
-                        <div class="card shadow-lg" >
-                            <div class="card-body ">
-                              <h5 class="card-title">Nivel 2</h5>
-                              <p class="card-text">Condiciones</p>
-                              <a href="./pago.php" class="btn btn-primary justify-content-end">Comprar</a>
-                            </div>
-                        </div>
-                        <br>
-                    </div>
-    
-                    <div class="col-12">
-                        <div class="card shadow-lg" >
-                            <div class="card-body ">
-                              <h5 class="card-title">Nivel 3</h5>
-                              <p class="card-text">Ciclos</p>
-                              <a href="./pago.php" class="btn btn-primary justify-content-end">Comprar</a>
-                            </div>
-                        </div>
-                        <br>
-                    </div>
-    
-                    <div class="col-12">
-                        <div class="card shadow-lg" >
-                            <div class="card-body ">
-                              <h5 class="card-title">Nivel 4</h5>
-                              <p class="card-text">Punteros</p>
-                              <a href="./pago.php" class="btn btn-primary justify-content-end">Comprar</a>
-                            </div>
-                        </div>
-                        <br>
-                    </div>
-    
-                    <div class="col-12">
-                        <div class="card shadow-lg" >
-                            <div class="card-body ">
-                              <h5 class="card-title">Nivel 5</h5>
-                              <p class="card-text">Archivos</p>
-                              <a href="./pago.php" class="btn btn-primary justify-content-end">Comprar</a>
-                            </div>
-                        </div>
-                        <br>
-                    </div>
-    
+                    <?php foreach($niveles as $nv){ ?>
+                      <div class="col-12">
+                          <div class="card shadow-lg" >
+                              <div class="card-body ">
+                                <h5 class="card-title">Nivel <?php echo $nv->Num_Nivel ?></h5>
+                                <?php if ($nv->Costo != 0.0): ?>
+                                  <a href="./pago.php" class="btn btn-primary justify-content-end">Comprar por $<?php echo $nv->Costo ?></a>
+                                <?php else: ?>
+                                  <a href="./nivel.php?Id_Nivel=<?php echo $nv->Id_Nivel ?>" class="btn btn-primary justify-content-end">Ir al nivel</a>
+                                <?php endif ?>
+                                </div>
+                          </div>
+                          <br>
+                      </div>
+                    <?php } ?>
                   </div>
             </div>
 
@@ -236,43 +213,44 @@
               <br>
               <hr>
               <br>
-              <!--Escribe Respuesta-->
+              <!--Escribe Comentario-->
               <div class="card my-4">
                 <h5 class="card-header">Deja un comentario:</h5>
                 <div class="card-body">
-                  <form action="">
+                  <form action="/Proyecto-BDMM-PCI/php/controllers/cComentario.php" method="POST">
+
                     <div class="form-group">
-                      <textarea class="form-control" rows="3"></textarea><br>
+                      <input name="Id_Curso" value="<?php echo $_GET["Id_Curso"] ?>" type="text" hidden>
+                      <textarea name="comentario" class="form-control" rows="3"></textarea><br>
                     </div>
       
-                    <button type="submit" class="btn btn-primary">Publicar</button>
+
+                      <button type="submit" class="btn btn-primary">Publicar</button>
+
+
                   </form>
                 </div>
               </div>
               <hr>
               <h1 class="mt-4">Comentarios</h1>
-              <!--Escribe Respuesta-->
+              <!--Escribe Comentario-->
               <hr>
-              <!--Respuestas-->
-              <div class="media mb-4">
-
-                <p class="lead"> por <img src="./Imagenes/pfp.jpg" alt="" style="width:50px; border-radius:25px;padding-left:5px;padding-right:5px;"><a href="./perfilA.php"> Jane Doe</a> </p>
-                
-                <div class="media-body">
-      
-                  Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                </div>
-
-                <br>
-
-                <!--Respuesta correcta-->
-      
-      
-                <br>
-                <hr>
+              <!--Comentarios-->
+              <div class="col-12" style="min-height: 300px; max-height: 500px; overflow-y: scroll;">
+                <?php foreach($comentarios as $com){ ?>
+                  <div class="media mb-4">
+                    <p class="lead"> por <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($com->Foto_Usuario).'" alt="" style="width:50px; border-radius:25px;padding-left:5px;padding-right:5px;">' ?>
+                      <a href="./perfilA.php?Id_Usuario=<?php echo $com->Id_Usuario ?>"> <?php echo $com->Nombre_Usuario ?></a> 
+                    </p>
+                    <div class="media-body">
+                    <?php echo $com->Comentario ?>
+                    </div>
+                    <hr>
+                  </div>
+                <?php } ?>
               </div>
       
-              <!--Respuestas-->
+              <!--Comentarios-->
       
             </div>
       
@@ -313,11 +291,11 @@
                         <h6 class="text-uppercase font-weight-bold">Categorias:</h6>
                         <hr class="bg-success mb-4 mt-0 d-inline-block mx-auto" style="width: 85px; height: 2px;">
                         <ul class="list-unstyled ">
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 1</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 2</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 3</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 4</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 5</a></li>
+                            <?php $i = 0;
+                            foreach($categorias as $cat){ ?>
+                                <li class="mt-1" ><a href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>" class="text-white"><?php echo $cat->Descripcion?></a></li>
+                            <?php if (++$i == 4) break;
+                            } ?>
                         </ul>
                     </div>
     

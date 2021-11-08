@@ -111,7 +111,7 @@ class UsuarioDAO{
         $listaCursos = [];
         
         try{
-            $sql = 'CALL SP_Cursos(?, ?, ?, ?, ?, ?, ?, ?);';
+            $sql = 'CALL SP_Cursos(?, ?, ?, ?, ?, ?, ?, ?, null, null, null, null, null);';
 
             $statement = $this->connection->prepare($sql);
             $statement->bindParam(1,$opc);
@@ -127,17 +127,19 @@ class UsuarioDAO{
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
                 
                 if ($tipo == "E"){
+                    $Id_Curso = $row['Id_Curso'];
                     $Titulo = $row['Titulo'];
                     $Cant_Niveles = $row['Cant_Niveles'];
                     $Descripcion = $row['Descripcion'];
                     $Imagen = $row['Imagen'];
     
                     $curso = new CursoModel();
-                    $curso->addCursoE($Titulo, $Cant_Niveles, $Descripcion, $Imagen);
+                    $curso->addCursoE($Id_Curso, $Titulo, $Cant_Niveles, $Descripcion, $Imagen);
                     $listaCursos[] = $curso;
                 }
 
                 if ($tipo == "A"){
+                    $Id_Curso = $row['Id_Curso'];
                     $Titulo = $row['Titulo'];
                     $Nivel_Actual = $row['Nivel_Actual'];
                     $Cant_Niveles = $row['Cant_Niveles'];
@@ -147,7 +149,7 @@ class UsuarioDAO{
                     $Imagen = $row['Imagen'];
     
                     $curso = new CursoModel();
-                    $curso->addCursoA($Titulo, $Nivel_Actual, $Cant_Niveles, $Fecha_Inicio, $Fecha_Reciente, $Fecha_Fin, $Imagen);
+                    $curso->addCursoA($Id_Curso, $Titulo, $Nivel_Actual, $Cant_Niveles, $Fecha_Inicio, $Fecha_Reciente, $Fecha_Fin, $Imagen);
                     $listaCursos[] = $curso;
                 }
 

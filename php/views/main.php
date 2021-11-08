@@ -1,4 +1,5 @@
 <?php
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
 
     session_start();
@@ -7,6 +8,9 @@
     if (isset($_SESSION["Id_Usuario"])){
       $usuarioActivo = $_SESSION["Id_Usuario"];
     }
+
+    $categoriaDAO = new CategoriaDAO();
+    $categorias = $categoriaDAO->getCategoria("CATEG");
 
     $cursoDAO = new CursoDAO();
     $cursosVendidos = $cursoDAO->getCursosMain("+VEND");
@@ -104,23 +108,22 @@
                     Categorias
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 1</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 2</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 3</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 4</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 5</a></li>
+                    <?php foreach($categorias as $cat){ ?>
+                        <li><a class="dropdown-item" href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>"><?php echo $cat->Descripcion?></a></li>
+                    <?php } ?>
                   </ul>
                 </li>
               </ul>
-              <form action="./busqueda.php"  class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Escribe para buscar" aria-label="Search">
+              <form action="./busqueda.php" class="d-flex" method="POST" autocomplete="off">
+                <input class="form-control me-2" type="search" placeholder="Escribe para buscar"
+                    name="aBuscar" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Buscar</button>
               </form>
             </div>
           </div>
         </nav>
         <!--Header-->
-          <br>
+        <br>
         <!--Cuerpo-->
 
           <?php if (isset($_SESSION["Id_Usuario"])): ?>
@@ -145,8 +148,7 @@
                                 <div class="card-body">
                                 <h5 class="card-title"><?php echo $curV->Titulo ?></h5>
                                 <p class="card-text"><?php echo $curV->Descripcion ?></p>
-                                <?php echo '<a href="./curso.php?Id_Curso='.$curV->Id_Curso.'" class="btn btn-primary">Ir a comprar</a>'; ?>
-                                <!-- <a href="./curso.php" class="btn btn-primary">Ir a comprar</a> -->
+                                <?php echo '<a href="./curso.php?Id_Curso='.$curV->Id_Curso.'" class="btn btn-primary">Ir al curso</a>'; ?>
                                 </div>
                             </div></div>
                         <?php } ?>
@@ -164,8 +166,7 @@
                                 <div class="card-body">
                                 <h5 class="card-title"><?php echo $curC->Titulo ?></h5>
                                 <p class="card-text"><?php echo $curC->Descripcion ?></p>
-                                <?php echo '<a href="./curso.php?Id_Curso='.$curC->Id_Curso.'" class="btn btn-primary">Ir a comprar</a>'; ?>
-                                <!-- <a href="./curso.php" class="btn btn-primary">Ir a comprar</a> -->
+                                <?php echo '<a href="./curso.php?Id_Curso='.$curC->Id_Curso.'" class="btn btn-primary">Ir al curso</a>'; ?>
                                 </div>
                             </div></div>
                         <?php } ?>
@@ -183,8 +184,7 @@
                                 <div class="card-body">
                                 <h5 class="card-title"><?php echo $curR->Titulo ?></h5>
                                 <p class="card-text"><?php echo $curR->Descripcion ?></p>
-                                <?php echo '<a href="./curso.php?Id_Curso='.$curR->Id_Curso.'" class="btn btn-primary">Ir a comprar</a>' ?>
-                                <!-- <a href="./curso.php" class="btn btn-primary">Ir a comprar</a> -->
+                                <?php echo '<a href="./curso.php?Id_Curso='.$curR->Id_Curso.'" class="btn btn-primary">Ir al curso</a>' ?>
                                 </div>
                             </div></div>
                         <?php } ?>
@@ -202,8 +202,7 @@
                                 <div class="card-body">
                                 <h5 class="card-title"><?php echo $cur->Titulo ?></h5>
                                 <p class="card-text"><?php echo $cur->Descripcion ?></p>
-                                <?php echo '<a href="./curso.php?Id_Curso='.$cur->Id_Curso.'" class="btn btn-primary">Ir a comprar</a>'; ?>
-                                <!-- <a href="./curso.php" class="btn btn-primary">Ir a comprar</a> -->
+                                <?php echo '<a href="./curso.php?Id_Curso='.$cur->Id_Curso.'" class="btn btn-primary">Ir al curso</a>'; ?>
                                 </div>
                             </div></div>
                         <?php } ?>
@@ -244,11 +243,11 @@
                         <h6 class="text-uppercase font-weight-bold">Categorias:</h6>
                         <hr class="bg-success mb-4 mt-0 d-inline-block mx-auto" style="width: 85px; height: 2px;">
                         <ul class="list-unstyled ">
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 1</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 2</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 3</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 4</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 5</a></li>
+                            <?php $i = 0;
+                            foreach($categorias as $cat){ ?>
+                                <li class="mt-1" ><a href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>" class="text-white"><?php echo $cat->Descripcion?></a></li>
+                            <?php if (++$i == 4) break;
+                            } ?>
                         </ul>
                     </div>
     

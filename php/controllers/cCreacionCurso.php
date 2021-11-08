@@ -25,10 +25,12 @@ if (!empty($_POST['categoria'])){
     }
 }
 
-$cat->Descripcion = $_POST['titulo'];
-$cat->Id_Usuario = $_SESSION['Id_Usuario'];
+if (!empty($_POST['nuevaCat'])){
+    $cat->Descripcion = $_POST['nuevaCat'];
+    $cat->Id_Usuario = $_SESSION['Id_Usuario'];
+    $catAux = $categoriaDAO->iudCategoria("NUEVA", $cat);
+    $categoriaDAO->categoriaCurso("CATCU", $catAux, $cursoAux);
+}
 
-$catAux = $cursoDAO->iudCurso("", $curso);
-
-header("Location: /Proyecto-BDMM-PCI/php/views/creacionnivel.php");
+header("Location: /Proyecto-BDMM-PCI/php/views/creacionnivel.php?Id_Curso=".$cursoAux);
 exit;
