@@ -25,6 +25,7 @@ $_SESSION["Id_Usuario"] = $userAux;
 $_SESSION["Tipo"] = $user->Tipo;
 
 if ($user->Tipo == "E"){
+    
     header("Location: /Proyecto-BDMM-PCI/php/views/perfilM.php?Id_Usuario=".$_SESSION["Id_Usuario"]);
 }
 else{
