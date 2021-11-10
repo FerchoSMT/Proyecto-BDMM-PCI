@@ -10,9 +10,10 @@
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
 
-  $curso = $_GET["id"];
-  $cursoDAO = new cursoDAO() ;
-  $curso_comprar = $cursoDAO->getCurso("CURSO",$curso);
+  $cursoDAO = new CursoDAO();
+  $cur = new CursoModel();
+  $cur->addCursoID($_GET["Id_Curso"]);
+  $curso_comprar = $cursoDAO->getCurso("CURSO", $cur)[0];
   
   $categoriaDAO = new CategoriaDAO();
   $categorias = $categoriaDAO->getCategoria("CATEG");
@@ -129,45 +130,37 @@
             <div class="container">
                 <div class="row">
 
-                    <h3  style="text-align: center;"><?php echo $curso_comprar->Titulo ?></h3>
-                    <h3 style="text-align: center;"><?php echo $curso_comprar->Nombre_Usuario ?></h2>
+                    <h3 style="text-align: center;"><?php echo $curso_comprar->Titulo ?> por <?php echo $curso_comprar->Nombre_Usuario ?></h3>
+                    <h4 style="text-align: center;">Precio: $<?php echo $curso_comprar->Costo ?></h4>
                       <br>
                       <div class="row">
                         <div  style="text-align: center;">
-                          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($curso_comprar->Imagen).'" style="width: 75%;" alt="">' ?>
-                            <img class="img-fluid rounded" style="text-align: center;" src="http://placehold.it/900x500" alt="">
-                            <br>
-                            <h4 style="text-align: center;"> Precio: <?php echo $curso_comprar->Costo ?></h4>
-                            <form action="/Proyecto-BDMM-PCI/php/controllers/cPaypal.php" method="post">
-                            <div class="row">
-                              <div class="col-3">
-                                
+                          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($curso_comprar->Imagen).'" style="width: 40%;" alt="">' ?>
+                            <br><br>
+                            <form action="/Proyecto-BDMM-PCI/php/controllers/cPaypal.php" method="POST">
+                              <div class="row">
+                                <div class="col-3">
+                                  
+                                </div>
+                                <div class="col-6 d-grid text-align: center; padding-top: 3%;">
+                                  <input type="hidden" name="id_curso" value="<?php echo $curso_comprar->Id_Curso ?>">
+                                  <input type="hidden" name="metodo" value="2">
+                                  <button type="submit" id="insert" class="btn btn-primary"> <i class="fab fa-cc-paypal" style="font-size: 50px;"></i> </button>
+                                </div>
                               </div>
-                              <div class="col-6 d-grid text-align: center; padding-top: 3%;">
-                                <input type="hidden" name="id_curso" value="<?php echo $curso;?>">
-                                <input type="hidden" name="metodo" value="2">
-                                <button type="submit" id="insert" class="btn btn-primary"> <i class="fab fa-cc-paypal" style="font-size: 50px;"></i> </button>
-                              </div>
-                            </div>
                             </form>
-                          </div>
-                        <br>
+                        </div>
                       </div>
                     
-                    <br>
                     <!--button class="btn btn-light"> <p style="vertical-align: middle;">Pago con Tarjeta</p><i class="fab fa-cc-visa" style="font-size: 300%; color:navy;"></i>
                         <i class="fab fa-cc-amex" style="color:blue; font-size: 300%;"></i>
                         <i class="fab fa-cc-mastercard" style="color:red; font-size: 300%;"></i>
                         <i class="fab fa-cc-discover" style="color:orange; font-size: 300%;"></i>
                     </button-->
 
-
-
-
                 </div>
             </div>
         <!--Cuerpo-->
-        <hr>
         <br>
         <br>
         <!--Footer-->

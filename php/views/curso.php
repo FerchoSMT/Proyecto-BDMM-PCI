@@ -26,9 +26,13 @@
 
   $cursoinscritoDAO = new CursoInscritoDAO();
   $comentarios = $cursoinscritoDAO->getComentario("GCMNT", $_GET["Id_Curso"]);
-  $status = $cursoinscritoDAO->getStatus("ESTAT", $usuarioActivo, $_GET["Id_Curso"]);
+  if ($usuarioActivo != 0){
+    $usInscrito = $cursoinscritoDAO->getStatus("ESTAT", $usuarioActivo, $_GET["Id_Curso"]);
+    if (!empty($usInscrito)){
+      $status = $cursoinscritoDAO->getStatus("ESTAT", $usuarioActivo, $_GET["Id_Curso"])[0];
+    }
+  }
 
-  echo var_dump($status);
 ?>
 
 <!DOCTYPE html>
@@ -166,19 +170,52 @@
                     <!--Iconos de valoracion-->
                     <br><br>
 
-                    <button class="btn btn-primary btn-sm" type="button" name="UtilP" >Marcar curso como Util  <i class="fas fa-thumbs-up"></i></button>
-                    <button class="btn btn-danger btn-sm" type="button" name="NoUtilP" >Marcar curso como No Util  <i class="fas fa-thumbs-down"></i></button>
-                    
+                    <?php if (!empty($status->Fecha_Fin)): ?>
+
+                      <?php if ($status->Calificacion == "1.0"): ?>
+                        <button class="btn btn-primary" type="button" name="UtilP">Curso Útil<i class="fas fa-thumbs-up"></i></button>
+                      <?php else: ?>
+                        <button class="btn btn-primary btn-sm" type="button" name="UtilP">
+                          <a class="text-white" href="/Proyecto-BDMM-PCI/php/controllers/cCalificacion.php?Id_Curso=<?php echo $_GET["Id_Curso"] ?>&Cal=1">Curso Útil  </a>
+                          <i class="fas fa-thumbs-up"></i>
+                        </button>
+                      <?php endif ?>
+
+                      <?php if ($status->Calificacion == "0.0"): ?>
+                        <button class="btn btn-danger" type="button" name="NoUtilP">Curso No Útil<i class="fas fa-thumbs-down"></i></button>
+                      <?php else: ?>
+                        <button class="btn btn-danger btn-sm" type="button" name="NoUtilP">
+                          <a class="text-white" href="/Proyecto-BDMM-PCI/php/controllers/cCalificacion.php?Id_Curso=<?php echo $_GET["Id_Curso"] ?>&Cal=0">Curso No Útil  </a>
+                          <i class="fas fa-thumbs-down"></i>
+                        </button>
+                      <?php endif ?>
+
+                    <?php endif ?>
+
                 </div>
                 <div class="col-5">
                     <!--Contenido del post-->   
                     <h3>Precio del curso: $<?php echo $curso->Costo ?></h3>
                     <div class="d-grid gap-2">
-                      <form action="./pago.php">
-                        <div class="m">
-                    <button class="btn btn-lg btn-primary ">Comprar</button>
-                  </div>
-                  </form>
+                      <div class="m">
+                        <?php if ($usuarioActivo != 0): ?>
+                            <?php if ($_SESSION["Tipo"] == "A"): ?>
+                                <?php if (empty($usInscrito)): ?>
+                                    <button class="btn btn-lg btn-primary" type="button">
+                                        <a class="text-white" href="./pago.php?Id_Curso=<?php echo $_GET["Id_Curso"] ?>">Comprar</a>
+                                    </button>
+                                <?php else: ?>
+                                    <button class="btn btn-lg btn-primary" type="button" style="pointer-events:none;">
+                                        <a class="text-white" href="#">Curso Comprado</a>
+                                    </button>
+                                <?php endif ?>
+                            <?php endif ?>
+                        <?php else: ?>
+                            <button class="btn btn-lg btn-primary" type="button">
+                                <a class="text-white" href="./login.php">Comprar</a>
+                            </button>
+                        <?php endif ?>
+                      </div>
                     </div>
                     <p class="contenido_post"><br><?php echo $curso->Descripcion ?></p>
                 </div>
@@ -187,19 +224,23 @@
               <hr>
               <h3>Niveles</h3>
               <br>
-              <div class="col-12" style="min-height: 350px; max-height: 500px; overflow-y: scroll;">
+              <div class="col-12" style="min-height: 250px; max-height: 250px; overflow-y: scroll;">
                 <div class="row">
                     <?php foreach($niveles as $nv){ ?>
                       <div class="col-12">
                           <div class="card shadow-lg" >
                               <div class="card-body ">
                                 <h5 class="card-title">Nivel <?php echo $nv->Num_Nivel ?></h5>
-                                <?php if ($nv->Costo != 0.0): ?>
-                                  <a href="./pago.php" class="btn btn-primary justify-content-end">Comprar por $<?php echo $nv->Costo ?></a>
+                                <?php if (empty($usInscrito)): ?>
+                                    <a href="#" style="pointer-events:none;" class="btn btn-primary justify-content-end">Comprar Curso para ver Niveles</a>
                                 <?php else: ?>
-                                  <a href="./nivel.php?Id_Nivel=<?php echo $nv->Id_Nivel ?>" class="btn btn-primary justify-content-end">Ir al nivel</a>
+                                    <?php if ($status->Nivel_Actual >= $nv->Num_Nivel): ?>
+                                        <a href="./nivel.php?Id_Nivel=<?php echo $nv->Id_Nivel ?>" class="btn btn-primary justify-content-end">Ir al Nivel</a>
+                                    <?php else: ?>
+                                        <a href="./pagonivel.php" class="btn btn-primary justify-content-end">Adquirir por $<?php echo $nv->Costo ?></a>
+                                    <?php endif ?>
                                 <?php endif ?>
-                                </div>
+                              </div>
                           </div>
                           <br>
                       </div>
@@ -214,24 +255,22 @@
               <hr>
               <br>
               <!--Escribe Comentario-->
-              <div class="card my-4">
-                <h5 class="card-header">Deja un comentario:</h5>
-                <div class="card-body">
-                  <form action="/Proyecto-BDMM-PCI/php/controllers/cComentario.php" method="POST">
-
-                    <div class="form-group">
-                      <input name="Id_Curso" value="<?php echo $_GET["Id_Curso"] ?>" type="text" hidden>
-                      <textarea name="comentario" class="form-control" rows="3"></textarea><br>
-                    </div>
-      
-
+              <?php if (!empty($status->Fecha_Fin) && empty($status->Comentario)): ?>
+                <div class="card my-4">
+                  <h5 class="card-header">Deja un comentario:</h5>
+                  <div class="card-body">
+                    <form action="/Proyecto-BDMM-PCI/php/controllers/cComentario.php" method="POST">
+                      <div class="form-group">
+                        <input name="Id_Curso" value="<?php echo $_GET["Id_Curso"] ?>" type="text" hidden>
+                        <textarea name="comentario" class="form-control" rows="3"></textarea><br>
+                      </div>
                       <button type="submit" class="btn btn-primary">Publicar</button>
-
-
-                  </form>
+                    </form>
+                  </div>
                 </div>
-              </div>
-              <hr>
+                <hr>
+              <?php endif ?>
+
               <h1 class="mt-4">Comentarios</h1>
               <!--Escribe Comentario-->
               <hr>

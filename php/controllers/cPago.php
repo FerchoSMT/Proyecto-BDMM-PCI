@@ -1,16 +1,17 @@
 <?php 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/Model/cursoModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoinscritoDAO.php';
 
 session_start();
 
-$id_curso = $_GET["curso"];
-$id_user = $_SESSION["Id_Usuario"];
+$ciDAO = new CursoInscritoDAO();
+$ci = new CursoInscritoModel();
 
-//Metodo DAO para agregar al usuario a un curso como comprador
-$cursoDAO = new cursoDAO();
+$ci->Nivel_Actual = $_GET["na"];
+$ci->Forma_Pago = $_GET["fp"];
+$ci->Id_Usuario = $_SESSION["Id_Usuario"];
+$ci->Id_Curso = $_GET["curso"];
 
-$cursoDAO->inCurso("ADNIV", $id_curso);
-//$cursoDAO->addUser($id_curso,$id_user);
+$ciDAO->inCursoInscrito("ADNIV", $ci);
 
-header("Location: /Proyecto-BDMM-PCI/php/view/curso?Id_Curso=".$id_curso);
+header("Location: /Proyecto-BDMM-PCI/php/views/curso.php?Id_Curso=".$ci->Id_Curso);
+exit();

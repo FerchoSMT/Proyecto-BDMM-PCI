@@ -10,8 +10,6 @@ $comentario = new CursoInscritoModel();
 $comentario->Comentario = $_POST["comentario"];
 $comentario->Id_Usuario = $_SESSION["Id_Usuario"];
 $comentario->Id_Curso = $_POST["Id_Curso"];
-        
-echo var_dump($comentario);
 
 if (empty($comentario->Comentario)){
     header("Location: /Proyecto-BDMM-PCI/php/views/curso.php?Id_Curso=".$comentario->Id_Curso);

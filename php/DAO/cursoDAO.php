@@ -40,7 +40,7 @@ class CursoDAO{
             
         }
         catch(PDOException $e){
-            echo($e->getMessage());
+            error_log($e->getMessage());
         }
         finally{
             $statement->closeCursor();
@@ -171,7 +171,6 @@ class CursoDAO{
         }
         catch(PDOException $e){
             error_log($e->getMessage());
-            echo $e;
         }
         finally{
             $statement->closeCursor();
