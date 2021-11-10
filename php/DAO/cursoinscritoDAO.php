@@ -16,6 +16,33 @@ class CursoInscritoDAO{
         $this->connection = null;
     }
 
+    public function inCursoInscrito($opc, $ci){
+
+        try{
+            $sql = "CALL SP_CursoInscrito(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(1,$opc);
+            $statement->bindValue(2,null);
+            $statement->bindParam(3,$ci->Nivel_Actual);
+            $statement->bindValue(4,null);
+            $statement->bindValue(5,null);
+            $statement->bindValue(6,null);
+            $statement->bindParam(7,$ci->Forma_Pago);
+            $statement->bindParam(8,$ci->Id_Usuario);
+            $statement->bindParam(9,$ci->Id_Curso);
+            $statement->execute();
+        }
+        catch(PDOException $e){
+            error_log($e->getMessage());
+            echo $e;
+        }
+        finally{
+            $statement->closeCursor();
+        }
+
+    }
+
     public function getStatus($opc, $us, $cur){
 
         $listaStatus = [];
@@ -49,13 +76,39 @@ class CursoInscritoDAO{
             }
         }
         catch(PDOException $e){
-            echo($e->getMessage());
+            error_log($e->getMessage());
         }
         finally{
             $statement->closeCursor();
         }
 
         return $listaStatus;
+    }
+
+    public function inCalificacion($opc, $cal){
+
+        try{
+            $sql = "CALL SP_CursoInscrito(?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(1,$opc);
+            $statement->bindValue(2,null);
+            $statement->bindValue(3,null);
+            $statement->bindParam(4,$cal->Calificacion);
+            $statement->bindValue(5,null);
+            $statement->bindValue(6,null);
+            $statement->bindValue(7,null);
+            $statement->bindParam(8,$cal->Id_Usuario);
+            $statement->bindParam(9,$cal->Id_Curso);
+            $statement->execute();
+        }
+        catch(PDOException $e){
+            error_log($e->getMessage());
+        }
+        finally{
+            $statement->closeCursor();
+        }
+
     }
 
     public function inComentario($opc, $cmnt){
@@ -76,8 +129,7 @@ class CursoInscritoDAO{
             $statement->execute();
         }
         catch(PDOException $e){
-            echo($e->getMessage());
-            echo $e;
+            error_log($e->getMessage());
         }
         finally{
             $statement->closeCursor();
@@ -119,7 +171,6 @@ class CursoInscritoDAO{
         }
         catch(PDOException $e){
             error_log($e->getMessage());
-            echo $e;
         }
         finally{
             $statement->closeCursor();

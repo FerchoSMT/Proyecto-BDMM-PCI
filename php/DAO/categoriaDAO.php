@@ -37,7 +37,7 @@ class CategoriaDAO{
             
         }
         catch(PDOException $e){
-            echo($e->getMessage());
+            error_log($e->getMessage());
         }
         finally{
             $statement->closeCursor();
@@ -98,7 +98,7 @@ class CategoriaDAO{
             $statement->execute();
         }
         catch(PDOException $e){
-            echo($e->getMessage());
+            error_log($e->getMessage());
         }
         finally{
             $statement->closeCursor();

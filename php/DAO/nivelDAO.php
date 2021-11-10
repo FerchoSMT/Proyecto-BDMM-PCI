@@ -42,7 +42,7 @@ class NivelDAO{
             
         }
         catch(PDOException $e){
-            echo($e->getMessage());
+            error_log($e->getMessage());
         }
         finally{
             $statement->closeCursor();
