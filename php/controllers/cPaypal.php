@@ -10,10 +10,15 @@ $id = $_SESSION['Id_Usuario'];
 
 
 
-$fields = [ 'cmd' => '_cart', 'upload'=> '1', 'business' => 'sb-sdpov8270418@business.example.com','currency_code' => 'MXN', 'lc'=>'MX','rm'=>'2',
-'return'=>'http://localhost/Proyecto-BDMM-PCI/php/controllers/cPago?curso='.$curso_id->Id_Curso,
-'cancel_return' => 'http://localhost/Proyecto-BDMM-PCI/php/view/curso?Id_Curso='.$curso_id->Id_Curso,
-'notify_url' => 'http://localhost/Proyecto-BDMM-PCI/php/view/curso?Id_Curso='.$curso_id->Id_Curso
+$fields = [ 'cmd' => '_cart',
+ 'upload'=> '1',
+  'business' => 'sb-sdpov8270418@business.example.com',
+  'currency_code' => 'MXN',
+   'lc'=>'MX',
+   'rm'=>'2',
+    'return'=>'http://localhost/Proyecto-BDMM-PCI/php/controllers/cPago?curso='.$curso_id->Id_Curso,
+    'cancel_return' => 'http://localhost/Proyecto-BDMM-PCI/php/view/curso?Id_Curso='.$curso_id->Id_Curso,
+    'notify_url' => 'http://localhost/Proyecto-BDMM-PCI/php/view/curso?Id_Curso='.$curso_id->Id_Curso
 ];
 
 //recibir el curso o  nivel que se vaya a comprar por que lo vamos a mandar

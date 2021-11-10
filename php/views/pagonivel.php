@@ -1,11 +1,25 @@
 <?php
 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/Model/cursoModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/Model/nivelModel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/nivelDAO.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
+
   session_start();
   
   $usuarioActivo = 0;
   if (isset($_SESSION["Id_Usuario"])){
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
+
+  $curso = $_GET["id"];
+  $cursoDAO = new cursoDAO() ;
+  $curso_comprar = $cursoDAO->getCurso("CURSO",$curso);
+  
+  $nivel = $_GET["idn"];
+  $nivelDAO = new nivelDAO();
+  $nivel_comprar = $nivelDAO->getNivel("NIVEL",$nivel)
 
 ?>
 
@@ -119,16 +133,15 @@
         <!--Cuerpo-->
             <div class="container">
                 <div class="row">
-                    <h2 style="text-align: center;">Escoja su forma de pago</h2>
-                    <h3  style="text-align: center;">Curso de C++</h3>
-                    <h3 style="text-align: center;">Instruido por John Doe Doe</h2>
-                    <h3  style="text-align: center;">Nivel N</h3>
+                    <h3  style="text-align: center;"><?php echo $curso_comprar->Titulo ?></h3>
+                    <h3 style="text-align: center;"><?php echo $curso_comprar->Nombre_Usuario ?></h2>
+                    <h3  style="text-align: center;">Nivel <?php echo $nivel_comprar->Num_Nivel ?></h3>
                       <br>
                       <div class="row">
                         <div  style="text-align: center;">
                             <img class="img-fluid rounded" style="text-align: center;" src="http://placehold.it/900x500" alt="">
                             <br>
-                            <h4 style="text-align: center;"> Precio: 2500$</h4>
+                            <h4 style="text-align: center;"> Precio: <?php echo $nivel_comprar->Costo ?>$</h4>
                             <form action="/Proyecto-BDMM-PCI/php/controllers/cPagoNivel.php" method="post">
                             <input type="hidden" name="cmd" value="_click">
                             <div class="row">
@@ -136,8 +149,8 @@
                                 
                               </div>
                               <div class="col-6 d-grid text-align: center; padding-top: 3%;">
-                                <input type="hidden" name="id_curso" value="<?php echo "as"; //Poner el curso aqui;?>">
-                                <input type="hidden" name="id_nivel" value="<?php echo "as"; //Poner el curso aqui;?>">
+                                <input type="hidden" name="id_curso" value="<?php echo $nivel; "as"; ?>">
+                                <input type="hidden" name="id_nivel" value="<?php echo $nivel; "as"; ?>">
                                 <button type="submit" id="insert" class="btn btn-primary"> <i class="far fa-credit-card" style="font-size: 50px;"></i> </button>
                               </div>
                             </div>
