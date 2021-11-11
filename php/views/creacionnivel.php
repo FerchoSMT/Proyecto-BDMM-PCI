@@ -129,7 +129,7 @@
                         <div class="row">
                         <div class="col-6">
 
-                            <label for="formCosto" class="form-label">Costo del nivel (opcional)</label>
+                            <label for="formCosto" class="form-label">Costo del nivel (opcional):</label>
                             <div class="input-group mb-3">
 
                                 <span class="input-group-text">$</span>
@@ -138,23 +138,23 @@
                             </div>
                             
                             <div class="mb-3">
-                                <label for="descripcion" class="form-label">Información del nivel</label>
+                                <label for="descripcion" class="form-label">Información del nivel:</label>
                                 <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
                             </div>
 
                             <div class="mb-3">
-                                <label for="links" class="form-label">Link del nivel (opcional)</label>
+                                <label for="links" class="form-label">Link del nivel (opcional):</label>
                                 <input type="url" name="links" class="form-control" aria-label="Links">
                             </div>
 
                             <div class="mb-3">
-                            <label for="archivoNivel" class="form-label">Seleccione un archivo para el nivel (opcional)</label>
+                            <label for="archivoNivel" class="form-label">Seleccione un archivo para el nivel (opcional):</label>
                             <input class="form-control" name="archivoNivel" type="file" id="archivoNivel">
                         </div>
 
                             
                         <div class="mb-3">
-                            <label for="formVideo" class="form-label">Seleccione un video para el nivel</label>
+                            <label for="formVideo" class="form-label">Seleccione un video para el nivel:</label>
                             <input class="form-control" name="videoNivel" type="file" id="formVideo">
                         </div>
                         </div>

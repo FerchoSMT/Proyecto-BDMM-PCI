@@ -1,6 +1,7 @@
 <?php
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/nivelDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
 
   session_start();
   
@@ -16,6 +17,11 @@
   $niv = new NivelModel();
   $niv->addNivelID($_GET["Id_Nivel"]);
   $nivel = $nivelDAO->getNivel("NIVEL", $niv)[0];
+
+  $cursoDAO = new CursoDAO();
+  $cur = new CursoModel();
+  $cur->addCursoID($nivel->Id_Curso);
+  $curso = $cursoDAO->getCurso("CURSO", $cur)[0];
 
 ?>
 
@@ -129,13 +135,27 @@
                 <div class="col-3">
                     <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($nivel->Imagen).'" style="width: 250px;" alt="">' ?>
                 </div>
-                <div class="col-9">
+                <div class="col-8">
                     <h4>Contenido del nivel</h4>
                     <p><?php echo $nivel->Contenido ?></p>
                     <a href="<?php echo $nivel->Links ?>"><?php echo $nivel->Links ?></a>
                     <br><br>
                     <?php if ($nivel->Archivos != ""): ?>
                         <a href="/<?php echo $nivel->Archivos ?>"><button class="btn btn-primary">Archivo</button></a>
+                    <?php endif ?>
+                </div>
+                <div class="col-1">
+                    <?php if($usuarioActivo == $curso->Id_Usuario): ?>
+                        <li class="nav-item dropdown ">
+                        <a class="nav-link " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="float:right;" >
+                            <i style="font-size:20px;" class="fas fa-ellipsis-h "></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <?php if ($curso->Activo == 1): ?>
+                                <li><a class="dropdown-item" href="./editnivel.php?Id_Nivel=<?php echo $nivel->Id_Nivel ?>">Editar</a></li>
+                            <?php endif ?>
+                        </ul>
+                        </li>
                     <?php endif ?>
                 </div>
             </div>

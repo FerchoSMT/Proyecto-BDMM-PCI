@@ -39,15 +39,27 @@ class CursoInscritoModel {
         $this->Foto_Usuario = $Foto_Usuario;
     }
 
-    public function addStatus($Nivel_Actual, $Fecha_Fin, $Calificacion, $Comentario){
+    public function addStatus($Nivel_Actual, $Fecha_Fin, $Calificacion, $Comentario, $Forma_Pago){
         $this->Nivel_Actual = $Nivel_Actual;
         $this->Fecha_Fin = $Fecha_Fin;
         $this->Calificacion = $Calificacion;
         $this->Comentario = $Comentario;
+        $this->Forma_Pago = $Forma_Pago;
     }
 
-    public function addComentario($Comentario, $Id_Usuario, $Nombre_Usuario, $Foto_Usuario){
+    public function addComentario($Comentario, $Calificacion, $Id_Usuario, $Nombre_Usuario, $Foto_Usuario){
         $this->Comentario = $Comentario;
+        $this->Calificacion = $Calificacion;
+        $this->Id_Usuario = $Id_Usuario;
+        $this->Nombre_Usuario = $Nombre_Usuario;
+        $this->Foto_Usuario = $Foto_Usuario;
+    }
+
+    public function addUserCurso($Nivel_Actual, $Fecha_Inicio, $Pago_Total, $Forma_Pago, $Id_Usuario, $Nombre_Usuario, $Foto_Usuario){
+        $this->Nivel_Actual = $Nivel_Actual;
+        $this->Fecha_Inicio = $Fecha_Inicio;
+        $this->Pago_Total = $Pago_Total;
+        $this->Forma_Pago = $Forma_Pago;
         $this->Id_Usuario = $Id_Usuario;
         $this->Nombre_Usuario = $Nombre_Usuario;
         $this->Foto_Usuario = $Foto_Usuario;

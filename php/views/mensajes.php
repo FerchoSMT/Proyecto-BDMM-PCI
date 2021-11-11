@@ -143,7 +143,7 @@
                     <div class="card text-end">
                       <div class="card-header" style="font-size: 80%; color: gray;"> <?php echo $msg->Nombre_Usuario_Envia ?> </div>
                       <div class="card-body">
-                        <p style="font-size: 80%; color: gray;">Enviado: <?php echo $msg->Fecha_Hora ?></p>
+                        <p style="font-size: 80%; color: gray;">Enviado: <?php echo date("d-M-Y H:i:s", strtotime($msg->Fecha_Hora)) ?></p>
                       </div>
                       <div class="card-text" style="padding-right: 2%;">
                         <?php echo $msg->Contenido ?>
@@ -157,7 +157,7 @@
                      <div class="card">
                       <div class="card-header" style="font-size: 80%; color: gray;"> <?php echo $msg->Nombre_Usuario_Envia ?> </div>
                       <div class="card-body">
-                        <p style="font-size: 80%; color: gray;">Enviado: <?php echo $msg->Fecha_Hora ?></p>
+                        <p style="font-size: 80%; color: gray;">Enviado: <?php echo date("d-M-Y H:i:s", strtotime($msg->Fecha_Hora)) ?></p>
                         
                       </div>
                       <div class="card-text" style="padding-left: 2%;">

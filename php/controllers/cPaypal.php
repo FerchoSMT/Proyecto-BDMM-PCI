@@ -33,9 +33,4 @@ if($id_fp == 2){
     exit();
 }
 
-
-echo "<script> alert('Compra realizada con exito'); windoe.location.href='./perfilA.php';</script>";
 die();
-
-
-

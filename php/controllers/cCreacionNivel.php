@@ -33,7 +33,7 @@ if (move_uploaded_file($tmpName, $finalPath)) {
     $nivel->Video = $finalPath;
 }
 // ARCHIVO
-if (!empty($_FILES['archivoNivel'])){
+if ($_FILES["archivoNivel"]["size"] != 0){
     $newName = str_replace('.', '', microtime(true));
     $name = $_FILES['archivoNivel']['name'];
     $ext = pathinfo($name, PATHINFO_EXTENSION);

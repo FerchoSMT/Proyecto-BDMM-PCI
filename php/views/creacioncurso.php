@@ -128,16 +128,16 @@
                             <div class="col-6">
                             <h3>Crea tu curso</h3>
                             <div class="mb-3">
-                                <label for="titulo" class="form-label">Titulo</label>
+                                <label for="titulo" class="form-label">Titulo:</label>
                                 <input id="titulo" name="titulo" class="form-control" type="text" aria-label="default input example">
                             </div>
             
                             <div class="mb-3">
-                                <label for="descripcion" class="form-label">Descripcion del curso</label>
+                                <label for="descripcion" class="form-label">Descripcion del curso:</label>
                                 <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
                             </div>
 
-                            <label for="costo" class="form-label">Costo del curso (opcional)</label>
+                            <label for="costo" class="form-label">Costo del curso (opcional):</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">$</span>
                                 <input type="number" name="costo" class="form-control" aria-label="Costo">
@@ -145,7 +145,7 @@
                             </div>
             
                             <div class="mb-3">
-                                <label for="categoria" class="form-label">Categoria: </label>
+                                <label for="categoria" class="form-label">Categoria:</label>
                                 <select class="form-select" name="categoria[]" aria-label="Default select example" multiple>
                                     <?php foreach($categorias as $cat){ ?>
                                         <option value="<?php echo $cat->Id_Categoria ?>"><?php echo $cat->Descripcion ?></option>
@@ -153,7 +153,7 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="categorianew" class="form-label">Añadir nueva categoria (opcional)</label>
+                                <label for="categorianew" class="form-label">Añadir nueva categoria (opcional):</label>
                                 <input id="categorianew" class="form-control" name="nuevaCat" type="text" aria-label="default input example">
                             </div>
 

@@ -16,6 +16,8 @@
 
   $cursos = $usuarioDAO->getCursosUser("CURPE", $_GET["Id_Usuario"], "E");
 
+  $ing = $usuarioDAO->getIngresos("INGRE", $usuarioActivo)[0];
+
   $categoriaDAO = new CategoriaDAO();
   $categorias = $categoriaDAO->getCategoria("CATEG");
 
@@ -185,36 +187,71 @@
                   </ul>
 
                   <br>
-
-                  <?php foreach($cursos as $cur){ ?>
-                  <div class="card">
-                    <div class="row g-0">
-                      <div class="col-md-8">
-                        <div class="card-header">
-                          <?php echo $cur->Titulo ?>
+                  
+                  <div style="min-height: 500px; max-height: 500px; overflow-y: scroll;">
+                    <?php foreach($cursos as $cur){ ?>
+                      <?php if($usuarioActivo == $usuario->Id_Usuario): ?>
+                        <div class="card">
+                          <div class="row g-0">
+                            <div class="col-md-8">
+                              <div class="card-header">
+                                <?php echo $cur->Titulo ?>
+                              </div>
+                              <div class="card-body">
+                                <p class="card-text">Alumnos inscritos: <?php echo $cur->Alumnos_Inscritos ?></p>
+                                <p class="card-text">Nivel promedio de alumnos: <?php echo (int)$cur->Nivel_Promedio ?> de <?php echo $cur->Cant_Niveles ?> niveles</p>
+                                <p class="card-text">Ingresos de este curso: $<?php echo number_format($cur->Ingreso_Curso, 2) ?></p>
+                                <a href="./curso.php?Id_Curso=<?php echo $cur->Id_Curso?>" class="btn btn-primary">Ir al curso</a>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                                <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($cur->Imagen).'" style="width: 90%;" alt="">' ?>
+                            </div>
+                          </div>
                         </div>
-                        <div class="card-body">
-                          <h5 class="card-title"><?php echo $cur->Cant_Niveles ?> niveles</h5>
-                          <p class="card-text"><?php echo $cur->Descripcion ?></p>
-                          <a href="./curso.php?Id_Curso=<?php echo $cur->Id_Curso?>" class="btn btn-primary">Ir al curso</a>
+                      <?php else: ?>
+                        <div class="card">
+                          <div class="row g-0">
+                            <div class="col-md-8">
+                              <div class="card-header">
+                                <?php echo $cur->Titulo ?>
+                              </div>
+                              <div class="card-body">
+                                <h5 class="card-title"><?php echo $cur->Cant_Niveles ?> niveles</h5>
+                                <p class="card-text"><?php echo $cur->Descripcion ?></p>
+                                <a href="./curso.php?Id_Curso=<?php echo $cur->Id_Curso?>" class="btn btn-primary">Ir al curso</a>
+                              </div>
+                            </div>
+                            <div class="col-md-4">
+                                <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($cur->Imagen).'" style="width: 90%;" alt="">' ?>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                        <div class="col-md-4">
-                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($cur->Imagen).'" style="width: 90%;" alt="">' ?>
-                        </div>
-                    </div>
+                      <?php endif ?>
+                    <?php } ?>
                   </div>
-                  <?php } ?>
 
                   <br>
-
-                  <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center ">
-                      <li class="page-item"><a class="page-link" href="#">Previo</a></li>
-
-                      <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+                  <?php if($usuarioActivo == $usuario->Id_Usuario): ?>
+                    <ul class="nav nav-pills justify-content-center bg-none">
+                      <li class="nav-item">
+                        <p class="nav-link bg-info" style="text-align:center; width:200px;">
+                          Ingresos por Tarjeta:<br>$<?php echo number_format($ing->Ingresos_Tarjeta, 2) ?>
+                        </p>
+                      </li>
+                      <li class="nav-item">
+                        <p class="nav-link bg-info" style="text-align:center; width:200px;">
+                          Ingresos por PayPal:<br>$<?php echo number_format($ing->Ingresos_Paypal, 2) ?>
+                        </p>
+                      </li>
+                      <li class="nav-item">
+                        <p class="nav-link bg-info" style="text-align:center; width:200px;">
+                          Ingreso Total:<br>$<?php echo number_format($ing->Ingreso_Total, 2) ?>
+                        </p>
+                      </li>
                     </ul>
-                  </nav>
+                  <?php endif ?>
+                  
                 </div>
             </div>
         </div>

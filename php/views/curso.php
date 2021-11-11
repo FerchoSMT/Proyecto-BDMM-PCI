@@ -141,65 +141,53 @@
                 </h1>
               </div>
 
-              <?php if($usuarioActivo == $curso->Id_Usuario): ?>
-              <li class="nav-item dropdown ">
-                <a class="nav-link " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="float:right;" >
-                  <i class="fas fa-ellipsis-h "></i>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="./stats.php">Estadísticas</a></li>
-                  <li><a class="dropdown-item" href="#">Editar</a></li>
-                  <li><a class="dropdown-item" href="#">Borrar</a></li>
-                </ul>
-              </li>
-              <?php endif ?>
-
-              <!--Autor + Foto de perfil-->
-              <p class="lead"> por <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($curso->Foto_Usuario).'" alt="" style="width:50px; border-radius:25px;padding-left:5px;padding-right:5px;">' ?>
-                <?php echo '<a href="./perfilM.php?Id_Usuario='.$curso->Id_Usuario.'" class="btn btn-primary">'.$curso->Nombre_Usuario.'</a>' ?>
-              </p>
+              <!--Autor + Foto de perfil + Opciones-->
+              <div class="row">
+                <div class="col-11">
+                  <p class="lead"> por <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($curso->Foto_Usuario).'" alt="" style="width:50px; border-radius:25px;padding-left:5px;padding-right:5px;">' ?>
+                    <?php echo '<a href="./perfilM.php?Id_Usuario='.$curso->Id_Usuario.'" class="btn btn-primary">'.$curso->Nombre_Usuario.'</a>' ?>
+                  </p>
+                </div>
+                <div class="col-1">
+                  <?php if($usuarioActivo == $curso->Id_Usuario): ?>
+                    <li class="nav-item dropdown ">
+                      <a class="nav-link " href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="float:right;" >
+                        <i style="font-size:20px;" class="fas fa-ellipsis-h "></i>
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="./stats.php?Id_Curso=<?php echo $curso->Id_Curso ?>">Estadísticas</a></li>
+                        <?php if ($curso->Activo == 1): ?>
+                            <li><a class="dropdown-item" href="./editcurso.php?Id_Curso=<?php echo $curso->Id_Curso ?>">Editar</a></li>
+                            <li><a class="dropdown-item" href="/Proyecto-BDMM-PCI/php/controllers/cBorrarCurso.php?Id_Curso=<?php echo $curso->Id_Curso ?>">Borrar</a></li>
+                        <?php endif ?>
+                      </ul>
+                    </li>
+                  <?php endif ?>
+                </div>
+              </div>
               
               <hr>
               <!--Fecha de la publicacion-->
-              <p class="fecha_publicacion" style="font-size: 80%;"> Publicado el <?php echo $curso->Fecha_Creacion ?></p>
+              <p class="fecha_publicacion" style="font-size: 80%;"> Publicado el <?php echo date("d-M-Y", strtotime($curso->Fecha_Creacion)) ?></p>
               <hr>
               <!--Imagen de la publicacion-->
               <div class="row">
                 <div class="col-7">
                     <?php echo '<img class="img-fluid rounded" src="data:image/jpeg;base64,'.base64_encode($curso->Imagen).'" alt="">' ?>
-                    <!--Iconos de valoracion-->
                     <br><br>
-
-                    <?php if (!empty($status->Fecha_Fin)): ?>
-
-                      <?php if ($status->Calificacion == "1.0"): ?>
-                        <button class="btn btn-primary" type="button" name="UtilP">Curso Útil<i class="fas fa-thumbs-up"></i></button>
-                      <?php else: ?>
-                        <button class="btn btn-primary btn-sm" type="button" name="UtilP">
-                          <a class="text-white" href="/Proyecto-BDMM-PCI/php/controllers/cCalificacion.php?Id_Curso=<?php echo $_GET["Id_Curso"] ?>&Cal=1">Curso Útil  </a>
-                          <i class="fas fa-thumbs-up"></i>
-                        </button>
-                      <?php endif ?>
-
-                      <?php if ($status->Calificacion == "0.0"): ?>
-                        <button class="btn btn-danger" type="button" name="NoUtilP">Curso No Útil<i class="fas fa-thumbs-down"></i></button>
-                      <?php else: ?>
-                        <button class="btn btn-danger btn-sm" type="button" name="NoUtilP">
-                          <a class="text-white" href="/Proyecto-BDMM-PCI/php/controllers/cCalificacion.php?Id_Curso=<?php echo $_GET["Id_Curso"] ?>&Cal=0">Curso No Útil  </a>
-                          <i class="fas fa-thumbs-down"></i>
-                        </button>
-                      <?php endif ?>
-
-                    <?php endif ?>
-
                 </div>
                 <div class="col-5">
-                    <!--Contenido del post-->   
-                    <h3>Precio del curso: $<?php echo $curso->Costo ?></h3>
+                    <!--Contenido del post-->
+                    <?php if ($curso->Activo == 1): ?>
+                        <h3>Precio del curso: $<?php echo number_format($curso->Costo, 2) ?></h3>
+                        <p class="contenido_post"><?php echo $curso->Descripcion ?></p>
+                    <?php else: ?>
+                        <h3>Curso Eliminado</h3>
+                    <?php endif ?>
                     <div class="d-grid gap-2">
                       <div class="m">
                         <?php if ($usuarioActivo != 0): ?>
-                            <?php if ($_SESSION["Tipo"] == "A"): ?>
+                            <?php if ($_SESSION["Tipo"] == "A" && $curso->Activo == 1): ?>
                                 <?php if (empty($usInscrito)): ?>
                                     <button class="btn btn-lg btn-primary" type="button">
                                         <a class="text-white" href="./pago.php?Id_Curso=<?php echo $_GET["Id_Curso"] ?>">Comprar</a>
@@ -217,79 +205,100 @@
                         <?php endif ?>
                       </div>
                     </div>
-                    <p class="contenido_post"><br><?php echo $curso->Descripcion ?></p>
                 </div>
 
               </div>
-              <hr>
-              <h3>Niveles</h3>
-              <br>
-              <div class="col-12" style="min-height: 250px; max-height: 250px; overflow-y: scroll;">
-                <div class="row">
-                    <?php foreach($niveles as $nv){ ?>
-                      <div class="col-12">
-                          <div class="card shadow-lg" >
-                              <div class="card-body ">
-                                <h5 class="card-title">Nivel <?php echo $nv->Num_Nivel ?></h5>
-                                <?php if (empty($usInscrito)): ?>
-                                    <a href="#" style="pointer-events:none;" class="btn btn-primary justify-content-end">Comprar Curso para ver Niveles</a>
-                                <?php else: ?>
-                                    <?php if ($status->Nivel_Actual >= $nv->Num_Nivel): ?>
-                                        <a href="./nivel.php?Id_Nivel=<?php echo $nv->Id_Nivel ?>" class="btn btn-primary justify-content-end">Ir al Nivel</a>
-                                    <?php else: ?>
-                                        <a href="./pagonivel.php" class="btn btn-primary justify-content-end">Adquirir por $<?php echo $nv->Costo ?></a>
-                                    <?php endif ?>
-                                <?php endif ?>
-                              </div>
-                          </div>
-                          <br>
-                      </div>
-                    <?php } ?>
-                  </div>
-            </div>
 
+              <?php if ($curso->Activo == 1): ?>
 
-              <!--Contenido del post-->
-
-              <br>
-              <hr>
-              <br>
-              <!--Escribe Comentario-->
-              <?php if (!empty($status->Fecha_Fin) && empty($status->Comentario)): ?>
-                <div class="card my-4">
-                  <h5 class="card-header">Deja un comentario:</h5>
-                  <div class="card-body">
-                    <form action="/Proyecto-BDMM-PCI/php/controllers/cComentario.php" method="POST">
-                      <div class="form-group">
-                        <input name="Id_Curso" value="<?php echo $_GET["Id_Curso"] ?>" type="text" hidden>
-                        <textarea name="comentario" class="form-control" rows="3"></textarea><br>
-                      </div>
-                      <button type="submit" class="btn btn-primary">Publicar</button>
-                    </form>
-                  </div>
-                </div>
+                <!--Lista de niveles-->
                 <hr>
-              <?php endif ?>
-
-              <h1 class="mt-4">Comentarios</h1>
-              <!--Escribe Comentario-->
-              <hr>
-              <!--Comentarios-->
-              <div class="col-12" style="min-height: 300px; max-height: 500px; overflow-y: scroll;">
-                <?php foreach($comentarios as $com){ ?>
-                  <div class="media mb-4">
-                    <p class="lead"> por <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($com->Foto_Usuario).'" alt="" style="width:50px; border-radius:25px;padding-left:5px;padding-right:5px;">' ?>
-                      <a href="./perfilA.php?Id_Usuario=<?php echo $com->Id_Usuario ?>"> <?php echo $com->Nombre_Usuario ?></a> 
-                    </p>
-                    <div class="media-body">
-                    <?php echo $com->Comentario ?>
+                <h3>Niveles</h3>
+                <br>
+                <div class="col-12" style="min-height: 250px; max-height: 250px; overflow-y: scroll;">
+                    <div class="row">
+                      <?php foreach($niveles as $nv){ ?>
+                        <div class="col-12">
+                            <div class="card shadow-lg" >
+                                <div class="card-body ">
+                                  <h5 class="card-title">Nivel <?php echo $nv->Num_Nivel ?></h5>
+                                  <?php if (empty($usInscrito) && $curso->Id_Usuario != $usuarioActivo): ?>
+                                      <a href="#" style="pointer-events:none;" class="btn btn-primary justify-content-end">Comprar Curso para ver Niveles</a>
+                                  <?php else: ?>
+                                      <?php if ($curso->Id_Usuario == $usuarioActivo): ?>
+                                          <a href="./nivel.php?Id_Nivel=<?php echo $nv->Id_Nivel ?>" class="btn btn-primary justify-content-end">Ir al Nivel</a>
+                                      <?php elseif ($status->Nivel_Actual >= $nv->Num_Nivel || $curso->Id_Usuario == $usuarioActivo): ?>
+                                          <a href="./nivel.php?Id_Nivel=<?php echo $nv->Id_Nivel ?>" class="btn btn-primary justify-content-end">Ir al Nivel</a>
+                                      <?php elseif ($status->Nivel_Actual + 1 == $nv->Num_Nivel): ?>
+                                          <a href="./pagonivel.php?Id_Curso=<?php echo $_GET["Id_Curso"] ?>&Id_Nivel=<?php echo $nv->Id_Nivel ?>" class="btn btn-primary justify-content-end">Adquirir por $<?php echo number_format($nv->Costo, 2) ?></a>
+                                      <?php else: ?>
+                                          <a href="#" style="pointer-events:none;" class="btn btn-primary justify-content-end">Adquirir el nivel anterior</a>
+                                      <?php endif ?>
+                                  <?php endif ?>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                      <?php } ?>
                     </div>
-                    <hr>
+                </div>
+
+
+                <!--Contenido del post-->
+
+                <br>
+                <hr>
+                <br>
+                <!--Escribe Comentario-->
+                <?php if (!empty($status->Fecha_Fin) && empty($status->Comentario)): ?>
+                  <div class="card my-4">
+                    <h5 class="card-header">Deja un comentario:</h5>
+                    <div class="card-body">
+                      <form action="/Proyecto-BDMM-PCI/php/controllers/cComentario.php" method="POST">
+                        <div class="form-group">
+                          <input name="Id_Curso" value="<?php echo $_GET["Id_Curso"] ?>" type="text" hidden>
+                          <textarea name="comentario" class="form-control" rows="3"></textarea><br>
+                            <label for="calificacion" class="form-label">Calificación:</label>
+                            <select class="form-select" style="width:15%;" name="calificacion" aria-label="Default select example">
+                              <option value="1">Curso Útil</option>
+                              <option value="0">Curso No Útil</option>
+                            </select>
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Publicar</button>
+                      </form>
+                    </div>
                   </div>
-                <?php } ?>
-              </div>
-      
-              <!--Comentarios-->
+                  <hr>
+                <?php endif ?>
+
+                <h1 class="mt-4">Comentarios</h1>
+                <!--Escribe Comentario-->
+                <hr>
+                <!--Comentarios-->
+                <div class="col-12" style="min-height: 300px; max-height: 500px; overflow-y: scroll;">
+                  <?php foreach($comentarios as $com){ ?>
+                    <div class="media mb-4">
+                      <p class="lead"><?php echo '<img src="data:image/jpeg;base64,'.base64_encode($com->Foto_Usuario).'" alt="" style="width:50px; border-radius:25px;padding-left:5px;padding-right:5px;">' ?>
+                        <a href="./perfilA.php?Id_Usuario=<?php echo $com->Id_Usuario ?>"> <?php echo $com->Nombre_Usuario ?></a> 
+                        calificó como 
+                        <?php if ($com->Calificacion == 1): ?>
+                          <span style="color:green;">Curso Útil <i class="fas fa-thumbs-up"></i></span>
+                        <?php else: ?>
+                          <span style="color:red;">Curso No Útil <i class="fas fa-thumbs-down"></i></span>
+                        <?php endif ?>
+                      </p>
+                      <div class="media-body">
+                        <?php echo $com->Comentario ?>
+                      </div>
+                      <hr>
+                    </div>
+                  <?php } ?>
+                </div>
+        
+                <!--Comentarios-->
+
+              <?php endif ?>
       
             </div>
       

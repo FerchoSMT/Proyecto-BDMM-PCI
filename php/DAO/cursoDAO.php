@@ -82,9 +82,10 @@ class CursoDAO{
                 $Id_Usuario = $row['Id_Usuario'];
                 $Nombre_Usuario = $row['Nombre_Usuario'];
                 $Foto_Usuario = $row['Foto_Usuario'];
+                $Ingreso_Curso = $row['Ingreso_Curso'];
 
                 $curso = new CursoModel();
-                $curso->addCurso($Id_Curso, $Titulo, $Descripcion, $Fecha_Creacion, $Cant_Niveles, $Costo, $Imagen, $Promedio, $Vacio, $Activo, $Id_Usuario, $Nombre_Usuario, $Foto_Usuario);
+                $curso->addCurso($Id_Curso, $Titulo, $Descripcion, $Fecha_Creacion, $Cant_Niveles, $Costo, $Imagen, $Promedio, $Vacio, $Activo, $Id_Usuario, $Nombre_Usuario, $Foto_Usuario, $Ingreso_Curso);
                 $listaCurso[] = $curso;
 
             }

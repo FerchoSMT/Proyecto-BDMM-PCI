@@ -68,7 +68,7 @@
 </head>
 <body>
         <!--Header-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark"style=" width: 100%; top:0px;" >
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style=" width: 100%; top:0px;" >
             <div class="container-fluid" >
               <a class="navbar-brand" href="./main.php"><img src="./Imagenes/Logo.png" width="50" alt="Error de carga"></a>
               <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -122,13 +122,12 @@
 
         <!--Cuerpo-->
             <div class="container">
-
-                <hr>
+                <br>
                 <h3>Editar Perfil</h3>
                 <div class="row">
                     <div class="col-12">
                       
-                    <form id="editar-perfil" action="/Proyecto-BDMM-PCI/php/controllers/cEditarPerfil.php" method="POST" enctype="multipart/form-data">
+                    <form id="editar-perfil" action="/Proyecto-BDMM-PCI/php/controllers/cEditarPerfil.php" method="POST" enctype="multipart/form-data" autocomplete="off">
                     <input name="Id_Usuario" type="hidden" value="<?php echo $usuario->Id_Usuario?>">
                     <div class=" ">
                              
@@ -235,10 +234,19 @@
                                 <div class="form-group">
                                     <label for="genero" class="form-label ">Genero:</label>
                                     <select name="genero" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                                      <option value="" selected disabled><?php echo $usuario->Genero?></option>
-                                      <option value="Hombre">Hombre</option>
-                                      <option value="Mujer">Mujer</option>
-                                      <option value="Otro">Otro</option>
+                                      <?php if ($usuario->Genero == "Hombre"): ?>
+                                        <option value="Hombre" selected>Hombre</option>
+                                        <option value="Mujer">Mujer</option>
+                                        <option value="Otro">Otro</option>
+                                      <?php elseif ($usuario->Genero == "Mujer"): ?>
+                                        <option value="Hombre">Hombre</option>
+                                        <option value="Mujer" selected>Mujer</option>
+                                        <option value="Otro">Otro</option>
+                                      <?php else: ?>
+                                        <option value="Hombre">Hombre</option>
+                                        <option value="Mujer">Mujer</option>
+                                        <option value="Otro" selected>Otro</option>
+                                      <?php endif ?>
                                     </select>
                                 </div>
                               </div>
@@ -256,10 +264,7 @@
                         </form>
                     </div>
                 </div>
-                <hr>
-
-
-                <hr>
+            </div>
             </div>
         <!--Cuerpo-->
         <br>

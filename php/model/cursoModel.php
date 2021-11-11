@@ -21,11 +21,15 @@ class CursoModel {
     public $Fecha_Reciente;
     public $Fecha_Fin;
 
+    public $Alumnos_Inscritos;
+    public $Nivel_Promedio;
+    public $Ingreso_Curso;
+
     public function addCursoID($Id_Curso){
         $this->Id_Curso = $Id_Curso;
     }
 
-    public function addCurso($Id_Curso, $Titulo, $Descripcion, $Fecha_Creacion, $Cant_Niveles, $Costo, $Imagen, $Promedio, $Vacio, $Activo, $Id_Usuario, $Nombre_Usuario, $Foto_Usuario){
+    public function addCurso($Id_Curso, $Titulo, $Descripcion, $Fecha_Creacion, $Cant_Niveles, $Costo, $Imagen, $Promedio, $Vacio, $Activo, $Id_Usuario, $Nombre_Usuario, $Foto_Usuario, $Ingreso_Curso){
         $this->Id_Curso = $Id_Curso;
         $this->Titulo = $Titulo;
         $this->Descripcion = $Descripcion;
@@ -39,14 +43,18 @@ class CursoModel {
         $this->Id_Usuario = $Id_Usuario;
         $this->Nombre_Usuario = $Nombre_Usuario;
         $this->Foto_Usuario = $Foto_Usuario;
+        $this->Ingreso_Curso = $Ingreso_Curso;
     }
 
-    public function addCursoE($Id_Curso, $Titulo, $Cant_Niveles, $Descripcion, $Imagen){
+    public function addCursoE($Id_Curso, $Titulo, $Cant_Niveles, $Descripcion, $Imagen, $Alumnos_Inscritos, $Nivel_Promedio, $Ingreso_Curso){
         $this->Id_Curso = $Id_Curso;
         $this->Titulo = $Titulo;
         $this->Cant_Niveles = $Cant_Niveles;
         $this->Descripcion = $Descripcion;
         $this->Imagen = $Imagen;
+        $this->Alumnos_Inscritos = $Alumnos_Inscritos;
+        $this->Nivel_Promedio = $Nivel_Promedio;
+        $this->Ingreso_Curso = $Ingreso_Curso;
     }
 
     public function addCursoA($Id_Curso, $Titulo, $Nivel_Actual, $Cant_Niveles, $Fecha_Inicio, $Fecha_Reciente, $Fecha_Fin, $Imagen){

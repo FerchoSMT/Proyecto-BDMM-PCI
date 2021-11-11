@@ -1,4 +1,5 @@
 <?php
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
 
   session_start();
@@ -7,6 +8,11 @@
   if (isset($_SESSION["Id_Usuario"])){
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
+
+  $cursoDAO = new CursoDAO();
+  $cur = new CursoModel();
+  $cur->addCursoID($_GET["Id_Curso"]);
+  $curso = $cursoDAO->getCurso("CURSO", $cur)[0];
 
   $categoriaDAO = new CategoriaDAO();
   $categorias = $categoriaDAO->getCategoria("CATEG");
@@ -120,20 +126,20 @@
             
 
             <div class="col-12">
-                <form action="" id="edit-curso" class="was-validated" method="POST" enctype="multipart/form-data" autocomplete="off">
-                       <div class="">
-                        
+                <form action="/Proyecto-BDMM-PCI/php/controllers/cEditarCurso.php" id="edit-curso" class="was-validated" method="POST" enctype="multipart/form-data" autocomplete="off">
+                    <input name="Id_Curso" type="hidden" value="<?php echo $curso->Id_Curso?>">
+                        <div class="">
                             <div class="row">
                             <div class="col-6">
                             <h3>Editar curso</h3>
                             <div class="mb-3">
-                                <label for="titulo" class="form-label">Titulo</label>
-                                <input id="titulo" name="titulo" class="form-control" type="text" aria-label="default input example">
+                                <label for="titulo" class="form-label">Titulo:</label>
+                                <input id="titulo" name="titulo" class="form-control" type="text" value="<?php echo $curso->Titulo ?>" aria-label="default input example">
                             </div>
             
                             <div class="mb-3">
-                                <label for="descripcion" class="form-label">Descripcion del curso</label>
-                                <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
+                                <label for="descripcion" class="form-label">Descripcion del curso:</label>
+                                <textarea class="form-control" name="descripcion" id="descripcion" rows="3"><?php echo $curso->Descripcion ?></textarea>
                             </div>
                             </div>
                             <div class="col-6">
@@ -146,7 +152,8 @@
                                     <div class="wrapper active">
                                         
                                         <div id="imagen" class="image">
-                                            <img src="" alt="">
+                                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($curso->Imagen).'" alt="">' ?>
+                                            <!-- <img src="" alt=""> -->
                                         </div>
                                         <div class="content">
                                             <div class="icon">
@@ -198,13 +205,13 @@
                                 });
                             </script>       
                             </div>
-                            </div>
+                        </div>
 
 
 
                         <br>
                         <div class="d-grid gap-2 col-6 mx-auto">
-                            <button type="submit" class="btn btn-primary btn-sm">Editar curso</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Editar Curso</button>
                         </div>
                 </form>
             </div>

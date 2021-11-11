@@ -4,7 +4,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/usuarioDAO.
 
 session_start();
 
-
 $usuarioDAO = new UsuarioDAO();
 
 $user = new UsuarioModel();
@@ -15,7 +14,9 @@ $user->Apellido_P = $_POST['fname'];
 $user->Apellido_M = $_POST['lname'];
 $user->Genero = $_POST['genero'];
 $user->Fecha_Nac = $_POST['birthday'];
-$user->Foto = file_get_contents(addslashes($_FILES["fotoPerfil"]["tmp_name"]));
+if ($_FILES["fotoPerfil"]["size"] != 0){
+    $user->Foto = file_get_contents(addslashes($_FILES["fotoPerfil"]["tmp_name"]));
+}
 $user->Email = $_POST['email'];
 $user->Contrasena = $_POST['contra'];
 
