@@ -226,6 +226,50 @@ class CursoInscritoDAO{
         return $listaUserCur;
     }
 
+    public function getDiplomas($opc, $us){
+
+        $listaDiploma = [];
+        
+        try{
+            $sql = 'CALL SP_CursoInscrito(?, ?, ?, ?, ?, ?, ?, ?, ?);';
+
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(1,$opc);
+            $statement->bindValue(2,null);
+            $statement->bindValue(3,null);
+            $statement->bindValue(4,null);
+            $statement->bindValue(5,null);
+            $statement->bindValue(6,null);
+            $statement->bindValue(7,null);
+            $statement->bindParam(8,$us);
+            $statement->bindValue(9,null);
+            $statement->execute();
+
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                
+                $Id_Usuario = $row['Id_Usuario'];
+                $Nombre_Usuario = $row['Usuario_Recibe_Diploma'];
+                $Nombre_Maestro = $row['Usuario_Entrega_Diploma'];
+                $Titulo = $row['Titulo'];
+                $Imagen = $row['Imagen'];
+                $Fecha_Fin = $row['Fecha_Fin'];
+
+                $dip = new CursoInscritoModel();
+                $dip->addDiploma($Id_Usuario, $Nombre_Usuario, $Nombre_Maestro, $Titulo, $Imagen, $Fecha_Fin);
+                $listaDiploma[] = $dip;
+
+            }
+        }
+        catch(PDOException $e){
+            error_log($e->getMessage());
+        }
+        finally{
+            $statement->closeCursor();
+        }
+
+        return $listaDiploma;
+    }
+
 }
 
 

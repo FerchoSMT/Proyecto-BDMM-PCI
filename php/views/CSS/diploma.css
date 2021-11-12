@@ -2,7 +2,13 @@
     font-size: 30px;
 }
 
+h1, h2{
+    font-family: 'Montserrat', sans-serif;
+}
 
+h4, h5{
+    font-family: 'Quando', serif;
+}
 
 @media print { 
     /* All your print styles go here */

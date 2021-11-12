@@ -1,5 +1,6 @@
 <?php
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/usuarioDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoinscritoDAO.php';
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
 
   session_start();
@@ -15,6 +16,9 @@
   $usuario = $usuarioDAO->getUser("VERPF", $us)[0];
   
   $cursos = $usuarioDAO->getCursosUser("CURPA", $_GET["Id_Usuario"], "A");
+
+  $ciDAO = new CursoInscritoDAO();
+  $diplomas = $ciDAO->getDiplomas("DIPLO", $_GET["Id_Usuario"]);
 
   $categoriaDAO = new CategoriaDAO();
   $categorias = $categoriaDAO->getCategoria("CATEG");
@@ -228,23 +232,30 @@
 
                     </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                      <br>
-                        <div class="card">
-                        <div class="row g-0">
-                          <div class="col-md-8">
-                            <div class="card-header">
-                            Diploma de curso de
+                      
+                      <?php foreach($diplomas as $dip){ ?>
+                        <br>
+                        <div style="min-height: 550px; max-height: 550px; overflow-y: scroll;">
+                          <div class="card">
+                            <div class="row g-0">
+                              <div class="col-md-8">
+                                <div class="card-header">
+                                  Diploma de <?php echo $dip->Titulo ?>
+                                </div>
+                                <div class="card-body">
+                                  <p class="card-text">Curso terminado el: <?php echo date("d-M-Y", strtotime($dip->Fecha_Fin)) ?></p>
+                                  <a href="./diploma.php?Recibe=<?php echo $dip->Nombre_Usuario?>&Titulo=<?php echo $dip->Titulo?>&Entrega=<?php echo $dip->Nombre_Maestro?>&Fecha=<?php echo $dip->Fecha_Fin?>"
+                                    class="btn btn-primary">Ver diploma
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="col-md-4">
+                                <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($dip->Imagen).'" style="width: 90%;" alt="">' ?>
+                              </div>
                             </div>
-                            <div class="card-body">
-                              <p class="card-text">Curso terminado el: <?php echo $cur->Fecha_Fin ?></p>
-                              <a href="./curso.php?Diploma=<?php echo $cur->Id_Curso?>" class="btn btn-primary">Ver diploma</a>
-                            </div>
-                          </div>
-                          <div class="col-md-4">
-                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($cur->Imagen).'" style="width: 90%;" alt="">' ?>
-                          </div>
                         </div>
-                      </div>
+                      <?php } ?>
+
                     </div>
                   </div>
 

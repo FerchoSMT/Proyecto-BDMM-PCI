@@ -8,8 +8,8 @@
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
 
-  //$categoriaDAO = new CategoriaDAO();
-  //$categorias = $categoriaDAO->getCategoria("CATEG");
+  $categoriaDAO = new CategoriaDAO();
+  $categorias = $categoriaDAO->getCategoria("CATEG");
   
   
 ?>
@@ -35,10 +35,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet"/>
     <!-- Google Fonts -->
-    <link
-    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-    rel="stylesheet"
-    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Quando&display=swap" rel="stylesheet">
     <!-- MDB -->
     <link
     href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.css"
@@ -124,20 +123,20 @@
 
                 </div>
                 <div class="col-8 beige" >
-                    <br>
-                        <h4 style="color: #154854;">Plataforma de cursos Online We Learn</h4>
+                    <br><br>
+                        <h4 style="color: #154854;">Plataforma de Cursos Online WeLearn</h4>
                         <br>
                         <h2 style="color: #154854;">CERTIFICADO DE </h2>
                         <h2 style="color: #154854;">FINALIZACIÓN </h2>
                         <hr>
                         <br>
-                        <h2 style="color: #154854;">EL PRESENTE DIPLOMA SE ENTREGA A</h2>
+                        <h5 style="color: #154854;">EL PRESENTE DIPLOMA SE ENTREGA A</h2>
                         <br>
-                        <h1 style="color: #154854;">NOMBRE USUARIO</h1>
+                        <h1 style="color: #154854;"><?php echo $_GET["Recibe"] ?></h1>
                         <br>
-                        <br>
-                        <h5 style="color: #154854;">Por haber completado de manera exitosa el curso de: ()</h5>
-                        <h5 style="color: #154854;">impartido por el(la) maestro(a) John Doe el dia ()</h5>
+                        <h5 style="color: #154854;">Por haber completado de manera exitosa: <?php echo $_GET["Titulo"] ?></h5>
+                        <h5 style="color: #154854;">impartido por el(la) maestro(a) <?php echo $_GET["Entrega"] ?></h5>
+                        <h5 style="color: #154854;">el dia <?php echo date("d-M-Y", strtotime($_GET["Fecha"])) ?></h5>
                         <br>
                         <img src="./Imagenes/directores.png" style="width: 100%; background: black;"  alt="">
                         <br>
@@ -240,15 +239,6 @@
     <script src="./JScript/aditionalMethods.min.js"></script>
     <script src="./JScript/validation-curso.js"></script>
     <script src="./JScript/print.js"></script>
-    <!--VALIDACION FORM-->
-    <script>
-        function submitForm(){
-            var c = document.forms["creaNiv"]["costo"].value;
-            if (c == "") {
-                document.forms["creaNiv"]["costo"].value = "0";
-            }
-        }
-    </script>
 
 </body>
 </html>

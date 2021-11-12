@@ -17,6 +17,10 @@ class CursoInscritoModel {
     public $Nombre_Usuario;
     public $Foto_Usuario;
 
+    public $Nombre_Maestro;
+    public $Titulo;
+    public $Imagen;
+
 
     public function addCursoInscritoID($Id_CursoInscrito){
         $this->Id_CursoInscrito = $Id_CursoInscrito;
@@ -63,5 +67,14 @@ class CursoInscritoModel {
         $this->Id_Usuario = $Id_Usuario;
         $this->Nombre_Usuario = $Nombre_Usuario;
         $this->Foto_Usuario = $Foto_Usuario;
+    }
+
+    public function addDiploma($Id_Usuario, $Nombre_Usuario, $Nombre_Maestro, $Titulo, $Imagen, $Fecha_Fin){
+        $this->Id_Usuario = $Id_Usuario;
+        $this->Nombre_Usuario = $Nombre_Usuario;
+        $this->Nombre_Maestro = $Nombre_Maestro;
+        $this->Titulo = $Titulo;
+        $this->Imagen = $Imagen;
+        $this->Fecha_Fin = $Fecha_Fin;
     }
 }
