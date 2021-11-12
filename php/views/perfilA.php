@@ -223,7 +223,22 @@
                     </div>
                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                       <br>
-                        <img src="./Imagenes/Diplomas/Diploma.png" style="width: 100%;" alt="">
+                        <div class="card">
+                        <div class="row g-0">
+                          <div class="col-md-8">
+                            <div class="card-header">
+                            Diploma de curso de
+                            </div>
+                            <div class="card-body">
+                              <p class="card-text">Curso terminado el: <?php echo $cur->Fecha_Fin ?></p>
+                              <a href="./curso.php?Diploma=<?php echo $cur->Id_Curso?>" class="btn btn-primary">Ver diploma</a>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($cur->Imagen).'" style="width: 90%;" alt="">' ?>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
