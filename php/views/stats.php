@@ -127,9 +127,7 @@
     <!--Cuerpo-->
     <?php if ($curso->Vacio == 1): ?>
         <div class="d-grid gap-2 col-6 mx-auto">
-            <button class="btn btn-lg btn-primary">
-                <a class="text-white" href="./creacionnivel.php?Id_Curso=<?php echo $curso->Id_Curso ?>">Agregar Nivel</a>
-            </button>
+            <a class="btn btn-primary btn-lg text-white" href="./creacionnivel.php?Id_Curso=<?php echo $curso->Id_Curso ?>">Agregar Nivel</a>
         </div>
         <hr>
     <?php endif ?>

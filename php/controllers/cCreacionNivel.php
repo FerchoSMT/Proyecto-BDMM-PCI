@@ -9,7 +9,9 @@ $nivelDAO = new NivelDAO();
 $nivel = new NivelModel();
 
 $nivel->Contenido = $_POST['descripcion'];
-$nivel->Imagen = file_get_contents(addslashes($_FILES["imagenNivel"]["tmp_name"]));
+if ($_FILES["imagenNivel"]["size"] != 0){
+    $nivel->Imagen = file_get_contents(addslashes($_FILES["imagenNivel"]["tmp_name"]));
+}
 $nivel->Links = $_POST['links'];
 $nivel->Costo = $_POST['costo'];
 $nivel->Id_Curso = $_POST['idcurso'];

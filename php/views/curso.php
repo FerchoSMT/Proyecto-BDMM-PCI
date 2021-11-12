@@ -137,8 +137,12 @@
             <div class="row">
               <!--Titulo-->
               <div class="row">
-                <h1 class="mt-4" ><?php echo $curso->Titulo ?>
-                </h1>
+                <div class="col-6">
+                  <h1 class="mt-4" ><?php echo $curso->Titulo ?></h1>
+                </div>
+                <div class="col-6">
+                  <h6 class="mt-5" style="float:right;">Al <?php echo $curso->Promedio * 100 ?>% de los usuarios que completaron el curso les pareció útil</h6>
+                </div>
               </div>
 
               <!--Autor + Foto de perfil + Opciones-->
@@ -178,16 +182,18 @@
                 </div>
                 <div class="col-5">
                     <!--Contenido del post-->
-                    <?php if ($curso->Activo == 1): ?>
+                    <?php if ($curso->Activo == 1 && $curso->Vacio == 0): ?>
                         <h3>Precio del curso: $<?php echo number_format($curso->Costo, 2) ?></h3>
                         <p class="contenido_post"><?php echo $curso->Descripcion ?></p>
+                    <?php elseif ($curso->Vacio == 1): ?>
+                        <h3>Curso No Disponible</h3>
                     <?php else: ?>
                         <h3>Curso Eliminado</h3>
                     <?php endif ?>
                     <div class="d-grid gap-2">
                       <div class="m">
                         <?php if ($usuarioActivo != 0): ?>
-                            <?php if ($_SESSION["Tipo"] == "A" && $curso->Activo == 1): ?>
+                            <?php if ($_SESSION["Tipo"] == "A" && $curso->Activo == 1 && $curso->Vacio == 0): ?>
                                 <?php if (empty($usInscrito)): ?>
                                     <button class="btn btn-lg btn-primary" type="button">
                                         <a class="text-white" href="./pago.php?Id_Curso=<?php echo $_GET["Id_Curso"] ?>">Comprar</a>

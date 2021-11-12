@@ -3,6 +3,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoinscri
 
 session_start();
 
+if (!isset($_SESSION["Id_Usuario"])){
+    $_SESSION["Id_Usuario"] = $_GET["Id_Usuario"];
+    $_SESSION["Tipo"] = "A";
+}
+
 $ciDAO = new CursoInscritoDAO();
 $ci = new CursoInscritoModel();
 
@@ -18,8 +23,6 @@ else{
     $ci->Id_Usuario = $_SESSION["Id_Usuario"];
     $ci->Id_Curso = $_GET["curso"];
 }
-
-echo var_dump($ci);
 
 $ciDAO->inCursoInscrito("ADNIV", $ci);
 

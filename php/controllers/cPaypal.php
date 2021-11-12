@@ -9,7 +9,7 @@ $id_fp = $_POST["metodo"];//esto es para cuando seleccione el boton de paypal
 $id = $_SESSION['Id_Usuario'];
 
 $fields = [ 'cmd' => '_cart', 'upload'=> '1', 'business' => 'sb-kb32d8460147@business.example.com','currency_code' => 'MXN', 'lc'=>'MX','rm'=>'2',
-'return'=>'http://localhost/Proyecto-BDMM-PCI/php/controllers/cPago.php?na=0&fp=Paypal&curso='.$curso_id,
+'return'=>'http://localhost/Proyecto-BDMM-PCI/php/controllers/cPago.php?Id_Usuario='.$id.'&na=0&fp=Paypal&curso='.$curso_id,
 'cancel_return' => 'http://localhost/Proyecto-BDMM-PCI/php/views/curso.php?Id_Curso='.$curso_id,
 'notify_url' => 'http://localhost/Proyecto-BDMM-PCI/php/views/curso.php?Id_Curso='.$curso_id
 ];

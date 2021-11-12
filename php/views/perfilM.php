@@ -16,7 +16,9 @@
 
   $cursos = $usuarioDAO->getCursosUser("CURPE", $_GET["Id_Usuario"], "E");
 
-  $ing = $usuarioDAO->getIngresos("INGRE", $usuarioActivo)[0];
+  if ($_GET["Id_Usuario"] == $usuarioActivo){
+    $ing = $usuarioDAO->getIngresos("INGRE", $usuarioActivo)[0];
+  }
 
   $categoriaDAO = new CategoriaDAO();
   $categorias = $categoriaDAO->getCategoria("CATEG");

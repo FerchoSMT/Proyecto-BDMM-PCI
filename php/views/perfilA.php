@@ -177,9 +177,11 @@
                     <li class="nav-item">
                       <button class="nav-link active bg-primary text-white" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Cursos</button>
                     </li>
-                    <li class="nav-item">
-                      <button class="nav-link bg-primary text-white" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Diplomas</button>
-                    </li>
+                    <?php if ($usuarioActivo == $us->Id_Usuario): ?>
+                      <li class="nav-item">
+                        <button class="nav-link bg-primary text-white" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Diplomas</button>
+                      </li>
+                    <?php endif ?>
                     <?php if ($usuarioActivo == $us->Id_Usuario): ?>
                       <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="./mensajes.php?id=<?php echo $usuarioActivo?>">Mensajes</a>
@@ -262,7 +264,6 @@
                 </div>
             </div>
         </div>
-
 
 
 
