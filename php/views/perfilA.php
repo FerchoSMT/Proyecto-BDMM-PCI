@@ -195,28 +195,34 @@
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                       <br>
 
-                      <?php foreach($cursos as $cur){ ?>
-                      <div class="card">
-                        <div class="row g-0">
-                          <div class="col-md-8">
-                            <div class="card-header">
-                            <?php echo $cur->Titulo ?>
+                      <div style="min-height: 550px; max-height: 550px; overflow-y: scroll;">
+                        <?php foreach($cursos as $cur){ ?>
+                        <div class="card">
+                          <div class="row g-0">
+                            <div class="col-md-8">
+                              <div class="card-header">
+                              <?php echo $cur->Titulo ?>
+                              </div>
+                              <div class="card-body">
+                                <h5 class="card-title">Nivel <?php echo $cur->Nivel_Actual ?> de <?php echo $cur->Cant_Niveles ?></h5>
+                                <p class="card-text">Curso iniciado: <?php echo date("d-M-Y", strtotime($cur->Fecha_Inicio)) ?></p>
+                                <p class="card-text">Ingreso a nivel más reciente: <?php echo date("d-M-Y", strtotime($cur->Fecha_Reciente)) ?></p>
+                                <?php if (!empty($cur->Fecha_Fin)): ?>
+                                  <p class="card-text">Curso terminado: <?php echo date("d-M-Y", strtotime($cur->Fecha_Fin)) ?></p>
+                                <?php else: ?>
+                                  <p class="card-text">Curso aún no terminado </p>
+                                <?php endif ?>
+                                <a href="./curso.php?Id_Curso=<?php echo $cur->Id_Curso?>" class="btn btn-primary">Ir al curso</a>
+                              </div>
                             </div>
-                            <div class="card-body">
-                              <h5 class="card-title">Nivel <?php echo $cur->Nivel_Actual ?> de <?php echo $cur->Cant_Niveles ?></h5>
-                              <p class="card-text">Curso iniciado: <?php echo $cur->Fecha_Inicio ?></p>
-                              <p class="card-text">Ingreso a nivel más reciente: <?php echo $cur->Fecha_Reciente ?></p>
-                              <p class="card-text">Curso terminado: <?php echo $cur->Fecha_Fin ?></p>
-                              <a href="./curso.php?Id_Curso=<?php echo $cur->Id_Curso?>" class="btn btn-primary">Ir al curso</a>
+                            <div class="col-md-4">
+                              <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($cur->Imagen).'" style="width: 90%;" alt="">' ?>
+                              <!--img src="./Imagenes/c.png" style="width: 90%;"  alt=""-->
                             </div>
-                          </div>
-                          <div class="col-md-4">
-                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($cur->Imagen).'" style="width: 90%;" alt="">' ?>
-                            <!--img src="./Imagenes/c.png" style="width: 90%;"  alt=""-->
                           </div>
                         </div>
+                        <?php } ?>
                       </div>
-                      <?php } ?>
 
                       <br>
 
@@ -241,14 +247,6 @@
                       </div>
                     </div>
                   </div>
-
-                  <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center ">
-                      <li class="page-item"><a class="page-link" href="#">Previo</a></li>
-
-                      <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-                    </ul>
-                  </nav>
 
                 </div>
             </div>

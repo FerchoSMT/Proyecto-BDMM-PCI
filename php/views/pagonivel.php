@@ -1,10 +1,8 @@
 <?php
-
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/Model/cursoModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/Model/nivelModel.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/nivelDAO.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/nivelDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoinscritoDAO.php';
 
   session_start();
   
@@ -13,13 +11,21 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDA
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
 
-  $curso = $_GET["id"];
-  $cursoDAO = new cursoDAO() ;
-  $curso_comprar = $cursoDAO->getCurso("CURSO",$curso);
+  $cursoDAO = new CursoDAO() ;
+  $cur = new CursoModel();
+  $cur->addCursoID($_GET["Id_Curso"]);
+  $curso_comprar = $cursoDAO->getCurso("CURSO", $cur)[0];
   
-  $nivel = $_GET["idn"];
-  $nivelDAO = new nivelDAO();
-  $nivel_comprar = $nivelDAO->getNivel("NIVEL",$nivel)
+  $nivelDAO = new NivelDAO();
+  $niv = new NivelModel();
+  $niv->addNivelID($_GET["Id_Nivel"]);
+  $nivel_comprar = $nivelDAO->getNivel("NIVEL", $niv)[0];
+
+  $cursoinscritoDAO = new CursoInscritoDAO();
+  $status = $cursoinscritoDAO->getStatus("ESTAT", $usuarioActivo, $_GET["Id_Curso"])[0];
+
+  $categoriaDAO = new CategoriaDAO();
+  $categorias = $categoriaDAO->getCategoria("CATEG");
 
 ?>
 
@@ -113,17 +119,16 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDA
                     Categorias
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 1</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 2</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 3</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 4</a></li>
-                    <li><a class="dropdown-item" href="./busqueda.php">Categoria 5</a></li>
+                    <?php foreach($categorias as $cat){ ?>
+                        <li><a class="dropdown-item" href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>"><?php echo $cat->Descripcion?></a></li>
+                    <?php } ?>
                   </ul>
                 </li>
               </ul>
-              <form action="./busqueda.php"  class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Escribe para buscar" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Buscar</button>
+              <form action="./busqueda.php" class="d-flex" method="POST" autocomplete="off">
+                    <input class="form-control me-2" type="search" placeholder="Escribe para buscar"
+                        name="aBuscar" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
               </form>
             </div>
           </div>
@@ -133,46 +138,38 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDA
         <!--Cuerpo-->
             <div class="container">
                 <div class="row">
-                    <h3  style="text-align: center;"><?php echo $curso_comprar->Titulo ?></h3>
-                    <h3 style="text-align: center;"><?php echo $curso_comprar->Nombre_Usuario ?></h2>
+                    <h3 style="text-align: center;"><?php echo $curso_comprar->Titulo ?> por <?php echo $curso_comprar->Nombre_Usuario ?></h3>
                     <h3  style="text-align: center;">Nivel <?php echo $nivel_comprar->Num_Nivel ?></h3>
+                    <h4 style="text-align: center;">Precio: $<?php echo number_format($nivel_comprar->Costo, 2) ?></h4>
                       <br>
                       <div class="row">
-                        <div  style="text-align: center;">
-                            <img class="img-fluid rounded" style="text-align: center;" src="http://placehold.it/900x500" alt="">
-                            <br>
-                            <h4 style="text-align: center;"> Precio: <?php echo $nivel_comprar->Costo ?>$</h4>
-                            <form action="/Proyecto-BDMM-PCI/php/controllers/cPagoNivel.php" method="post">
-                            <input type="hidden" name="cmd" value="_click">
-                            <div class="row">
-                              <div class="col-3">
-                                
+                        <div style="text-align: center;">
+                          <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($curso_comprar->Imagen).'" style="width: 40%;" alt="">' ?>
+                            <br><br>
+                            <form action="/Proyecto-BDMM-PCI/php/controllers/cPago.php" method="POST">
+                              <div class="row">
+                                <div class="col-3">
+                                  
+                                </div>
+                                <div class="col-6 d-grid text-align: center; padding-top: 3%;">
+                                  <input type="hidden" name="na" value="<?php echo $nivel_comprar->Num_Nivel ?>">
+                                  <input type="hidden" name="fp" value="<?php echo $status->Forma_Pago ?>">
+                                  <input type="hidden" name="curso" value="<?php echo $curso_comprar->Id_Curso ?>">
+                                  <?php if ($status->Forma_Pago == "Tarjeta"): ?>
+                                      <button type="submit" id="insert" class="btn btn-primary"> <i class="far fa-credit-card" style="font-size: 40px;"></i> </button>
+                                  <?php else: ?>
+                                    <button type="submit" id="insert" class="btn btn-primary"> <i class="fab fa-cc-paypal" style="font-size: 40px;"></i> </button>
+                                  <?php endif ?>
+                                </div>
                               </div>
-                              <div class="col-6 d-grid text-align: center; padding-top: 3%;">
-                                <input type="hidden" name="id_curso" value="<?php echo $nivel; "as"; ?>">
-                                <input type="hidden" name="id_nivel" value="<?php echo $nivel; "as"; ?>">
-                                <button type="submit" id="insert" class="btn btn-primary"> <i class="far fa-credit-card" style="font-size: 50px;"></i> </button>
-                              </div>
-                            </div>
                             </form>
-                          </div>
-                        <br>
+                            <br>
+                        </div>
                       </div>
                     
-                    <br>
-                    <!--button class="btn btn-light"> <p style="vertical-align: middle;">Pago con Tarjeta</p><i class="fab fa-cc-visa" style="font-size: 300%; color:navy;"></i>
-                        <i class="fab fa-cc-amex" style="color:blue; font-size: 300%;"></i>
-                        <i class="fab fa-cc-mastercard" style="color:red; font-size: 300%;"></i>
-                        <i class="fab fa-cc-discover" style="color:orange; font-size: 300%;"></i>
-                    </button-->
-
-
-
-
                 </div>
             </div>
         <!--Cuerpo-->
-        <hr>
         <br>
         <br>
         <!--Footer-->
@@ -205,11 +202,11 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDA
                         <h6 class="text-uppercase font-weight-bold">Categorias:</h6>
                         <hr class="bg-success mb-4 mt-0 d-inline-block mx-auto" style="width: 85px; height: 2px;">
                         <ul class="list-unstyled ">
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 1</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 2</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 3</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 4</a></li>
-                            <li class="my-2" ><a href="#" class="text-white">Categoria 5</a></li>
+                            <?php $i = 0;
+                            foreach($categorias as $cat){ ?>
+                                <li class="mt-1" ><a href="./busqueda.php?Id_Categoria=<?php echo $cat->Id_Categoria?>" class="text-white"><?php echo $cat->Descripcion?></a></li>
+                            <?php if (++$i == 4) break;
+                            } ?>
                         </ul>
                     </div>
     

@@ -1,4 +1,6 @@
 <?php
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoinscritoDAO.php';
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
 
   session_start();
@@ -7,6 +9,14 @@
   if (isset($_SESSION["Id_Usuario"])){
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
+
+  $cursoDAO = new CursoDAO();
+  $cur = new CursoModel();
+  $cur->addCursoID($_GET["Id_Curso"]);
+  $curso = $cursoDAO->getCurso("CURSO", $cur)[0];
+
+  $ciDAO = new CursoInscritoDAO();
+  $usersCurso = $ciDAO->getUsersCurso("USCUR", $_GET["Id_Curso"]);
 
   $categoriaDAO = new CategoriaDAO();
   $categorias = $categoriaDAO->getCategoria("CATEG");
@@ -20,7 +30,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil Maestro</title>
+    <title>Curso</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
@@ -115,90 +125,49 @@
     <br>
 
     <!--Cuerpo-->
-    <form action="./creacioncurso.php">
-            <div class="d-grid gap-2 col-6 mx-auto">
-            <button class="btn btn-lg btn-primary" >Agregar nivel</button>
-            </div>
-          </form>
-    <hr>
+    <?php if ($curso->Vacio == 1): ?>
+        <div class="d-grid gap-2 col-6 mx-auto">
+            <button class="btn btn-lg btn-primary">
+                <a class="text-white" href="./creacionnivel.php?Id_Curso=<?php echo $curso->Id_Curso ?>">Agregar Nivel</a>
+            </button>
+        </div>
+        <hr>
+    <?php endif ?>
+
     <!--Imagen de la publicacion-->
 
     <div class="container">
         <div class="row ">
-
-            <div class="col-8">
-                <p class="fecha_publicacion" style="font-size: 80%;"> Publicado el 03/09/2021</p>
-                <img class="img-fluid rounded" src="http://placehold.it/800x400" alt="">
-                <!--Iconos de valoracion-->
+            <p class="fecha_publicacion" style="font-size: 80%;"> Publicado el <?php echo date("d-M-Y", strtotime($curso->Fecha_Creacion)) ?></p>
+            <div class="col-5">
+                <?php echo '<img class="img-fluid rounded" src="data:image/jpeg;base64,'.base64_encode($curso->Imagen).'" alt="">' ?>
                 <br>
-
-
             </div>
-            <div class="col-4">
-                <h3>Precio del curso: 2500$</h3>
-                <p class="contenido_post"><br> Este es un curso de como programar en C++</p>
+            <div class="col-7">
+                <h3><?php echo $curso->Titulo ?></h3>
+                <p style="margin-bottom:0px;">Ingresos de este curso: $<?php echo number_format($curso->Ingreso_Curso, 2) ?></p>
+                <div style="min-height: 400px; max-height: 400px; overflow-y: scroll;">
+                    <?php foreach($usersCurso as $uscur){ ?>
+                        <hr>
+                        <div class="row">
+                            <div class="col-5">
+                                <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($uscur->Foto_Usuario).'" alt="" style="width: 25%; border-radius:20px;">' ?>
+                                <a href="./perfilA.php?Id_Usuario=<?php echo $uscur->Id_Usuario ?>" style="padding-left:5px;"><?php echo $uscur->Nombre_Usuario ?></a>
+                                <p class="fecha_publicacion" style="font-size: 80%; padding-top:5px"> Inscrito el <?php echo date("d-M-Y", strtotime($uscur->Fecha_Inicio)) ?></p>
+                            </div>
+                            <div class="col-7">
+                                <p>Nivel <?php echo $uscur->Nivel_Actual ?> de <?php echo $curso->Cant_Niveles ?></p>
+                                <p>Precio pagado: $<?php echo number_format($uscur->Pago_Total, 2) ?></p>
+                                <p>Forma de pago: <?php echo $uscur->Forma_Pago ?></p>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
             </div>
         </div>
-
     </div>
     <br>
-    <div class="container">
-        <div class="row">
-            <h2>Alumnos inscritos:</h2>
-            <div class="col-6" style="min-height: 500px; max-height: 500px; overflow-y: scroll;">
-
-
-                <p style="font-size: 110%;"> 
-                    <div class="row">
-                        <div class="col-6">
-                            <img src="./Imagenes/pfp.jpg" alt=""style="width: 20%;  border-radius:20px; ">
-                            <a href="./mensajes.php" style="padding-left: 5px;">John Doe</a>
-                            <p class="fecha_publicacion" style="font-size: 80%;"> Inscrito el 03/09/2021</p>
-                        </div>
-                        <div class="col-6 ">
-                          
-                            <p>Nivel 1 de 5</p>
-                            <p>Metodo de pago: Niveles</p>
-                            <p>Precio pagado: 500$</p>
-                            
-                        </div>
-                    </div>
-                </p>
-                    <hr>
-                    <p style="font-size: 110%;"> 
-                        <div class="row">
-                            <div class="col-6">
-                                <img src="./Imagenes/pfp.jpg" alt=""style="width: 20%;  border-radius:20px; ">
-                                <a href="./mensajes.php" style="padding-left: 5px;">Jane Doe</a>
-                                <p class="fecha_publicacion" style="font-size: 80%;"> Inscrito el 03/09/2021</p>
-                            </div>
-                            <div class="col-6 ">
-                              
-                                <p>Nivel 3 de 5</p>
-                                <p>Metodo de pago: Curso Completo</p>
-                                <p>Precio pagado: 2500$</p>
-                                
-                            </div>
-                        </div>
-                    </p>
-                    <hr>
-
-
-            </div>
-            <div class="col-6">
-                <h2>Ingresos por este curso:</h2>
-                <p>3000$</p>
-                <h2>Nivel promedio de alumnos inscritos</h2>
-                <p>Nivel 2</p>
-                <h2>Cantidad de alumnos inscritos</h2>
-                <p>2 Alumnos inscritos</p>
-
-            </div>
-        </div>
-    </div>
-
-
-
+    
     <!--Cuerpo-->
     <br>
     <br>

@@ -1,4 +1,5 @@
 <?php
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/nivelDAO.php';
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
 
   session_start();
@@ -8,11 +9,13 @@
     $usuarioActivo = $_SESSION["Id_Usuario"];
   }
 
-  $idcurso = $_GET['Id_Curso'];
+  $nivelDAO = new NivelDAO();
+  $niv = new NivelModel();
+  $niv->addNivelID($_GET["Id_Nivel"]);
+  $nivel = $nivelDAO->getNivel("NIVEL", $niv)[0];
 
   $categoriaDAO = new CategoriaDAO();
   $categorias = $categoriaDAO->getCategoria("CATEG");
-  
   
 ?>
 
@@ -122,33 +125,32 @@
             
             
             <div class="col-12">
-                <form name="creaNiv" action="" onsubmit="submitForm();" id="edit-nivel" class="was-validated" method="POST" enctype="multipart/form-data" autocomplete="off">
-                    <input name="idcurso" value="<?php echo $idcurso ?>" type="text" hidden>
+                <form action="/Proyecto-BDMM-PCI/php/controllers/cEditarNivel.php" id="edit-nivel" class="was-validated" method="POST" enctype="multipart/form-data" autocomplete="off">
+                    <input name="Id_Nivel" type="hidden" value="<?php echo $nivel->Id_Nivel?>">
                     <div class="" >
                         <h3>Editar nivel</h3>
                         <div class="row">
                         <div class="col-6">
 
                             <div class="mb-3">
-                                <label for="descripcion" class="form-label">Información del nivel</label>
-                                <textarea class="form-control" name="descripcion" id="descripcion" rows="3"></textarea>
+                                <label for="descripcion" class="form-label">Información del nivel:</label>
+                                <textarea class="form-control" name="descripcion" id="descripcion" rows="3"><?php echo $nivel->Contenido?></textarea>
                             </div>
 
                             <div class="mb-3">
-                                <label for="links" class="form-label">Link del nivel (opcional)</label>
-                                <input type="url" name="links" class="form-control" aria-label="Links">
+                                <label for="links" class="form-label">Link del nivel:</label>
+                                <input type="url" name="links" class="form-control" value="<?php echo $nivel->Links?>" aria-label="Links">
                             </div>
 
                             <div class="mb-3">
-                            <label for="archivoNivel" class="form-label">Seleccione un archivo para el nivel (opcional)</label>
-                            <input class="form-control" name="archivoNivel" type="file" id="archivoNivel">
-                        </div>
+                                <label for="archivoNivel" class="form-label">Seleccione un archivo para el nivel:</label>
+                                <input class="form-control" name="archivoNivel" type="file" id="archivoNivel">
+                            </div>
 
-                            
-                        <div class="mb-3">
-                            <label for="formVideo" class="form-label">Seleccione un video para el nivel</label>
-                            <input class="form-control" name="videoNivel" type="file" id="formVideo">
-                        </div>
+                            <div class="mb-3">
+                                <label for="formVideo" class="form-label">Seleccione un video para el nivel:</label>
+                                <input class="form-control" name="videoNivel" type="file" id="formVideo">
+                            </div>
                         </div>
                         <div class="col-6">
 
@@ -160,7 +162,8 @@
                                     <div class="wrapper active">
                                         
                                         <div id="imagen" class="image">
-                                            <img src="" alt="">
+                                            <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($nivel->Imagen).'" alt="">' ?>
+                                            <!-- <img src="" alt=""> -->
                                         </div>
                                         <div class="content">
                                             <div class="icon">
@@ -216,13 +219,10 @@
                     
                         <br>
                         <div class="d-grid gap-2 col-6 mx-auto">
-                            <button type="submit" class="btn btn-success btn-sm" style="text-align: center;">Editar Nivel<i class="fas fa-plus"></i></button>
+                            <button type="submit" class="btn btn-primary btn-sm" style="text-align: center;">Editar Nivel</button>
                         </div>
-                        <br>
-                        
-                    </div>
                 </form>
-
+                </div>
             </div>
         </div>
 
@@ -317,16 +317,6 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
     <script src="./JScript/aditionalMethods.min.js"></script>
     <script src="./JScript/validation-curso.js"></script>
-
-    <!--VALIDACION FORM-->
-    <script>
-        function submitForm(){
-            var c = document.forms["creaNiv"]["costo"].value;
-            if (c == "") {
-                document.forms["creaNiv"]["costo"].value = "0";
-            }
-        }
-    </script>
 
 </body>
 </html>

@@ -16,6 +16,10 @@ class UsuarioModel {
 
     public $Edad;
 
+    public $Ingresos_Tarjeta;
+    public $Ingresos_Paypal;
+    public $Ingreso_Total;
+
     public function addUserID($Id_Usuario){
         $this->Id_Usuario = $Id_Usuario;
     }
@@ -34,6 +38,12 @@ class UsuarioModel {
         $this->Fecha_Registro = $Fecha_Registro;
         $this->Activo = $Activo;
         $this->Edad = $Edad;
+    }
+
+    public function addIngresos($Ingresos_Tarjeta, $Ingresos_Paypal, $Ingreso_Total){
+        $this->Ingresos_Tarjeta = $Ingresos_Tarjeta;
+        $this->Ingresos_Paypal = $Ingresos_Paypal;
+        $this->Ingreso_Total = $Ingreso_Total;
     }
 
 }

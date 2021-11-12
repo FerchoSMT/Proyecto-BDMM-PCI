@@ -1,5 +1,4 @@
 <?php
-  require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/Model/cursoModel.php';
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/cursoDAO.php';
   require_once $_SERVER['DOCUMENT_ROOT'] . '/Proyecto-BDMM-PCI/php/DAO/categoriaDAO.php';
 
@@ -131,12 +130,26 @@
                 <div class="row">
 
                     <h3 style="text-align: center;"><?php echo $curso_comprar->Titulo ?> por <?php echo $curso_comprar->Nombre_Usuario ?></h3>
-                    <h4 style="text-align: center;">Precio: $<?php echo $curso_comprar->Costo ?></h4>
+                    <h4 style="text-align: center;">Precio: $<?php echo number_format($curso_comprar->Costo, 2) ?></h4>
                       <br>
                       <div class="row">
-                        <div  style="text-align: center;">
+                        <div style="text-align: center;">
                           <?php echo '<img src="data:image/jpeg;base64,'.base64_encode($curso_comprar->Imagen).'" style="width: 40%;" alt="">' ?>
                             <br><br>
+                            <form action="/Proyecto-BDMM-PCI/php/controllers/cPago.php" method="POST">
+                              <div class="row">
+                                <div class="col-3">
+                                  
+                                </div>
+                                <div class="col-6 d-grid text-align: center; padding-top: 3%;">
+                                  <input type="hidden" name="na" value="0">
+                                  <input type="hidden" name="fp" value="Tarjeta">
+                                  <input type="hidden" name="curso" value="<?php echo $curso_comprar->Id_Curso ?>">
+                                  <button type="submit" id="insert" class="btn btn-primary"> <i class="far fa-credit-card" style="font-size: 40px;"></i> </button>
+                                </div>
+                              </div>
+                            </form>
+                            <br>
                             <form action="/Proyecto-BDMM-PCI/php/controllers/cPaypal.php" method="POST">
                               <div class="row">
                                 <div class="col-3">
@@ -145,18 +158,12 @@
                                 <div class="col-6 d-grid text-align: center; padding-top: 3%;">
                                   <input type="hidden" name="id_curso" value="<?php echo $curso_comprar->Id_Curso ?>">
                                   <input type="hidden" name="metodo" value="2">
-                                  <button type="submit" id="insert" class="btn btn-primary"> <i class="fab fa-cc-paypal" style="font-size: 50px;"></i> </button>
+                                  <button type="submit" id="insert" class="btn btn-primary"> <i class="fab fa-cc-paypal" style="font-size: 40px;"></i> </button>
                                 </div>
                               </div>
                             </form>
                         </div>
                       </div>
-                    
-                    <!--button class="btn btn-light"> <p style="vertical-align: middle;">Pago con Tarjeta</p><i class="fab fa-cc-visa" style="font-size: 300%; color:navy;"></i>
-                        <i class="fab fa-cc-amex" style="color:blue; font-size: 300%;"></i>
-                        <i class="fab fa-cc-mastercard" style="color:red; font-size: 300%;"></i>
-                        <i class="fab fa-cc-discover" style="color:orange; font-size: 300%;"></i>
-                    </button-->
 
                 </div>
             </div>

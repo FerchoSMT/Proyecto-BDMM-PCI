@@ -68,9 +68,10 @@ class CursoInscritoDAO{
                 $Fecha_Fin = $row['Fecha_Fin'];
                 $Calificacion = $row['Calificacion'];
                 $Comentario = $row['Comentario'];
+                $Forma_Pago = $row['Forma_Pago'];
 
                 $st = new CursoInscritoModel();
-                $st->addStatus($Nivel_Actual, $Fecha_Fin, $Calificacion, $Comentario);
+                $st->addStatus($Nivel_Actual, $Fecha_Fin, $Calificacion, $Comentario, $Forma_Pago);
                 $listaStatus[] = $st;
 
             }
@@ -159,12 +160,13 @@ class CursoInscritoDAO{
             while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
                 
                 $Comentario = $row['Comentario'];
+                $Calificacion = $row['Calificacion'];
                 $Id_Usuario = $row['Id_Usuario'];
                 $Nombre_Usuario = $row['Nombre_Usuario'];
                 $Foto = $row['Foto'];
 
                 $com = new CursoInscritoModel();
-                $com->addComentario($Comentario, $Id_Usuario, $Nombre_Usuario, $Foto);
+                $com->addComentario($Comentario, $Calificacion, $Id_Usuario, $Nombre_Usuario, $Foto);
                 $listaComentario[] = $com;
 
             }
@@ -177,6 +179,51 @@ class CursoInscritoDAO{
         }
 
         return $listaComentario;
+    }
+
+    public function getUsersCurso($opc, $cur){
+
+        $listaUserCur = [];
+        
+        try{
+            $sql = 'CALL SP_CursoInscrito(?, ?, ?, ?, ?, ?, ?, ?, ?);';
+
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(1,$opc);
+            $statement->bindValue(2,null);
+            $statement->bindValue(3,null);
+            $statement->bindValue(4,null);
+            $statement->bindValue(5,null);
+            $statement->bindValue(6,null);
+            $statement->bindValue(7,null);
+            $statement->bindValue(8,null);
+            $statement->bindParam(9,$cur);
+            $statement->execute();
+
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                
+                $Nivel_Actual = $row['Nivel_Actual'];
+                $Fecha_Inicio = $row['Fecha_Inicio'];
+                $Pago_Total = $row['Pago_Total'];
+                $Forma_Pago = $row['Forma_Pago'];
+                $Id_Usuario = $row['Id_Usuario'];
+                $Nombre_Usuario = $row['Nombre_Usuario'];
+                $Foto = $row['Foto'];
+
+                $uscur = new CursoInscritoModel();
+                $uscur->addUserCurso($Nivel_Actual, $Fecha_Inicio, $Pago_Total, $Forma_Pago, $Id_Usuario, $Nombre_Usuario, $Foto);
+                $listaUserCur[] = $uscur;
+
+            }
+        }
+        catch(PDOException $e){
+            error_log($e->getMessage());
+        }
+        finally{
+            $statement->closeCursor();
+        }
+
+        return $listaUserCur;
     }
 
 }

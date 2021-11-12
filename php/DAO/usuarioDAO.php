@@ -132,9 +132,12 @@ class UsuarioDAO{
                     $Cant_Niveles = $row['Cant_Niveles'];
                     $Descripcion = $row['Descripcion'];
                     $Imagen = $row['Imagen'];
+                    $Alumnos_Inscritos = $row['Alumnos_Inscritos'];
+                    $Nivel_Promedio = $row['Nivel_Promedio'];
+                    $Ingreso_Curso = $row['Ingreso_Curso'];
     
                     $curso = new CursoModel();
-                    $curso->addCursoE($Id_Curso, $Titulo, $Cant_Niveles, $Descripcion, $Imagen);
+                    $curso->addCursoE($Id_Curso, $Titulo, $Cant_Niveles, $Descripcion, $Imagen, $Alumnos_Inscritos, $Nivel_Promedio, $Ingreso_Curso);
                     $listaCursos[] = $curso;
                 }
 
@@ -163,6 +166,49 @@ class UsuarioDAO{
         }
 
         return $listaCursos;
+    }
+
+    public function getIngresos($opc, $us){
+
+        $listaIngresos = [];
+        
+        try{
+            $sql = 'CALL SP_Usuarios(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+
+            $statement = $this->connection->prepare($sql);
+            $statement->bindParam(1,$opc);
+            $statement->bindParam(2,$us);
+            $statement->bindValue(3,NULL);
+            $statement->bindValue(4,NULL);
+            $statement->bindValue(5,NULL);
+            $statement->bindValue(6,NULL);
+            $statement->bindValue(7,NULL);
+            $statement->bindValue(8,NULL);
+            $statement->bindValue(9,NULL);
+            $statement->bindValue(10,NULL);
+            $statement->bindValue(11,NULL);
+            $statement->execute();
+
+            while ($row = $statement->fetch(PDO::FETCH_ASSOC)){
+                
+                $Ingresos_Tarjeta = $row['Ingresos_Tarjeta'];
+                $Ingresos_Paypal = $row['Ingresos_Paypal'];
+                $Ingreso_Total = $row['Ingreso_Total'];
+
+                $ing = new UsuarioModel();
+                $ing->addIngresos($Ingresos_Tarjeta, $Ingresos_Paypal, $Ingreso_Total);
+                $listaIngresos[] = $ing;
+
+            }
+        }
+        catch(PDOException $e){
+            error_log($e->getMessage());
+        }
+        finally{
+            $statement->closeCursor();
+        }
+
+        return $listaIngresos;
     }
 
 }
