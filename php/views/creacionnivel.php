@@ -121,7 +121,7 @@
             
             
             <div class="col-12">
-                <form name="creaNiv" action="/Proyecto-BDMM-PCI/php/controllers/cCreacionNivel.php" onsubmit="submitForm();" id="creacion-curso" class="was-validated" method="POST" enctype="multipart/form-data" autocomplete="off">
+                <form name="creaNiv" action="/Proyecto-BDMM-PCI/php/controllers/cCreacionNivel.php" onsubmit="submitForm();" id="creacion-nivel" class="was-validated" method="POST" enctype="multipart/form-data" autocomplete="off">
                     <input name="idcurso" value="<?php echo $idcurso ?>" type="text" hidden>
                     <div class="" >
                         <h2 style="text-align: center;">Niveles</h2>
@@ -327,7 +327,7 @@
     <!--JQUERY VALIDATION-->
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
     <script src="./JScript/aditionalMethods.min.js"></script>
-    <script src="./JScript/validation-curso.js"></script>
+    <script src="./JScript/validation-nivel.js"></script>
 
     <!--VALIDACION FORM-->
     <script>

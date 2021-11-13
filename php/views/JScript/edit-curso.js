@@ -47,31 +47,10 @@ $(document).ready(function(){
                 descripcion:{
                     required:true,
                 },
-                categoria:{
-                    required:true,
-                    
-                },
-                nuevaCat:{
-                    letras:true
-                },
                 desCnew:{
                     letras:true
-                },
-                imagenCurso:{
-                    required:true,
-                    extension: "jpeg,jpg,png"
-                },
-                costo:{
+                }
 
-                },
-                contenido:{
-    
-                },
-                videoNivel:{
-
-                    required:true,
-                    extension: "mp4"
-                } 
     
             },
             messages:{
@@ -81,28 +60,9 @@ $(document).ready(function(){
                 descripcion:{
                     required:"<i class='fas fa-exclamation-circle'></i> Por favor ingresa la descripcion"
                 },
-                categoria:{
-                    required:"<i class='fas fa-exclamation-circle'></i> Por favor ingresa el nombre"
-                },
-                nuevaCat:{
-    
-                },
                 desCnew:{
     
-                },
-                imagenCurso:{
-                    required:"<i class='fas fa-exclamation-circle'></i> Por favor ingresa una imagen para el curso"
-                },
-                costo:{
-
-                },
-                contenido:{
-    
-                },
-                videoNivel:{
-                    required:"<i class='fas fa-exclamation-circle'></i> Por favor ingresa un video para el nivel"
                 }
-            }
         });
     
        
