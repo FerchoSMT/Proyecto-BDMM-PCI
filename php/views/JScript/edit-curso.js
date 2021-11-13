@@ -39,7 +39,7 @@ $(document).ready(function(){
     
     $(function(){
 
-        $("#creacion-curso").validate({
+        $("#edit-curso").validate({
             rules:{
                 titulo:{
                     required:true,
@@ -47,11 +47,6 @@ $(document).ready(function(){
                 descripcion:{
                     required:true,
                 },
-                desCnew:{
-                    letras:true
-                }
-
-    
             },
             messages:{
                 titulo:{
@@ -59,10 +54,9 @@ $(document).ready(function(){
                 },
                 descripcion:{
                     required:"<i class='fas fa-exclamation-circle'></i> Por favor ingresa la descripcion"
-                },
-                desCnew:{
-    
                 }
+
+            }
         });
     
        
